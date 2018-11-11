@@ -1,7 +1,7 @@
 id=Pix3lify
 name=Pix3lify
-version=v1.7
-versionCode=170
+version=v1.7.1
+versionCode=171
 author=Joey Huab
 description=Ports Pixel 3 exclusive features; Pixel Blue theme accent, Pixel Blue Gboard theme, Alarms, Notification sounds, Ringtones, UI audio; Google Sans as headline fonts, enables Pixel Wallpapers, enables Night Light (device dependent), Daydream VR support, adds Device Gestures to Settings, enables Camera2 API and EIS support (varies per device)
 support=https://forum.xda-developers.com/apps/magisk/module-pixel-2-experience-t3757137
