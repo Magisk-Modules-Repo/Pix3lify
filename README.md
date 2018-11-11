@@ -33,8 +33,11 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Night Light (device dependent)
 
 ## ⭐ Changelog
+### v1.7
+* Add vibration feedback from Pixel 2 XL instead of Pixel 3 XL
+
 ### v1.6
-* Re-add Pixel 3 vibration
+* Fix Pixel 3 XL values
 
 ### v1.4.2
 * Re-add Device Gestures
