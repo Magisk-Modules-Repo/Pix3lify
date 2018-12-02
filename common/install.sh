@@ -45,6 +45,7 @@ tar -xf $INSTALLER/custom.tar.xz -C $INSTALLER 2>/dev/null
 # GET LAUNCHER FROM ZIP NAME
 case $(basename $ZIP) in
   *customized*|*Customized*|*CUSTOMIZED*) LAUNCHER=customized;;
+  *lawnchair*|*Lawnchair*|*LAWNCHAIR*) LAUNCHER=lawnchair;;
   *pixel*|*Pixel*|*PIXEL*) LAUNCHER=pixel;;
   *rootless*|*Rootless*|*ROOTLESS*) LAUNCHER=rootless;;
   *ruthless*|*Ruthless*|*RUTHLESS*) LAUNCHER=ruthless;;
@@ -100,25 +101,36 @@ if [ -z $LAUNCHER ] || [ -z $UA ]; then
 	    ui_print " "
 	    ui_print " - Select Custom launcher -"
         ui_print "   Choose which custom launcher you want installed:"
-        ui_print "   Vol+ = Customized Pixel Launcher, Vol- = Ruthless/Rootless"
+        ui_print "   Vol+ = Lawnchair Launcher, Vol- = CPL/Ruthless/Rootless"
         if $FUNCTION; then
           ui_print " "
-          ui_print "   Installing Customized Pixel Launcher..."
-          LAUNCHER=customized
+          ui_print "   Installing Lawnchair Launcher..."
+          LAUNCHER=lawnchair
         else
-          ui_print " "
-          ui_print " - Select Custom Launcher -"
-          ui_print "   Choose which custom Launcher you want installed:"
-          ui_print "   Vol+ = Ruthless launcher, Vol- = Rootless launcher"
-          if $FUNCTION; then
-            ui_print " "
-            ui_print "   Installing Ruthless Launcher..."
-            LAUNCHER=ruthless
-          else
-            ui_print " "
-            ui_print "   Installing Rootless	 Launcher..."
-            LAUNCHER=rootless
-          fi
+			ui_print " "
+			ui_print " - Select Custom launcher -"
+			ui_print "   Choose which custom launcher you want installed:"
+			ui_print "   Vol+ = Customized Pixel Launcher, Vol- = Ruthless/Rootless"
+			if $FUNCTION; then
+				ui_print " "
+				ui_print "   Installing Customized Pixel Launcher..."
+				LAUNCHER=customized
+			else
+				ui_print " "
+				ui_print " - Select Custom Launcher -"
+				ui_print "   Choose which custom Launcher you want installed:"
+				ui_print "   Vol+ = Ruthless launcher, Vol- = Rootless launcher"
+				if $FUNCTION; then
+					ui_print " "
+					ui_print "   Installing Ruthless Launcher..."
+					LAUNCHER=ruthless
+				else
+					ui_print " "
+					ui_print "   Installing Rootless Launcher..."
+					LAUNCHER=rootless
+          
+				fi
+			fi
         fi
     fi
   else
