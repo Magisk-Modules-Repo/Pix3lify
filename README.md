@@ -33,6 +33,12 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Night Light (device dependent)
 
 ## ⭐ Changelog
+### v1.8
+* Return to the Magisk Repo
+* Return of Digital Wellbeing to Settings app
+* Return of Pixel Stand
+* Add translations to Gestures app
+
 ### v1.7.3
 * Remove AOD (again)
 
