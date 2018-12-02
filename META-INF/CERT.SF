@@ -1,5 +1,5 @@
 Signature-Version: 1.0
-SHA1-Digest-Manifest: A2r8InHy0973e79aZ/Qlpx9BnZ8=
+SHA1-Digest-Manifest: S+bP97GjqqfQQF7YJRAbGuzhr1o=
 Created-By: 1.0 (Android SignApk)
 
 Name: system/etc/sysconfig/pixel_experience_2018.xml
@@ -57,11 +57,8 @@ SHA1-Digest: fyzWt24Rzwryq2WyZL2QpUQ1bSo=
 Name: system/vendor/etc/permissions/android.hardware.camera.raw.xml
 SHA1-Digest: OPvpFLS+C0NRKilF8KHZ3b/C7oI=
 
-Name: CONTRIBUTING.md
-SHA1-Digest: eivtSvFBL0csMaFwB//qGKAkiTU=
-
 Name: system/vendor/overlay/Pix3lify.apk
-SHA1-Digest: WFL+hWjxAyGeV7DBCuVc4JeZmmg=
+SHA1-Digest: F3OG1DutLWfHdO+GKAlvQTR+MoI=
 
 Name: system/media/audio/ui/VideoRecord.ogg
 SHA1-Digest: 6Ira7sn+61sXmmxKGx4pxCh/j0A=
@@ -71,6 +68,9 @@ SHA1-Digest: hKvFTwLzCQ6Aps1QswCNqsKefK4=
 
 Name: system/media/audio/alarms/Gentle_breeze.ogg
 SHA1-Digest: wBiBZJOdGT+l5rXEfpzjSt+VrVI=
+
+Name: system/etc/permissions/privapp-permissions-platform.xml
+SHA1-Digest: 66i5eJqwh2/beomthqC9B4eU3Lc=
 
 Name: system/media/audio/ui/Trusted.ogg
 SHA1-Digest: XmvNZKqWIVuUbA28OgYCW1feLD8=
@@ -129,6 +129,9 @@ SHA1-Digest: HzwDbdf483nUjK0W4PtyytGea6A=
 Name: system/app/DeviceSettings/DeviceSettings.apk
 SHA1-Digest: ps/4gXXClR9rSJByJNc+hkHOCB0=
 
+Name: system/vendor/etc/permissions/android.hardware.nfc.xml
+SHA1-Digest: jxiIfFYcvL96tnokMgh1DxUUOC8=
+
 Name: system/media/audio/notifications/Twinkle.ogg
 SHA1-Digest: fqrJLgdhg6x++zJrfP73I8Y/dqI=
 
@@ -146,6 +149,9 @@ SHA1-Digest: 7swArPKAapGwk2nb5yps0I2Q4to=
 
 Name: system/media/audio/notifications/Gentle_gong.ogg
 SHA1-Digest: jSccqfHDuI2VZ2y6+V0uvO6EdOs=
+
+Name: system/etc/sysconfig/google-hiddenapi-package-whitelist.xml
+SHA1-Digest: 3maDpdhrZ21cWjUxp0bCYhpfVzg=
 
 Name: system/vendor/overlay/DisplayCutoutEmulationDouble/DisplayCutout
  EmulationDoubleOverlay.apk
@@ -171,9 +177,6 @@ SHA1-Digest: /7u0USaqjpkQM33e8TeD1EjKZJA=
 Name: system/media/audio/ui/WirelessChargingStarted.ogg
 SHA1-Digest: yD3OE65eX0kueXCnemtdNBcxLmc=
 
-Name: ISSUE_TEMPLATE.md
-SHA1-Digest: O4CQYjI3paXXleK+52JgnJFr25s=
-
 Name: system/media/audio/ringtones/Schools_out.ogg
 SHA1-Digest: 7dblFRHgoEaFZVgfuf9vxhcHl2A=
 
@@ -190,7 +193,7 @@ Name: system/fonts/GoogleSans-Bold.ttf
 SHA1-Digest: WQH4YLGPCgeM8vF7Km1kc2RrIGk=
 
 Name: config.sh
-SHA1-Digest: iQi+jK2jXe6iAIN1xFrIXU6XSoI=
+SHA1-Digest: BHFkbDNn5zviz2A1V3gXKoRQEoM=
 
 Name: system/etc/sysconfig/google_vr_build.xml
 SHA1-Digest: CGmhZhf/bORnB5zN56je4jan8rY=
@@ -204,14 +207,14 @@ SHA1-Digest: DmgX/pc+wCjm8mUf7lnaN4GJhEU=
 Name: system/media/audio/ui/Undock.ogg
 SHA1-Digest: c6vBnfbY8y58I8cpljmQGLyCj+U=
 
-Name: CODE_OF_CONDUCT.md
-SHA1-Digest: MqixhQhcXHwaH3uAM2yuqs7STds=
-
 Name: system/media/audio/ui/KeypressDelete.ogg
 SHA1-Digest: DMp8hqx7X3p8dZoKhtuHjPZIM5o=
 
+Name: system/vendor/etc/permissions/android.hardware.nfc.hcef.xml
+SHA1-Digest: tLlJTUgUuVVR+XyFzQfH+KgnWVM=
+
 Name: common/post-fs-data.sh
-SHA1-Digest: VKPJwBG/tJDVSy1UWy5LiFmezhY=
+SHA1-Digest: SyX3X/PeDY9ntN8RXeBKc888YZg=
 
 Name: system/media/audio/notifications/Tuneup.ogg
 SHA1-Digest: nij22QSB6wMOb7Fzv03R3hPoJuE=
@@ -254,14 +257,17 @@ Name: system/vendor/etc/permissions/android.hardware.camera.flash-auto
 SHA1-Digest: xIZBdi9nrCb934F00JdsERoTTcg=
 
 Name: README.md
-SHA1-Digest: YxpDKBZaJg6D/znEKSeQjC9DY+A=
+SHA1-Digest: uQJk8bVHr7FJc8sqnxjPq8Ujam0=
+
+Name: system/etc/sysconfig/hiddenapi-package-whitelist.xml
+SHA1-Digest: F3vpm545tv90i+sXSQZYfVd3Ips=
 
 Name: system/vendor/overlay/DisplayCutoutEmulationCorner/DisplayCutout
  EmulationCornerOverlay.apk
 SHA1-Digest: 02jwR0m7OyZrQ5BTzpa3i9JyL+o=
 
 Name: module.prop
-SHA1-Digest: S9pO6kjNI3HE2VrR9qr8Xm/89hM=
+SHA1-Digest: QCAEz+/72sfszazQxZRlij2DIwQ=
 
 Name: system/media/audio/ui/NFCFailure.ogg
 SHA1-Digest: s/HRB5YKkJzzqN/r5Z9SYAr7yds=
@@ -306,6 +312,9 @@ SHA1-Digest: cidDGUYthRghy5fo5iI6oIU5DVQ=
 Name: system/media/audio/ui/NFCTransferComplete.ogg
 SHA1-Digest: G1p6BSAz+WU8uQv4RaHfSBNYL0w=
 
+Name: system/vendor/etc/permissions/android.hardware.nfc.hce.xml
+SHA1-Digest: zhG91lOM+y4nJNFnU4CTHgTleO4=
+
 Name: common/service.sh
 SHA1-Digest: TOn/zXTfuf86lkAJLKXrKctujsY=
 
@@ -321,6 +330,9 @@ SHA1-Digest: NsjnCAUDS9jDPDgDZGdTrb4lCxQ=
 Name: system/etc/sysconfig/pixel_2018_exclusive.xml
 SHA1-Digest: C5cbO3KLWi6StqHUFbRbDLP9R5I=
 
+Name: system/vendor/etc/default-permissions/default-permissions.xml
+SHA1-Digest: dlH4F8codMLxdGB+SJP21B8BV8Q=
+
 Name: system/media/audio/ui/NFCTransferInitiated.ogg
 SHA1-Digest: YOXRfL63f9GrTJ1cMkF1FsBYuMA=
 
@@ -334,7 +346,7 @@ Name: system/media/audio/notifications/Pipes.ogg
 SHA1-Digest: /qT0G5LH9KhT1FtNR4V2lAyG5Uc=
 
 Name: common/system.prop
-SHA1-Digest: MGd7khjpTDNdBAdbBRzR7B4ZiwY=
+SHA1-Digest: iRUAfCOqUolMsShULX8iGJ64gU0=
 
 Name: system/media/audio/notifications/Popcorn.ogg
 SHA1-Digest: ZcS+Y6a4Ry1BIbxrdWeAbJhxZBQ=

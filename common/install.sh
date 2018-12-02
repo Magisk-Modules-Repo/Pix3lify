@@ -1,3 +1,22 @@
+# GET LAUNCHER FROM ZIP NAME
+case $(basename $ZIP) in
+  *lwn*|*Lwn*|*LWN*) LAUNCHER=lwn;;
+  *rtl*|*Rtl*|*RTL*) LAUNCHER=rtl;;
+  *cpl*|*Cpl*|*CPL*) LAUNCHER=cpl;;
+  *spl*|*Spl*|*SPL*) LAUNCHER=spl;;
+  *rpl*|*Rpl*|*RPL*) LAUNCHER=rpl;;
+esac
+
+# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
+chmod 755 $INSTALLER/common/keycheck
+
+# remove /data/resource-cache/overlays.list
+OVERLAY='/data/resource-cache/overlays.list'
+if [ -f "$OVERLAY" ] ;then
+  ui_print "   Removing $OVERLAY"
+  rm -f "$OVERLAY"
+fi
+
 keytest() {
   ui_print " - Vol Key Test -"
   ui_print "   Press Vol Up:"
@@ -22,8 +41,8 @@ chooseport() {
 
 chooseportold() {
   # Calling it first time detects previous input. Calling it second time will do what we want
-  $KEYCHECK
-  $KEYCHECK
+  $INSTALLER/common/keycheck
+  $INSTALLER/common/keycheck
   SEL=$?
   if [ "$1" == "UP" ]; then
     UP=$SEL
@@ -39,136 +58,114 @@ chooseportold() {
   fi
 }
 
-ui_print "   Decompressing files..."
-tar -xf $INSTALLER/custom.tar.xz -C $INSTALLER 2>/dev/null
-
-# GET LAUNCHER FROM ZIP NAME
-case $(basename $ZIP) in
-  *customized*|*Customized*|*CUSTOMIZED*) LAUNCHER=customized;;
-  *lawnchair*|*Lawnchair*|*LAWNCHAIR*) LAUNCHER=lawnchair;;
-  *pixel*|*Pixel*|*PIXEL*) LAUNCHER=pixel;;
-  *rootless*|*Rootless*|*ROOTLESS*) LAUNCHER=rootless;;
-  *ruthless*|*Ruthless*|*RUTHLESS*) LAUNCHER=ruthless;;
-esac
-# GET USERAPP FROM ZIP NAME
-case $(basename $ZIP) in
-  *UAPP*|*Uapp*|*uapp*) UA=true;;
-  *SAPP*|*Sapp*|*sapp*) UA=false;;
-esac
-
-# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
-KEYCHECK=$INSTALLER/common/keycheck
-chmod 755 $KEYCHECK
-
 ui_print " "
-ui_print "   Removing remnants from past pix3lify installs..."
-# Uninstall existing pix3lify installs
-OVERLAY='/data/resource-cache/overlays.list'
-if [ -f "$OVERLAY" ] ;then
-  ui_print "   Removing $OVERLAY"
-  rm -f "$OVERLAY"
-fi
-
-ui_print " "
-if [ -z $LAUNCHER ] || [ -z $UA ]; then
+if [ -z $LAUNCHER ]; then
   if keytest; then
     FUNCTION=chooseport
   else
     FUNCTION=chooseportold
     ui_print "   ! Legacy device detected! Using old keycheck method"
     ui_print " "
-    ui_print "- Vol Key Programming -"
+    ui_print " - Vol Key Programming -"
     ui_print "   Press Vol Up Again:"
     $FUNCTION "UP"
     ui_print "   Press Vol Down"
     $FUNCTION "DOWN"
   fi
-  if [ -z $LAUNCHER ]; then
-	ui_print " "
-	ui_print "- Do you want to install a launcher? (note: if you encounter a force close, reinstall and choose Vol-)"
-	ui_print "   Vol+ = Install a launcher"
-	ui_print "   Vol- = Do NOT install a launcher"
-	if $FUNCTION; then
-	  ui_print " "
-	  ui_print " - Select Launcher -"
-	  ui_print "   Choose which Pixel Launcher you want installed:"
-	  ui_print "   Vol+ = Stock Pixel Launcher (Android 9+ only), Vol- = Other Launcher choices"
-	  if $FUNCTION; then
-	    ui_print " "
-	    ui_print "   Installing Stock Pixel Launcher..."
-	    LAUNCHER=pixel
-	  else
-	    ui_print " "
-	    ui_print " - Select Custom launcher -"
-        ui_print "   Choose which custom launcher you want installed:"
-        ui_print "   Vol+ = Lawnchair Launcher, Vol- = CPL/Ruthless/Rootless"
+  ui_print " "
+  ui_print "- Do you want to install a Launcher? (note: if you encounter a force close, reinstall and choose Vol-)"
+  ui_print "   Vol+ = Install Launcher"
+  ui_print "   Vol- = Do NOT install a Launcher"
+  if $FUNCTION; then
+    ui_print " "
+    ui_print " - Select Launcher -"
+    ui_print "   Choose which Launcher you want installed:"
+    ui_print "   Vol+ = Pixel Launcher (Android 9+ only), Vol- = Other Launcher choices"
+    if $FUNCTION; then
+      ui_print " "
+      ui_print "   Installing Pixel Launcher..."
+      LAUNCHER=spl
+    else
+      ui_print " "
+      ui_print " - Select Custom Launcher -"
+      ui_print "   Choose which custom Pixel Launcher you want installed:"
+      ui_print "   Vol+ = Customized Pixel Launcher, Vol- = Other Launcher choices"
+      if $FUNCTION; then
+        ui_print " "
+        ui_print "   Installing Customized Pixel Launcher..."
+        LAUNCHER=cpl
+      else
+        ui_print " "
+        ui_print " - Select Custom Launcher -"
+        ui_print "   Choose which custom Pixel Launcher you want installed:"
+        ui_print "   Vol+ = Ruthless Launcher, Vol- = Other Launcher choices"
         if $FUNCTION; then
           ui_print " "
-          ui_print "   Installing Lawnchair Launcher..."
-          LAUNCHER=lawnchair
+          ui_print "   Installing Shubbyy's Ruthless Launcher..."
+          LAUNCHER=rpl
         else
-			ui_print " "
-			ui_print " - Select Custom launcher -"
-			ui_print "   Choose which custom launcher you want installed:"
-			ui_print "   Vol+ = Customized Pixel Launcher, Vol- = Ruthless/Rootless"
-			if $FUNCTION; then
-				ui_print " "
-				ui_print "   Installing Customized Pixel Launcher..."
-				LAUNCHER=customized
-			else
-				ui_print " "
-				ui_print " - Select Custom Launcher -"
-				ui_print "   Choose which custom Launcher you want installed:"
-				ui_print "   Vol+ = Ruthless launcher, Vol- = Rootless launcher"
-				if $FUNCTION; then
-					ui_print " "
-					ui_print "   Installing Ruthless Launcher..."
-					LAUNCHER=ruthless
-				else
-					ui_print " "
-					ui_print "   Installing Rootless Launcher..."
-					LAUNCHER=rootless
-          
-				fi
-			fi
+          ui_print " "
+          ui_print " - Select Custom Launcher -"
+          ui_print "   Choose which custom Pixel Launcher you want installed:"
+          ui_print "   Vol+ = Rootless Launcher, Vol- = Lawnchair"
+          if $FUNCTION; then
+            ui_print " "
+            ui_print "   Installing Amir's Rootless Launcher..."
+            LAUNCHER=apl
+          else
+            ui_print " "
+            ui_print "   Installing Lawnchair..."
+            LAUNCHER=ago
+          fi
         fi
+      fi
     fi
   else
     ui_print "   Skip installing launchers..."
   fi
-  if [ -z $UA ]; then
-    ui_print " "
-    ui_print " - Select App Location -"
-    ui_print "   Choose how you want the launcher to be installed"
-    ui_print "   Note that it can get killed off by system"
-    ui_print "    if installed as a user app:"
-    ui_print "   Vol+ = system app (recommended), Vol- = user app"
-    if $FUNCTION; then
-      UA=false
-    else
-      UA=true
-    fi
-  else
-    ui_print "   Launcher install method specified in zipname!"
-  fi
 else
-  ui_print "   Options specified in zipname!"
+  ui_print "   Launcher specified in zipname!"
 fi
 
-ui_print " "
-if $UA; then
-  if $MAGISK; then
-    ui_print "   Launcher will be installed as user app"
-    cp -f $INSTALLER/custom/$LAUNCHER/PixelLauncher.apk $UNITY/PixelLauncher.apk
-  else
-    cp -f $INSTALLER/custom/$LAUNCHER/PixelLauncher.apk $SDCARD/PixelLauncher.apk
-    ui_print " "
-    ui_print "   PixelLauncher.apk copied to root of internal storage (sdcard)"
-    ui_print "   Install manually after booting"
-    sleep 2
-  fi
-  rm -rf $INSTALLER/system/app
-else
-  ui_print "   Launcher will be installed as system app"
-  cp -f $INSTALLER/custom/$LAUNCHER/PixelLauncher.apk $INSTALLER/system/app/PixelLauncher/PixelLauncher.apk
+if [ ! -z $LAUNCHER ]; then
+  mkdir -p $INSTALLER/system/priv-app/PixelLauncher
+  cp -f $INSTALLER/custom/$LAUNCHER/PixelLauncher.apk $INSTALLER/system/priv-app/PixelLauncher/PixelLauncher.apk
 fi
+
+# backup
+if [ -f /data/data/com.google.android.apps.nexuslauncher/databases/launcher.db ]; then
+  ui_print " "
+  ui_print " - Select Backup -"
+  ui_print "   Found previous home screens, do you want to backup?"
+  ui_print "   Vol+ = Create backup, Vol- = Do NOT create backup"
+  if $FUNCTION; then
+    ui_print " "
+    ui_print "   Backing up home screens.."
+    cp -f /data/data/com.google.android.apps.nexuslauncher/databases/launcher.db /data/media/0/.launcher.db.backup
+    NORESTORE=1
+  else
+    ui_print " "
+    ui_print "   Did not backup!"
+  fi
+fi
+
+# restore
+if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
+  ui_print " "
+  ui_print " - Select Restore -"
+  ui_print "   Found backup of home screens, do you want to restore?"
+  ui_print "   Vol+ = Restore backup, Vol- = Do NOT restore"
+  if $FUNCTION; then
+    ui_print " "
+    ui_print "   Restoring home screens.."
+    if [ ! -d /data/data/com.google.android.apps.nexuslauncher/databases ]; then
+      touch /data/media/0/.launcher.restore
+    else
+      cp -f /data/media/0/.launcher.db.backup /data/data/com.google.android.apps.nexuslauncher/databases/launcher.db
+    fi
+  else
+    ui_print " "
+    ui_print "   Did not restore!"
+  fi
+fi
+

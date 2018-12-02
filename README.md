@@ -17,7 +17,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * All root solutions (requires init.d support if not using magisk or supersu. Try [Init.d Injector](https://forum.xda-developers.com/android/software-hacking/mod-universal-init-d-injector-wip-t3692105))
 
 ## ⭐ Reminders
-* To completely uninstall the module, flash it again via Magisk.
+* TO COMPLETELY UNINSTALL THE MODULE AND AVOID BOOTLOOPS, INSTALL THE ZIP AGAIN IN MAGISK OR TWRP!!
 * Take a full backup before installing the module.
 
 ## ⭐ Features
@@ -33,8 +33,9 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Night Light (device dependent)
 
 ## ⭐ Changelog
-### v1.8
+### v1.8.1
 * Return to the Magisk Repo
+* Return of Launcher choices
 * Return of Digital Wellbeing to Settings app
 * Return of Pixel Stand
 * Add translations to Gestures app
@@ -82,6 +83,6 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * @topjohnwu for Magisk
 
 ## ⭐ Links
-* [![LICENSE](https://img.shields.io/github/license/Magisk-Modules-Repo/PIX3LIFY.svg)](https://github.com/Magisk-Modules-Repo/PIX3LIFY/blob/master/LICENSE)
-* [![PIX3LIFY XDA Portal feature](https://img.shields.io/badge/XDA-Portal-orange.svg)](https://www.xda-developers.com/pixel-2-experience-magisk-module/)
-* [![Source Code](https://img.shields.io/badge/Github-Source-black.svg)](https://github.com/Magisk-Modules-Repo/PIX3LIFY/)
+* [![LICENSE](https://img.shields.io/github/license/Magisk-Modules-Repo/Pix3lify.svg)](https://github.com/Magisk-Modules-Repo/Pix3lify/blob/master/LICENSE)
+* [![Pix3lify XDA Portal feature](https://img.shields.io/badge/XDA-Portal-orange.svg)](https://www.xda-developers.com/pixel-2-experience-magisk-module/)
+* [![Source Code](https://img.shields.io/badge/Github-Source-black.svg)](https://github.com/Magisk-Modules-Repo/Pix3lify)
