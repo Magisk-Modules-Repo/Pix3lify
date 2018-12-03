@@ -33,9 +33,14 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Night Light (device dependent)
 
 ## ⭐ Changelog
+### v1.9
+* Enable Google Dialer's Call Screening
+* Disable AOD (again)
+
 ### v1.8.1
 * Return to the Magisk Repo
-* Return of Launcher choices
+* Return of Launcher choices (Rootless Launcher, Lawnchair, Ruthless Launcher, Customized Pixel Launcher, stock Pixel Launcher)
+* Return of Launcher homescreen backup/restore
 * Return of Digital Wellbeing to Settings app
 * Return of Pixel Stand
 * Add translations to Gestures app
@@ -78,6 +83,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Re-added to the Repo
 
 ## ⭐ Credits
+* @thehappydinoa for the Google Call Screening codes
 * @Laster K. for Night Light fixes and Daydream VR additions
 * @Skittles9823 for helping me rename the module
 * @topjohnwu for Magisk

@@ -1,20 +1,17 @@
-# GET LAUNCHER FROM ZIP NAME
-case $(basename $ZIP) in
-  *lwn*|*Lwn*|*LWN*) LAUNCHER=lwn;;
-  *rtl*|*Rtl*|*RTL*) LAUNCHER=rtl;;
-  *cpl*|*Cpl*|*CPL*) LAUNCHER=cpl;;
-  *spl*|*Spl*|*SPL*) LAUNCHER=spl;;
-  *rpl*|*Rpl*|*RPL*) LAUNCHER=rpl;;
-esac
-
-# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
-chmod 755 $INSTALLER/common/keycheck
-
-# remove /data/resource-cache/overlays.list
-OVERLAY='/data/resource-cache/overlays.list'
-if [ -f "$OVERLAY" ] ;then
-  ui_print "   Removing $OVERLAY"
-  rm -f "$OVERLAY"
+ui_print " "
+ui_print "   Enabling Google's Call Screening..."
+# Enabling Google's Call Screening
+SHARED_PREF_FILE=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
+if [ -f $SHARED_PREF_FILE ]; then
+  sed -i -e 's/name="G__speak_easy_bypass_locale_check" value="false"/name="G__speak_easy_bypass_locale_check" value="true"/g' $SHARED_PREF_FILE
+  sed -i -e 's/name="G__speak_easy_enable_listen_in_button" value="false"/name="G__speak_easy_enable_listen_in_button" value="true"/g' $SHARED_PREF_FILE
+  sed -i -e 's/name="__data_rollout__SpeakEasy.OverrideUSLocaleCheckRollout__launched__" value="false"/name="__data_rollout__SpeakEasy.OverrideUSLocaleCheckRollout__launched__" value="true"/g' $SHARED_PREF_FILE
+  sed -i -e 's/name="G__enable_speakeasy_details" value="false"/name="G__enable_speakeasy_details" value="true"/g' $SHARED_PREF_FILE
+  sed -i -e 's/name="G__speak_easy_enabled" value="false"/name="G__speak_easy_enabled" value="true"/g' $SHARED_PREF_FILE
+  sed -i -e 's/name="G__speakeasy_show_privacy_tour" value="false"/name="G__speakeasy_show_privacy_tour" value="true"/g' $SHARED_PREF_FILE
+  sed -i -e 's/name="__data_rollout__SpeakEasy.SpeakEasyDetailsRollout__launched__" value="false"/name="__data_rollout__SpeakEasy.SpeakEasyDetailsRollout__launched__" value="true"/g' $SHARED_PREF_FILE
+  sed -i -e 's/name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__" value="false"/name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__" value="true"/g' $SHARED_PREF_FILE
+  am force-stop "com.google.android.dialer"
 fi
 
 keytest() {
@@ -41,8 +38,8 @@ chooseport() {
 
 chooseportold() {
   # Calling it first time detects previous input. Calling it second time will do what we want
-  $INSTALLER/common/keycheck
-  $INSTALLER/common/keycheck
+  $KEYCHECK
+  $KEYCHECK
   SEL=$?
   if [ "$1" == "UP" ]; then
     UP=$SEL
@@ -58,6 +55,29 @@ chooseportold() {
   fi
 }
 
+# GET LAUNCHER FROM ZIP NAME
+case $(basename $ZIP) in
+  *customized*|*Customized*|*CUSTOMIZED*) LAUNCHER=customized;;
+  *lawnchair*|*Lawnchair*|*LAWNCHAIR*) LAUNCHER=lawnchair;;
+  *stock*|*Stock*|*STOCK*) LAUNCHER=stock;;
+  *rootless*|*Rootless*|*ROOTLESS*) LAUNCHER=rootless	;;
+  *ruthless*|*Ruthless*|*RUTHLESS*) LAUNCHER=ruthless;;
+esac
+
+# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
+KEYCHECK=$INSTALLER/common/keycheck
+chmod 755 $KEYCHECK
+
+ui_print " "
+ui_print "   Removing remnants from past Pix3lify installs..."
+# remove /data/resource-cache/overlays.list
+OVERLAY='/data/resource-cache/overlays.list'
+if [ -f "$OVERLAY" ] ;then
+  ui_print "   Removing $OVERLAY"
+  rm -f "$OVERLAY"
+  rm -f $INSTALLER/system/priv-app/PixelLauncher/PixelLauncher.apk
+fi
+
 ui_print " "
 if [ -z $LAUNCHER ]; then
   if keytest; then
@@ -66,14 +86,14 @@ if [ -z $LAUNCHER ]; then
     FUNCTION=chooseportold
     ui_print "   ! Legacy device detected! Using old keycheck method"
     ui_print " "
-    ui_print " - Vol Key Programming -"
+    ui_print "- Vol Key Programming -"
     ui_print "   Press Vol Up Again:"
     $FUNCTION "UP"
     ui_print "   Press Vol Down"
     $FUNCTION "DOWN"
   fi
   ui_print " "
-  ui_print "- Do you want to install a Launcher? (note: if you encounter a force close, reinstall and choose Vol-)"
+  ui_print "- Do you want to install a Launcher?"
   ui_print "   Vol+ = Install Launcher"
   ui_print "   Vol- = Do NOT install a Launcher"
   if $FUNCTION; then
@@ -84,7 +104,7 @@ if [ -z $LAUNCHER ]; then
     if $FUNCTION; then
       ui_print " "
       ui_print "   Installing Pixel Launcher..."
-      LAUNCHER=spl
+      LAUNCHER=stock
     else
       ui_print " "
       ui_print " - Select Custom Launcher -"
@@ -93,7 +113,7 @@ if [ -z $LAUNCHER ]; then
       if $FUNCTION; then
         ui_print " "
         ui_print "   Installing Customized Pixel Launcher..."
-        LAUNCHER=cpl
+        LAUNCHER=customized
       else
         ui_print " "
         ui_print " - Select Custom Launcher -"
@@ -102,7 +122,7 @@ if [ -z $LAUNCHER ]; then
         if $FUNCTION; then
           ui_print " "
           ui_print "   Installing Shubbyy's Ruthless Launcher..."
-          LAUNCHER=rpl
+          LAUNCHER=ruthless
         else
           ui_print " "
           ui_print " - Select Custom Launcher -"
@@ -111,11 +131,11 @@ if [ -z $LAUNCHER ]; then
           if $FUNCTION; then
             ui_print " "
             ui_print "   Installing Amir's Rootless Launcher..."
-            LAUNCHER=apl
+            LAUNCHER=rootless
           else
             ui_print " "
             ui_print "   Installing Lawnchair..."
-            LAUNCHER=ago
+            LAUNCHER=lawnchair
           fi
         fi
       fi
@@ -168,4 +188,3 @@ if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
     ui_print "   Did not restore!"
   fi
 fi
-
