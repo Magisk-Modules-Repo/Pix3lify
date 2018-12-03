@@ -21,11 +21,15 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Take a full backup before installing the module.
 
 ## ⭐ Features
+* Different Pixel Launcher choices (Rootless Launcher, Lawnchair, Ruthless Launcher, Customized Pixel Launcher, stock Pixel Launcher)
 * Pixel Blue theme accent
 * Set Gboard theme to White BG with Pixel Blue accent
 * Adds Daydream VR support
-* Adds Device Gestures in Settings app (device dependent)
+* Adds Digital Wellbeing in Settings app
+* Adds Gestures in Settings app (device dependent)
 * Adds Pixel alarms/media/ringtones/UI sounds
+* Adds Pixel Stand app
+* Enables Google Dialer's Call Screening (mileage may vary)
 * Enables Camera2 API support (find a working Modded Google Camera app [here](https://www.celsoazevedo.com/files/android/google*camera/))
 * Enables EIS support (device dependent)
 * Enables Google Assistant
