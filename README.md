@@ -37,6 +37,9 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Night Light (device dependent)
 
 ## ⭐ Changelog
+### v1.9.2
+* Update overlay
+
 ### v1.9.1
 * Removed vibration mods for the SPECIAL SNOWFLAKES
 
