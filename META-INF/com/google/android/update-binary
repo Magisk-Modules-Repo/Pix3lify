@@ -15,23 +15,17 @@ ps | grep zygote | grep -qv grep >/dev/null && BOOTMODE=true || BOOTMODE=false
 $BOOTMODE || ps -A 2>/dev/null | grep zygote | grep -qv grep >/dev/null && BOOTMODE=true
 
 # TEMP INSTALLER PATH
-TMPDIR=/dev/tmp
-INSTALLER=$TMPDIR/install
-MOUNTPATH=$TMPDIR/magisk_img
-
-# OTHER VARIABLES
-OUTFD=$2
-ZIP=$3
-MAGISK=true
-DYNAMICOREO=false
-DYNAMICAPP=false
-SYSOVERRIDE=false
-RAMDISK=false
-DEBUG=false
-case $(basename $ZIP) in
-  *debug*|*Debug*|*DEBUG*) DEBUG=true;;
-  *sysover*|*Sysover*|*SYSOVER*) SYSOVERRIDE=true;;
+TMPDIR=/dev/tmp; INSTALLER=$TMPDIR/install; MOUNTPATH=$TMPDIR/magisk_img
+NVBASE=/data/adb; MAGISKBIN=$NVBASE/magisk; MAGISKTMP=/sbin/.magisk
+if $BOOTMODE; then IMG=$NVBASE/magisk_merge.img; else IMG=$NVBASE/magisk.img; fi
+SYSOVERRIDE=false; DEBUG=false; DYNAMICOREO=false; DYNAMICAPP=false; RAMDISK=false; SEPOLICY=false
+OUTFD=$2; ZIP=$3
+OIFS=$IFS; IFS=\|; 
+case $(echo $(basename $ZIP) | tr '[:upper:]' '[:lower:]') in
+  *debug*) DEBUG=true;;
+  *sysover*) SYSOVERRIDE=true;;
 esac
+IFS=$OIFS
 
 # DEFAULT PERMISSIONS
 umask 022
@@ -93,6 +87,10 @@ done
 
 . $INSTALLER/config.sh
 
+[ -z $MODID ] && MODID=`grep_prop id $INSTALLER/module.prop`
+MODPATH=$MOUNTPATH/$MODID
+MINMAGISK=$(grep_prop minMagisk $INSTALLER/module.prop)
+
 # PRINT MOD NAME
 print_modname
 
@@ -111,6 +109,25 @@ unity_install() {
 
   # RUN USER INSTALL SCRIPT
   [ -f "$INSTALLER/common/install.sh" ] && . $INSTALLER/common/install.sh
+  
+  # SEPOLICY
+  if $SEPOLICY; then
+    [ "$MODPATH" == "/system/etc/init.d" ] && unpack_ramdisk -s
+    if [ "$MODPATH" == "/system/etc/init.d" ] && ! $INITD; then
+      ui_print "   Patching sepolicy..."; ui_print " "
+    else
+      LATESTARTSERVICE=true
+      echo -n "supolicy --live" >> $INSTALLER/common/service.sh
+    fi
+    sed -i -e '/^#.*/d' -e '/^$/d' $INSTALLER/common/sepolicy.sh
+    while read LINE; do
+      if [ "$MODPATH" != "/system/etc/init.d" ] || $INITD; then
+        echo -n " \"$LINE\"" >> $INSTALLER/common/service.sh
+      else
+        magiskpolicy --load $RD/sepolicy --save $RD/sepolicy "$LINE"
+      fi
+    done < $INSTALLER/common/sepolicy.sh
+  fi
 
   # INSTALL SCRIPTS
   ui_print "   Installing scripts for $ROOTTYPE..."
@@ -119,14 +136,11 @@ unity_install() {
     $AUTOMOUNT && ! $SYSOVERRIDE && mktouch $MODPATH/auto_mount
     # UPDATE INFO FOR MAGISK MANAGER
     if $BOOTMODE; then
-      mktouch /sbin/.core/img/$MODID/update
+      mktouch $MAGISKTMP/img/$MODID/update
       cp_ch -n $INSTALLER/module.prop $MODPATH/module.prop
     fi
-  elif [ "$ROOTTYPE" == "LineageOS SU" ] || [ "$ROOTTYPE" == "other root or rootless" ]; then
-    ui_print " "
-    ui_print "   ! This root method has no boot script support !"
-    ui_print "   ! You will need to add init.d support !"
-    ui_print " "
+  elif [ "$MODPATH" == "/system/etc/init.d" ] && ($POSTFSDATA || $LATESTARTSERVICE); then
+    initd_message
   fi
   if $MAGISK && $SYSOVERRIDE; then
     cp -f $INSTALLER/common/unityfiles/modidsysover.sh $INSTALLER/common/unityfiles/$MODID-sysover.sh
@@ -189,7 +203,7 @@ unity_install() {
   
   # RAMDISK PATCHES
   if $RAMDISK; then
-    [ -d "$RD" ] || unpack_ramdisk "late"
+    [ -d "$RD" ] || unpack_ramdisk -l
     # REMOVE RAMDISK MOD IF EXISTS
     if [ "$(grep "#$MODID-UnityIndicator" $RD/init.rc 2>/dev/null)" ]; then
       ui_print "   ! Mod detected in ramdisk!"
@@ -221,18 +235,18 @@ unity_install() {
 unity_uninstall() {
   ui_print " "
   ui_print "- Uninstalling"
-  
+
   # REMOVE FILES
   uninstall_files $INFO
 
-  $MAGISK && { rm -rf $MODPATH /sbin/.core/img/$MODID; rm -f $MOUNTPATH/.core/post-fs-data.d/$MODID-sysover.sh; }
+  $MAGISK && { rm -rf $MODPATH $MAGISKTMP/img/$MODID; rm -f $NVBASE/post-fs-data.d/$MODID-sysover.sh; }
 
   # RUN USER INSTALL SCRIPT
   [ -f "$INSTALLER/common/uninstall.sh" ] && . $INSTALLER/common/uninstall.sh
   
   # RAMDISK PATCHES
   if $RAMDISK; then
-    [ -d "$RD" ] || unpack_ramdisk "late"
+    [ -d "$RD" ] || unpack_ramdisk -l
     uninstall_files $INFORD
     sed -i "/#$MODID-UnityIndicator/d" $RD/init.rc
     [ -f "$INSTALLER/common/ramdiskuninstall.sh" ] && . $INSTALLER/common/ramdiskuninstall.sh
@@ -246,18 +260,8 @@ unity_uninstall() {
 # (UN)INSTALL
 ##########################################################################################
 # CHECK FOR OLD MAGISK, DETERMINE IF SYSTEM INSTALL OR MAGISK INSTALL, CHECK MAGISK VERSION (IF APPLICABLE)
-MINMAGISK=$(grep_prop minMagisk $INSTALLER/module.prop)
-if [ -f /data/adb/magisk/util_functions.sh ]; then
-  MAGISKBIN=/data/adb/magisk
-elif [ -f /data/magisk/util_functions.sh ]; then
-  MAGISKBIN=/data/magisk
-fi
-if $BOOTMODE; then IMG=/data/adb/magisk_merge.img; else IMG=$(dirname $MAGISKBIN)/magisk.img; fi
-
-if [ -z $MAGISKBIN ]; then
-  MAGISK=false
-  ui_print "- System install detected"
-else
+if [ -d $MAGISKBIN ]; then
+  MAGISK=true
   ui_print "- Magisk install detected"
   cp -f $MAGISKBIN/util_functions.sh $INSTALLER/common/unityfiles/util_functions_mag.sh
   if $SYSOVERRIDE; then
@@ -268,11 +272,19 @@ else
   fi
   . $INSTALLER/common/unityfiles/util_functions_mag.sh
   [ ! -z $MAGISK_VER_CODE -a $MAGISK_VER_CODE -ge $MINMAGISK ] || require_new_magisk
+else
+  MAGISK=false
+  ui_print "- System install detected"
 fi
 
 # MOUNT PARTITIONS AND DETECT VERSION/ARCHITECTURE
 mount_partitions
 api_level_arch_detect
+set_vars
+
+# CHECK FOR MIN & MAX API VERSION
+[ -z $MINAPI ] || { [ $API -lt $MINAPI ] && require_new_api 'minimum'; }
+[ -z $MAXAPI ] || { [ $API -gt $MAXAPI ] && require_new_api 'maximum'; }
 
 if $MAGISK; then
   # SETUP BUSYBOX AND BINARIES
@@ -286,32 +298,17 @@ else
   recovery_actions
 fi
 
-# CHECK FOR MIN & MAX API VERSION
-[ -z $MINAPI ] || { [ $API -lt $MINAPI ] && require_new_api 'minimum'; }
-[ -z $MAXAPI ] || { [ $API -gt $MAXAPI ] && require_new_api 'maximum'; }
-
-# SET MODID and MODPATH variables
-[ -z $MODID ] && MODID=`grep_prop id $INSTALLER/module.prop`
-MODPATH=$MOUNTPATH/$MODID
-
 # INSERT MODID AND CUSTOM USER SCRIPT INTO MOD SCRIPT
-cp -f $INSTALLER/common/unityfiles/modid.sh $INSTALLER/common/unityfiles/post-fs-data.sh
-cp -f $INSTALLER/common/unityfiles/modid.sh $INSTALLER/common/unityfiles/service.sh
-sed -i -e "s/<MODID>/$MODID/" -e "/# CUSTOM USER SCRIPT/ r $INSTALLER/common/post-fs-data.sh" -e '/# CUSTOM USER SCRIPT/d' $INSTALLER/common/unityfiles/post-fs-data.sh
-sed -i -e "s/<MODID>/$MODID/" -e "/# CUSTOM USER SCRIPT/ r $INSTALLER/common/service.sh" -e '/# CUSTOM USER SCRIPT/d' $INSTALLER/common/unityfiles/service.sh
-mv -f $INSTALLER/common/unityfiles/post-fs-data.sh $INSTALLER/common/post-fs-data.sh
-mv -f $INSTALLER/common/unityfiles/service.sh $INSTALLER/common/service.sh
-
-# SET VARIABLES
-set_vars
+for i in "post-fs-data.sh" "service.sh"; do
+  cp -f $INSTALLER/common/unityfiles/modid.sh $INSTALLER/common/unityfiles/$i
+  sed -i -e "s/<MODID>/$MODID/" -e "/# CUSTOM USER SCRIPT/ r $INSTALLER/common/$i" -e '/# CUSTOM USER SCRIPT/d' $INSTALLER/common/unityfiles/$i
+  mv -f $INSTALLER/common/unityfiles/$i $INSTALLER/common/$i
+done
 
 # ADD BLANK LINE TO END OF ALL COMMON FILES IF NOT ALREADY PRESENT
 for FILE in $INSTALLER/common/*.sh $INSTALLER/common/*.prop; do
   [ "$(tail -1 $FILE)" ] && echo "" >> $FILE
 done
-
-# REMOVE OLD AML & MODS
-[ -f "$OLD_AML_VER" ] && remove_old_aml
 
 # UNPACK RAMDISK
 $RAMDISK && unpack_ramdisk
@@ -329,7 +326,7 @@ fi
 unity_custom
 
 # UNPACK RAMDISK IF CHANGED TO TRUE IN UNITY_CUSTOM
-$RAMDISK && [ ! -d "$RD" ] && unpack_ramdisk "late"
+$RAMDISK && [ ! -d "$RD" ] && unpack_ramdisk -l
 
 # DETERMINE MOD INSTALLATION STATUS
 if $RAMDISK && [ "$(grep "#$MODID-UnityIndicator" $RD/init.rc 2>/dev/null)" ] && [ ! -f "$MOD_VER" ]; then
