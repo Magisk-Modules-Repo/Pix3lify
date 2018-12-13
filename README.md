@@ -37,6 +37,11 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Night Light (device dependent)
 
 ## ⭐ Changelog
+### v2.0.1
+* Return of Pixel Stand
+* Update Google Sound Picker
+* Update Google Markup
+
 ### v2
 * Remove doze bools from overlay
 * Include Google Markup
