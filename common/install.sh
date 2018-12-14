@@ -14,16 +14,6 @@ if [ -f $DIALER_PREF_FILE ]; then
   am force-stop "com.google.android.dialer"
 fi
 
-ui_print " "
-ui_print "   Enabling Google's Flip to Shhh..."
-# Enabling Google's Flip to Shhh
-WELLBEING_PREF_FILE=/data/data/com.google.android.apps.wellbeing/shared_prefs/PhenotypePrefs.xml
-if [ -f $WELLBEING_PREF_FILE ]; then
-  sed -i -e 's/name="support_auto_dnd_gesture" value="false"/name="support_auto_dnd_gesture" value="true"/g' $WELLBEING_PREF_FILE
-  sed -i -e 's/name="auto_dnd_device_supported" value="false"/name="auto_dnd_device_supported" value="true"/g' $WELLBEING_PREF_FILE
-  am force-stop "com.google.android.apps.wellbeing"
-fi
-
 keytest() {
   ui_print " - Vol Key Test -"
   ui_print "   Press Vol Up:"
