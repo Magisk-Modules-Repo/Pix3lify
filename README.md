@@ -38,6 +38,9 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Flip to Shhh (mileage may vary)
 
 ## ⭐ Changelog
+### v2.0.6
+* Enables `AutoDndGesturesSettingsActivity` on boot
+
 ### v2.0.5
 * Enables `AutoDndGesturesSettingsActivity` for Flip to Shhh
 
