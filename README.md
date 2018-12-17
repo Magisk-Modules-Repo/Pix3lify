@@ -35,8 +35,12 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Google Assistant
 * Enables Pixel exclusive wallpapers
 * Enables Night Light (device dependent)
+* Enables Flip to Shhh (mileage may vary)
 
 ## ⭐ Changelog
+### v2.0.5
+* Enables `AutoDndGesturesSettingsActivity` for Flip to Shhh
+
 ### v2.0.4
 * Enable Flip to Shhh via new method
 
