@@ -37,7 +37,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Night Light (device dependent)
 
 ## ⭐ Changelog
-### v2.0.3
+### v2.0.4
 * Enable Flip to Shhh via new method
 
 ### v2.0.3
