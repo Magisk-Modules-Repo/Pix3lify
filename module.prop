@@ -1,8 +1,8 @@
 id=Pix3lify
 name=Pix3lify
-version=v2.0.6
-versionCode=206
-author=Joey Huab
+version=v2.0.7
+versionCode=207
+author=Joey Huab, Aidan Holland
 description=Ports Pixel 3 exclusive features; 5 different Pixel Launcher choices, Pixel Blue theme accent, Pixel Blue Gboard theme, Alarms, Notification sounds, Ringtones, UI audio; enables Pixel Wallpapers, enables Google Call Screening, enables Night Light (device dependent), Daydream VR support, adds Device Gestures to Settings, enables Camera2 API and EIS support (varies per device)
 support=https://forum.xda-developers.com/apps/magisk/module-pixel-2-experience-t3757137
 minMagisk=17000
