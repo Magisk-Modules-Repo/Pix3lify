@@ -38,7 +38,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Changelog
 ### v2.1.0
-* Uninstall disables Flip to Shhh
+* Flip to Shhh now gets disables when module is uninstalled
 
 ### v2.0.9
 * Downgrade to Sounds 1.0 (4795461) for support for Oreo
