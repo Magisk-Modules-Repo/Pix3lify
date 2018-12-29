@@ -183,9 +183,9 @@ fi
 # restore
 if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
   ui_print " "
-  ui_print " - Select Restore -"
+  ui_print " - Restore Options -"
   ui_print "   Found backup of home screens, do you want to restore?"
-  ui_print "   Vol+ = Restore backup, Vol- = Do NOT restore and ERASE backup"
+  ui_print "   Vol+ = Restore backup, Vol- = More options"
   if $FUNCTION; then
     ui_print " "
     ui_print "   Restoring home screens.."
@@ -194,9 +194,20 @@ if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
     else
       cp -f /data/media/0/.launcher.db.backup /data/data/com.google.android.apps.nexuslauncher/databases/launcher.db
     fi
+    # delete backup after restore
+    rm -rf /data/media/0/.launcher.db.backup
   else
     ui_print " "
-    ui_print "   Did not restore!"
-    rm -rf /data/media/0/.launcher.db.backup
+    ui_print " - Restore Options -"
+    ui_print "   Found backup of home screens, do you want to restore?"
+    ui_print "   Vol+ = Do NOT restore and KEEP backup Vol- = Do NOT restore and ERASE backup"
+    if $FUNCTION; then
+      ui_print " "
+      ui_print "   Did not restore!"
+    else
+      rm -rf /data/media/0/.launcher.db.backup
+      
+      ui_print " "
+      ui_print "   Did not restore (but ERASED backup)!"
   fi
 fi
