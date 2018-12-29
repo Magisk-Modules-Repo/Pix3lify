@@ -24,3 +24,10 @@ if [ -f $WELLBEING_PREF_FILE ]; then
   rm -rf PhenotypePrefs.xml
   am force-stop "com.google.android.apps.wellbeing"
 fi
+
+OVERLAY='/data/resource-cache/overlays.list'
+if [ -f "$OVERLAY" ] ;then
+  ui_print "   Removing $OVERLAY"
+  rm -f "$OVERLAY"
+  rm -f $INSTALLER/system/priv-app/PixelLauncher/PixelLauncher.apk
+fi
