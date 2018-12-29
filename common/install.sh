@@ -71,7 +71,7 @@ case $(basename $ZIP) in
   *customized*|*Customized*|*CUSTOMIZED*) LAUNCHER=customized;;
   *lawnchair*|*Lawnchair*|*LAWNCHAIR*) LAUNCHER=lawnchair;;
   *stock*|*Stock*|*STOCK*) LAUNCHER=stock;;
-  *rootless*|*Rootless*|*ROOTLESS*) LAUNCHER=rootless	;;
+  *rootless*|*Rootless*|*ROOTLESS*) LAUNCHER=rootless;;
   *ruthless*|*Ruthless*|*RUTHLESS*) LAUNCHER=ruthless;;
 esac
 
