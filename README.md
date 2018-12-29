@@ -9,7 +9,7 @@
 
 ## ⭐ Module description
 
-As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when I first bought my device. Kernel sources weren't released at the time so I decided if I can cook up a Magisk module that can bring me the Pixel UI without the need to install that ROM. What I did is to search around the internet which lead me to downloading the Pixel 3 XL factory images and I have extracted the files mostly needed in the new Pixel 3 devices. I've decided to gather these files and compiled them all into a single Magisk Module. This module can be flashed with other devices on Nougat and above as well.
+As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when I first bought my device. Kernel sources weren't released at the time so I decided if I can cook up a Magisk module that can bring me the Pixel UI without the need to install that ROM. What I did is to search around the internet which lead me to download the Pixel 3 XL factory images and extract the files mostly needed in the new Pixel 3 devices. I've decided to gather these files and compiled them all into a single Magisk Module. This module can be flashed with other devices on Oreo and above as well.
 
 ## ⭐ Compatibility
 
