@@ -1,10 +1,9 @@
 <p align="center">
-  ![Pix3lify](.github/logo.png)
-  <br />
-  [![XDA](https://img.shields.io/badge/XDA-Thread-orange.svg)](https://forum.xda-developers.com/apps/magisk/module-pixel-2-experience-t3757137)
-  <br />
-  [![Telegram](https://img.shields.io/badge/Telegram-Channel-blue.svg)](https://t.me/PIX3LIFY)
-  <br />
+  <img src=".github/logo.png">
+</p>
+
+<p align="center">
+ <a href="https://forum.xda-developers.com/apps/magisk/module-pixel-2-experience-t3757137"><img src="https://img.shields.io/badge/XDA-Thread-orange.svg"></a><br /><a href="https://t.me/PIX3LIFY"><img src="https://img.shields.io/badge/Telegram-Channel-blue.svg"></a>
 </p>
 
 ## ⭐ Module description
