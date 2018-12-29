@@ -1,10 +1,10 @@
 <p align="center">
-<b> Pix3lify</b><br>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Google_Pixel_%28smartphone%29_logo.svg/800px-Google_Pixel_%28smartphone%29_logo.svg.png">
-</p>
-
-<p align="center">
- <a href="https://forum.xda-developers.com/apps/magisk/module-pixel-2-experience-t3757137"><img src="https://img.shields.io/badge/XDA-Thread-orange.svg"></a><br /><a href="https://t.me/PIX3LIFY"><img src="https://img.shields.io/badge/Telegram-Channel-blue.svg"></a>
+  ![Pix3lify](.github/logo.png)
+  <br />
+  [![XDA](https://img.shields.io/badge/XDA-Thread-orange.svg)](https://forum.xda-developers.com/apps/magisk/module-pixel-2-experience-t3757137)
+  <br />
+  [![Telegram](https://img.shields.io/badge/Telegram-Channel-blue.svg)](https://t.me/PIX3LIFY)
+  <br />
 </p>
 
 ## ⭐ Module description
