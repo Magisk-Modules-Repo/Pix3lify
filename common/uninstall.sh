@@ -15,3 +15,19 @@ if [ -f $DIALER_PREF_FILE ]; then
   sed -i -e 's/name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__" value="true"/name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__" value="false"/g' $DIALER_PREF_FILE
   am force-stop "com.google.android.dialer"
 fi
+
+ui_print " "
+ui_print "   Disabling Google's Flip to Shhh..."
+# Disabling Google's Flip to Shhh
+WELLBEING_PREF_FILER=/data/data/com.google.android.apps.wellbeing/shared_prefs/PhenotypePrefs.xml
+if [ -f $WELLBEING_PREF_FILE ]; then
+  rm -rf PhenotypePrefs.xml
+  am force-stop "com.google.android.apps.wellbeing"
+fi
+
+OVERLAY='/data/resource-cache/overlays.list'
+if [ -f "$OVERLAY" ] ;then
+  ui_print "   Removing $OVERLAY"
+  rm -f "$OVERLAY"
+  rm -f $INSTALLER/system/priv-app/PixelLauncher/PixelLauncher.apk
+fi
