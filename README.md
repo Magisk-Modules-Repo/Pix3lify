@@ -38,6 +38,9 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Flip to Shhh (mileage may vary)
 
 ## ⭐ Changelog
+### v2.0.9
+* Downgrades to Sounds 1.0 (4795461) for support for Oreo
+
 ### v2.0.8
 * Update to Unity v2.2
 
