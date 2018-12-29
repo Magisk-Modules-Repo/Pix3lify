@@ -28,6 +28,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Adds Gestures in Settings app (device dependent)
 * Adds Pixel alarms/media/ringtones/UI sounds
 * Adds Pixel Stand app
+* Adds Pixel Sounds app (mileage may vary)
 * Enables Google Dialer's Call Screening (mileage may vary)
 * Enables Camera2 API support (find a working Modded Google Camera app [here](https://www.celsoazevedo.com/files/android/google*camera/))
 * Enables EIS support (device dependent)
@@ -37,6 +38,9 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 * Enables Flip to Shhh (mileage may vary)
 
 ## ⭐ Changelog
+### v2.1.1
+* Update to Sounds 2.0
+
 ### v2.1.0
 * Flip to Shhh now gets disables when module is uninstalled
 
