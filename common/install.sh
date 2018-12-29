@@ -185,7 +185,7 @@ if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
   ui_print " "
   ui_print " - Select Restore -"
   ui_print "   Found backup of home screens, do you want to restore?"
-  ui_print "   Vol+ = Restore backup, Vol- = Do NOT restore"
+  ui_print "   Vol+ = Restore backup, Vol- = Do NOT restore and ERASE backup"
   if $FUNCTION; then
     ui_print " "
     ui_print "   Restoring home screens.."
@@ -197,5 +197,6 @@ if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
   else
     ui_print " "
     ui_print "   Did not restore!"
+    rm -rf /data/media/0/.launcher.db.backup
   fi
 fi
