@@ -24,6 +24,11 @@ mkdir -p $WELLBEING_PREF_FOLDER
 cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
 am force-stop "com.google.android.apps.wellbeing"
 
+ui_print " "
+ui_print "   Fixing Permissions for Sounds V2.0..."
+# Fixing Permissions for Sounds V2.0
+pm grant com.google.android.soundpicker android.permission.READ_EXTERNAL_STORAGE
+
 keytest() {
   ui_print " - Vol Key Test -"
   ui_print "   Press Vol Up:"
@@ -122,7 +127,7 @@ if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
       ui_print "   Did not restore!"
     else
       rm -f /data/media/0/.launcher.db.backup
-      
+
       ui_print " "
       ui_print "   Did not restore (but ERASED backup)!"
   fi
