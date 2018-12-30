@@ -25,8 +25,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Smartphone (please complete the following information):**
  - Device: [e.g. Essential PH-1]
- - OS: [e.g. Android 8.1]
- - Version [e.g. 2.0.9]
+ - Android Version: [e.g. Android 9.0 December Build]
+ - ROM: [e.g. stock]
+ - Module Version [e.g. 2.2.0]
 
 **Logs**
 Add logs to give context
