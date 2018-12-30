@@ -31,7 +31,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Adds Pixel alarms/media/ringtones/UI sounds
 -   Adds Pixel Stand app
 -   Adds Pixel Sounds app (mileage may vary)
--   Enables Google Dialer's Call Screening (mileage may vary)
+-   Enables Google Dialer's Call Screening ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Call-Screening))
 -   Enables Camera2 API support (find a working Modded Google Camera app [here](https://www.celsoazevedo.com/files/android/google*camera/))
 -   Enables EIS support (device dependent)
 -   Enables Google Assistant
