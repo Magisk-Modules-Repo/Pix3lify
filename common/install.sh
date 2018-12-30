@@ -111,7 +111,7 @@ if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
       cp -f /data/media/0/.launcher.db.backup /data/data/com.google.android.apps.nexuslauncher/databases/launcher.db
     fi
     # delete backup after restore
-    rm -rf /data/media/0/.launcher.db.backup
+    rm -f /data/media/0/.launcher.db.backup
   else
     ui_print " "
     ui_print " - Restore Options -"
@@ -121,7 +121,7 @@ if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
       ui_print " "
       ui_print "   Did not restore!"
     else
-      rm -rf /data/media/0/.launcher.db.backup
+      rm -f /data/media/0/.launcher.db.backup
       
       ui_print " "
       ui_print "   Did not restore (but ERASED backup)!"
