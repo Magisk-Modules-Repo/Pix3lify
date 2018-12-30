@@ -24,10 +24,6 @@ mkdir -p $WELLBEING_PREF_FOLDER
 cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
 am force-stop "com.google.android.apps.wellbeing"
 
-ui_print " "
-ui_print "   Granting Sounds the required permissions..."
-pm grant com.google.android.soundpicker android.permission.READ_EXTERNAL_STORAGE
-
 keytest() {
   ui_print " - Vol Key Test -"
   ui_print "   Press Vol Up:"
