@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/logo.png">
+  <img src="https://raw.githubusercontent.com/Magisk-Modules-Repo/Pix3lify/master/.github/logo.png">
 </p>
 
 <p align="center">
