@@ -127,7 +127,6 @@ if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
       ui_print "   Did not restore!"
     else
       rm -f /data/media/0/.launcher.db.backup
-
       ui_print " "
       ui_print "   Did not restore (but ERASED backup)!"
   fi
