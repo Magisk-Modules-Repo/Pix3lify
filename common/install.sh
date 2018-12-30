@@ -65,15 +65,6 @@ chooseportold() {
   fi
 }
 
-# GET LAUNCHER FROM ZIP NAME
-case $(basename $ZIP) in
-  *customized*|*Customized*|*CUSTOMIZED*) LAUNCHER=customized;;
-  *lawnchair*|*Lawnchair*|*LAWNCHAIR*) LAUNCHER=lawnchair;;
-  *stock*|*Stock*|*STOCK*) LAUNCHER=stock;;
-  *rootless*|*Rootless*|*ROOTLESS*) LAUNCHER=rootless;;
-  *ruthless*|*Ruthless*|*RUTHLESS*) LAUNCHER=ruthless;;
-esac
-
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
 KEYCHECK=$INSTALLER/common/keycheck
 chmod 755 $KEYCHECK
@@ -86,80 +77,6 @@ if [ -f "$OVERLAY" ] ;then
   ui_print "   Removing $OVERLAY"
   rm -f "$OVERLAY"
   rm -f $INSTALLER/system/priv-app/PixelLauncher/PixelLauncher.apk
-fi
-
-ui_print " "
-if [ -z $LAUNCHER ]; then
-  if keytest; then
-    FUNCTION=chooseport
-  else
-    FUNCTION=chooseportold
-    ui_print "   ! Legacy device detected! Using old keycheck method"
-    ui_print " "
-    ui_print "- Vol Key Programming -"
-    ui_print "   Press Vol Up Again:"
-    $FUNCTION "UP"
-    ui_print "   Press Vol Down"
-    $FUNCTION "DOWN"
-  fi
-  ui_print " "
-  ui_print "- Do you want to install a Launcher?"
-  ui_print "   Vol+ = Install Launcher"
-  ui_print "   Vol- = Do NOT install a Launcher"
-  if $FUNCTION; then
-    ui_print " "
-    ui_print " - Select Launcher -"
-    ui_print "   Choose which Launcher you want installed:"
-    ui_print "   Vol+ = Pixel Launcher (Android 9+ only), Vol- = Other Launcher choices"
-    if $FUNCTION; then
-      ui_print " "
-      ui_print "   Installing Pixel Launcher..."
-      LAUNCHER=stock
-    else
-      ui_print " "
-      ui_print " - Select Custom Launcher -"
-      ui_print "   Choose which custom Pixel Launcher you want installed:"
-      ui_print "   Vol+ = Customized Pixel Launcher, Vol- = Other Launcher choices"
-      if $FUNCTION; then
-        ui_print " "
-        ui_print "   Installing Customized Pixel Launcher..."
-        LAUNCHER=customized
-      else
-        ui_print " "
-        ui_print " - Select Custom Launcher -"
-        ui_print "   Choose which custom Pixel Launcher you want installed:"
-        ui_print "   Vol+ = Ruthless Launcher, Vol- = Other Launcher choices"
-        if $FUNCTION; then
-          ui_print " "
-          ui_print "   Installing Shubbyy's Ruthless Launcher..."
-          LAUNCHER=ruthless
-        else
-          ui_print " "
-          ui_print " - Select Custom Launcher -"
-          ui_print "   Choose which custom Pixel Launcher you want installed:"
-          ui_print "   Vol+ = Rootless Launcher, Vol- = Lawnchair"
-          if $FUNCTION; then
-            ui_print " "
-            ui_print "   Installing Amir's Rootless Launcher..."
-            LAUNCHER=rootless
-          else
-            ui_print " "
-            ui_print "   Installing Lawnchair..."
-            LAUNCHER=lawnchair
-          fi
-        fi
-      fi
-    fi
-  else
-    ui_print "   Skip installing launchers..."
-  fi
-else
-  ui_print "   Launcher specified in zipname!"
-fi
-
-if [ ! -z $LAUNCHER ]; then
-  mkdir -p $INSTALLER/system/priv-app/PixelLauncher
-  cp -f $INSTALLER/custom/$LAUNCHER/PixelLauncher.apk $INSTALLER/system/priv-app/PixelLauncher/PixelLauncher.apk
 fi
 
 # backup

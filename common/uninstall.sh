@@ -1,5 +1,3 @@
-rm /data/resource-cache/overlays.list
-
 ui_print " "
 ui_print "   Disabling Google's Call Screening..."
 # Disabling Google's Call Screening

@@ -24,7 +24,6 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Features
 
--   **Currently being re-worked** ~~Different Pixel Launcher choices (Rootless Launcher, Lawnchair, Ruthless Launcher, Customized Pixel Launcher, stock Pixel Launcher)~~
 -   Pixel Blue theme accent
 -   Adds Daydream VR support
 -   Adds Digital Wellbeing in Settings app
@@ -41,6 +40,10 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables Flip to Shhh (mileage may vary)
 
 ## ⭐ Changelog
+
+### v2.2
+
+-   Remove launcher choices (please install from Play Store instead)
 
 ### v2.1.2
 
