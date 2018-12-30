@@ -25,8 +25,8 @@ cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
 am force-stop "com.google.android.apps.wellbeing"
 
 ui_print " "
-ui_print "   Fixing Permissions for Sounds V2.0..."
-# Fixing Permissions for Sounds V2.0
+ui_print "   Fixing permissions for Sounds..."
+# Fix permissions for Sounds
 pm grant com.google.android.soundpicker android.permission.READ_EXTERNAL_STORAGE
 
 keytest() {
