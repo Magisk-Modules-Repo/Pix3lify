@@ -17,9 +17,9 @@ fi
 ui_print " "
 ui_print "   Disabling Google's Flip to Shhh..."
 # Disabling Google's Flip to Shhh
-WELLBEING_PREF_FILER=/data/data/com.google.android.apps.wellbeing/shared_prefs/PhenotypePrefs.xml
+WELLBEING_PREF_FILE=/data/data/com.google.android.apps.wellbeing/shared_prefs/PhenotypePrefs.xml
 if [ -f $WELLBEING_PREF_FILE ]; then
-  rm -rf PhenotypePrefs.xml
+  rm -f $WELLBEING_PREF_FILE
   am force-stop "com.google.android.apps.wellbeing"
 fi
 
