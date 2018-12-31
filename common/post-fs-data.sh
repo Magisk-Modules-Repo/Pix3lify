@@ -3,8 +3,12 @@
 # This will make your scripts compatible even if Magisk change its mount point in the future
 MODDIR=${0%/*}
 
-if [[ $(pm list packages "com.google.android.apps.wellbeing") ]]; then
+if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
   pm enable "com.google.android.apps.wellbeing/com.google.android.apps.wellbeing.autodnd.ui.AutoDndGesturesSettingsActivity"
+fi
+
+if [[ $(pm list packages "com.google.android.soundpicker") ]]; then
+  pm grant com.google.android.soundpicker android.permission.READ_EXTERNAL_STORAGE
 fi
 
 # This script will be executed in post-fs-data mode

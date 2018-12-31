@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
- <a href="https://forum.xda-developers.com/apps/magisk/module-pixel-2-experience-t3757137"><img src="https://img.shields.io/badge/XDA-Thread-orange.svg"></a><br /><a href="https://t.me/PIX3LIFY"><img src="https://img.shields.io/badge/Telegram-Channel-blue.svg"></a>
+ <a href="https://forum.xda-developers.com/apps/magisk/module-pixel-2-experience-t3757137"><img src="https://img.shields.io/badge/XDA-Thread-orange.svg"></a><br /><a href="https://t.me/PIX3LIFY"><img src="https://img.shields.io/badge/Telegram-Channel-blue.svg"></a> <a href="https://discord.gg/sUyZdSv"><img src="https://img.shields.io/discord/529370157563510814.svg"></a>
 </p>
 
 ## ⭐ Module description
@@ -32,6 +32,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Adds Pixel alarms/media/ringtones/UI sounds
 -   Adds Pixel Stand app (wireless charging stand)
 -   Adds Pixel Sounds app ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Sounds))
+-   Adds Google Markup app (mileage may vary)
 -   Enables Google Dialer's Call Screening ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Call-Screening))
 -   Enables Camera2 API support (find a working Modded Google Camera app [here](https://www.celsoazevedo.com/files/android/google*camera/))
 -   Enables EIS support (device dependent)
@@ -41,6 +42,13 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Currently under development ~Enables Flip to Shhh (mileage may vary)~
 
 ## ⭐ Changelog
+
+### v2.2.1
+
+-   Fixes Sounds
+-   Enables Call Screening's Post Call survey
+-   Fixes the uninstallation bugs
+-   Made the overlays optional
 
 ### v2.2
 
