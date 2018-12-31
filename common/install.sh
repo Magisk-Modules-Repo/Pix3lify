@@ -1,6 +1,6 @@
 #!/system/bin/sh
 if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ]; then
-ui_print " Pix3lify is only for non pixel devices "
+ui_print " Pix3lify is only for non Pixel devices! "
 abort
 fi
 
@@ -101,5 +101,5 @@ else
   ui_print "   Disabling overlays..."
   sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
   rm -rf /data/resource-cache
-  ui_print "You may want to clear Dalvik cache too!"
+  ui_print "You may want to clear Dalvik Cache aswell!"
 fi
