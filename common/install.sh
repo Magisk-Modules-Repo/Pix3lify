@@ -1,5 +1,5 @@
 if [ "PX1" ] || [ "PX1XL" ] || [ "PX2" ] || [ "PX2XL" ] || [ "PX3" ] || [ "PX3XL" ]; then
-ui_print " Pix3lify is only for non pixel devices "
+ui_print " Pix3lify is only for non Pixel devices! "
 abort
 fi
 
@@ -89,16 +89,27 @@ $FUNCTION "DOWN"
 # fi
 
 ui_print " "
-ui_print " - Select Option -"
-ui_print "   Do you want overlays (theme accent and rounded corners) enabled:"
-ui_print "   Vol Up = Yes, Vol Down = No"
+ui_print " - Overlay Options -"
+ui_print "   Do you want overlays (theme accent and rounded corners) enabled?"
+ui_print "   Vol Up = Yes, Vol Down = More Options"
 if $FUNCTION; then
   ui_print " "
   ui_print "   Enabling overlays..."
 else
   ui_print " "
-  ui_print "   Disabling overlays..."
-  sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-  rm -rf /data/resource-cache
-  ui_print "You may want to clear Dalvik cache too!"
+  ui_print " - Overlay Options -"
+  ui_print "   Do you want overlays (rounded corners) enabled?"
+  ui_print "   Vol Up = Yes, Vol Down = No"
+  
+  if $FUNCTION; then
+    ui_print " "
+    ui_print "   Enabling overlays..."
+    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+  else
+    ui_print " "
+    ui_print "   Disabling overlays..."
+    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    rm -rf /data/resource-cache
+    ui_print "You may want to clear Dalvik Cache aswell!"
+  fi
 fi
