@@ -1,5 +1,6 @@
-if [ "PX1" ] || [ "PX1XL" ] || [ "PX2" ] || [ "PX2XL" ] || [ "PX3" ] || [ "PX3XL" ]; then
-ui_print " Pix3lify is only for non Pixel devices! "
+#!/system/bin/sh
+if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ]; then
+ui_print " Pix3lify is only for non pixel devices "
 abort
 fi
 
