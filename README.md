@@ -42,6 +42,13 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Changelog
 
+### v2.2.11
+
+-   Fixes Sounds
+-   Enables Call Screening's Post Call survey
+-   Fixes the uninstallation bugs
+-   Optional Overlays
+
 ### v2.2
 
 -   Remove launcher choices (please install from Play Store instead)

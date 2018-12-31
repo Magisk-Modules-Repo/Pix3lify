@@ -1,4 +1,13 @@
 ui_print " "
+ui_print "   Removing remnants from past Pix3lify installs..."
+# remove /data/resource-cache/overlays.list
+OVERLAY='/data/resource-cache/overlays.list'
+if [ -f "$OVERLAY" ] ;then
+  ui_print "   Removing $OVERLAY"
+  rm -f "$OVERLAY"
+fi
+
+ui_print " "
 ui_print "   Enabling Google's Call Screening..."
 # Enabling Google's Call Screening
 DIALER_PREF_FILE=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
@@ -25,10 +34,10 @@ mkdir -p $WELLBEING_PREF_FOLDER
 cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
 am force-stop "com.google.android.apps.wellbeing"
 
-ui_print " "
-ui_print "   Fixing permissions for Sounds..."
-# Fix permissions for Sounds
-pm grant com.google.android.soundpicker android.permission.READ_EXTERNAL_STORAGE
+
+# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
+KEYCHECK=$INSTALLER/common/keycheck
+chmod 755 $KEYCHECK
 
 keytest() {
   ui_print " - Vol Key Test -"
@@ -37,7 +46,7 @@ keytest() {
   return 0
 }
 
-chooseport() {
+choose() {
   #note from chainfire @xda-developers: getevent behaves weird when piped, and busybox grep likes that even less than toolbox/toybox grep
   while (true); do
     /system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events
@@ -52,7 +61,7 @@ chooseport() {
   fi
 }
 
-chooseportold() {
+chooseold() {
   # Calling it first time detects previous input. Calling it second time will do what we want
   $KEYCHECK
   $KEYCHECK
@@ -71,64 +80,28 @@ chooseportold() {
   fi
 }
 
-# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
-KEYCHECK=$INSTALLER/common/keycheck
-chmod 755 $KEYCHECK
+# if keytest; then
+#   FUNCTION=choose
+# else
+FUNCTION=chooseold
+# ui_print "   ! Legacy device detected! Using old keycheck method"
+ui_print " "
+ui_print " - Vol Key Programming -"
+ui_print "   Press Vol Up:"
+$FUNCTION "UP"
+ui_print "   Press Vol Down:"
+$FUNCTION "DOWN"
+# fi
 
 ui_print " "
-ui_print "   Removing remnants from past Pix3lify installs..."
-# remove /data/resource-cache/overlays.list
-OVERLAY='/data/resource-cache/overlays.list'
-if [ -f "$OVERLAY" ] ;then
-  ui_print "   Removing $OVERLAY"
-  rm -f "$OVERLAY"
-  rm -f $INSTALLER/system/priv-app/PixelLauncher/PixelLauncher.apk
-fi
-
-# backup
-if [ -f /data/data/com.google.android.apps.nexuslauncher/databases/launcher.db ]; then
+ui_print " - Select Option -"
+ui_print "   Do you want overlays enabled:"
+ui_print "   Vol Up = Yes, Vol Down = No"
+if $FUNCTION; then
   ui_print " "
-  ui_print " - Select Backup -"
-  ui_print "   Found previous home screens, do you want to backup?"
-  ui_print "   Vol+ = Create backup, Vol- = Do NOT create backup"
-  if $FUNCTION; then
-    ui_print " "
-    ui_print "   Backing up home screens.."
-    cp -f /data/data/com.google.android.apps.nexuslauncher/databases/launcher.db /data/media/0/.launcher.db.backup
-    NORESTORE=1
-  else
-    ui_print " "
-    ui_print "   Did not backup!"
-  fi
-fi
-
-# restore
-if [ -f /data/media/0/.launcher.db.backup ] && [ -z $NORESTORE ]; then
+  ui_print "   Enabling overlays..."
+else
   ui_print " "
-  ui_print " - Restore Options -"
-  ui_print "   Found backup of home screens, do you want to restore?"
-  ui_print "   Vol+ = Restore backup, Vol- = More options"
-  if $FUNCTION; then
-    ui_print " "
-    ui_print "   Restoring home screens.."
-    if [ ! -d /data/data/com.google.android.apps.nexuslauncher/databases ]; then
-      touch /data/media/0/.launcher.restore
-    else
-      cp -f /data/media/0/.launcher.db.backup /data/data/com.google.android.apps.nexuslauncher/databases/launcher.db
-    fi
-    # delete backup after restore
-    rm -f /data/media/0/.launcher.db.backup
-  else
-    ui_print " "
-    ui_print " - Restore Options -"
-    ui_print "   Found backup of home screens, do you want to restore?"
-    ui_print "   Vol+ = Do NOT restore and KEEP backup Vol- = Do NOT restore and ERASE backup"
-    if $FUNCTION; then
-      ui_print " "
-      ui_print "   Did not restore!"
-    else
-      rm -f /data/media/0/.launcher.db.backup
-      ui_print " "
-      ui_print "   Did not restore (but ERASED backup)!"
-  fi
+  ui_print "   Disabling overlays..."
+  sed -i -e 's/ro.boot.vendor.overlay.theme/#ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
 fi
