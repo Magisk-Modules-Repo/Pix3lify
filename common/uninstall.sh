@@ -11,6 +11,8 @@ if [ -f $DIALER_PREF_FILE ]; then
   sed -i -e 's/name="G__speakeasy_show_privacy_tour" value="true"/name="G__speakeasy_show_privacy_tour" value="false"/g' $DIALER_PREF_FILE
   sed -i -e 's/name="__data_rollout__SpeakEasy.SpeakEasyDetailsRollout__launched__" value="true"/name="__data_rollout__SpeakEasy.SpeakEasyDetailsRollout__launched__" value="false"/g' $DIALER_PREF_FILE
   sed -i -e 's/name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__" value="true"/name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__" value="false"/g' $DIALER_PREF_FILE
+  sed -i -e 's/name="G__speakeasy_postcall_survey_enabled" value="false"/name="G__speakeasy_postcall_survey_enabled" value="true"/g' $DIALER_PREF_FILE
+
   am force-stop "com.google.android.dialer"
 fi
 
