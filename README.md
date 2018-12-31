@@ -33,6 +33,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Adds Pixel Stand app (wireless charging stand)
 -   Adds Pixel Sounds app ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Sounds))
 -   Adds Google Markup app (mileage may vary)
+-   Enable Google Dialer install via Playstore
 -   Enables Google Dialer's Call Screening ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Call-Screening))
 -   Enables Camera2 API support (find a working Modded Google Camera app [here](https://www.celsoazevedo.com/files/android/google*camera/))
 -   Enables EIS support (device dependent)
@@ -42,6 +43,12 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Currently under development ~Enables Flip to Shhh (mileage may vary)~
 
 ## ⭐ Changelog
+
+### v2.3
+
+-   Enable Google Dialer install via Playstore (for before and after Oreo)
+-   Enables Call Screening evan if you install after Pix3lify (reboot after install)
+-   Fixes the overlay removal bugs
 
 ### v2.2.1
 
@@ -194,4 +201,4 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 -   [![LICENSE](https://img.shields.io/github/license/Magisk-Modules-Repo/Pix3lify.svg)](https://github.com/Magisk-Modules-Repo/Pix3lify/blob/master/LICENSE)
 -   [![Pix3lify XDA Portal feature](https://img.shields.io/badge/XDA-Portal-orange.svg)](https://www.xda-developers.com/pixel-2-experience-magisk-module/)
--   [![Source Code](https://img.shields.io/badge/Github-Source-black.svg)](https://github.com/Magisk-Modules-Repo/Pix3lify)
+-   [![Source Code](https://img.shields.io/badge/Github-Source-black.svg)](ht

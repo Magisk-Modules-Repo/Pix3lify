@@ -8,24 +8,8 @@ if [ -f "$OVERLAY" ] ;then
 fi
 
 if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
-  DIALER_PREF_FILE=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
-  if [ -f $DIALER_PREF_FILE ]; then
-    ui_print " "
-    ui_print "   Enabling Google's Call Screening..."
-    # Enabling Google's Call Screening
-    sed -i -e 's/name="G__speak_easy_bypass_locale_check" value="false"/name="G__speak_easy_bypass_locale_check" value="true"/g' $DIALER_PREF_FILE
-    sed -i -e 's/name="G__speak_easy_enable_listen_in_button" value="false"/name="G__speak_easy_enable_listen_in_button" value="true"/g' $DIALER_PREF_FILE
-    sed -i -e 's/name="__data_rollout__SpeakEasy.OverrideUSLocaleCheckRollout__launched__" value="false"/name="__data_rollout__SpeakEasy.OverrideUSLocaleCheckRollout__launched__" value="true"/g' $DIALER_PREF_FILE
-    sed -i -e 's/name="G__enable_speakeasy_details" value="false"/name="G__enable_speakeasy_details" value="true"/g' $DIALER_PREF_FILE
-    sed -i -e 's/name="G__speak_easy_enabled" value="false"/name="G__speak_easy_enabled" value="true"/g' $DIALER_PREF_FILE
-    sed -i -e 's/name="G__speakeasy_show_privacy_tour" value="false"/name="G__speakeasy_show_privacy_tour" value="true"/g' $DIALER_PREF_FILE
-    sed -i -e 's/name="__data_rollout__SpeakEasy.SpeakEasyDetailsRollout__launched__" value="false"/name="__data_rollout__SpeakEasy.SpeakEasyDetailsRollout__launched__" value="true"/g' $DIALER_PREF_FILE
-    sed -i -e 's/name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__" value="false"/name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__" value="true"/g' $DIALER_PREF_FILE
-    sed -i -e 's/name="G__speakeasy_postcall_survey_enabled" value="false"/name="G__speakeasy_postcall_survey_enabled" value="true"/g' $DIALER_PREF_FILE
-    am force-stop "com.google.android.dialer"
-  fi
-
-
+  ui_print " "
+  ui_print "   Google's Call Screening will enable on reboot..."
   ui_print " "
   ui_print "   Enabling Google's Flip to Shhh..."
   # Enabling Google's Flip to Shhh
@@ -35,6 +19,10 @@ if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
   mkdir -p $WELLBEING_PREF_FOLDER
   cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
   am force-stop "com.google.android.apps.wellbeing"
+fi
+
+if [ $(getprop ro.build.version.sdk) -ge 27 ]; then
+  rm -rf $INSTALLER/system/framework
 fi
 
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
@@ -106,4 +94,6 @@ else
   ui_print " "
   ui_print "   Disabling overlays..."
   sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+  rm -rf /data/resource-cache
+  ui_print "You may want to clear Dalvik cache too!"
 fi
