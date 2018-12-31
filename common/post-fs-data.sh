@@ -4,7 +4,6 @@
 MODDIR=${0%/*}
 
 if [ $(getprop ro.build.version.sdk) -eq 28 ]; then
-  # If PIE
   pm enable "com.google.android.apps.wellbeing/com.google.android.apps.wellbeing.autodnd.ui.AutoDndGesturesSettingsActivity"
 fi
 

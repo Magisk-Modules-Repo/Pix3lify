@@ -95,7 +95,7 @@ $FUNCTION "DOWN"
 
 ui_print " "
 ui_print " - Select Option -"
-ui_print "   Do you want overlays enabled:"
+ui_print "   Do you want overlays (theme accent and rounded corners) enabled:"
 ui_print "   Vol Up = Yes, Vol Down = No"
 if $FUNCTION; then
   ui_print " "
@@ -103,5 +103,5 @@ if $FUNCTION; then
 else
   ui_print " "
   ui_print "   Disabling overlays..."
-  sed -i -e 's/ro.boot.vendor.overlay.theme/#ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+  sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
 fi
