@@ -175,12 +175,12 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Credits
 
--   @Pika for code reviews and support
--   @JohnFawkes for debugging help
--   @thehappydinoa for the Google Call Screening and Flip to Shhh
--   @Laster K. for Night Light fixes and Daydream VR additions
--   @Skittles9823 for helping me rename the module
--   @topjohnwu for Magisk
+-   **Pika**, for code reviews and support
+-   **JohnFawkes**, for debugging help
+-   **thehappydinoa**, for the Google Call Screening and Flip to Shhh
+-   **Laster K.**, for Night Light fixes and Daydream VR additions
+-   **Skittles9823**, for helping me rename the module
+-   **topjohnwu**, for Magisk
 
 ## ⭐ Links
 
