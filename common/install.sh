@@ -1,6 +1,6 @@
 #!/system/bin/sh
-if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ]; then
-ui_print " Pix3lify is only for non Pixel devices! "
+if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
+ui_print "   Pix3lify is only for non-Google devices! "
 abort
 fi
 
@@ -91,15 +91,28 @@ $FUNCTION "DOWN"
 
 ui_print " "
 ui_print " - Select Option -"
-ui_print "   Do you want overlays (theme accent and rounded corners) enabled:"
+ui_print "   Do you want overlays (theme accent and or rounded corners) enabled:"
 ui_print "   Vol Up = Yes, Vol Down = No"
 if $FUNCTION; then
   ui_print " "
   ui_print "   Enabling overlays..."
 else
   ui_print " "
-  ui_print "   Disabling overlays..."
-  sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-  rm -rf /data/resource-cache
-  ui_print "You may want to clear Dalvik Cache aswell!"
+  ui_print " - Select Secondary Option -"
+  ui_print "   Do you want only the Pixel theme disabled:"
+  ui_print "   Vol Up = Yes, Vol Down = No"
+  if $FUNCTION; then
+    ui_print " "
+    ui_print "   Disabling theme..."
+    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    rm -rf /data/resource-cache
+    ui_print "You may want to clear Dalvik cache too!"
+  else
+    ui_print " "
+    ui_print "   Disabling all overlays..."
+    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
+    rm -rf /data/resource-cache
+    ui_print "You may want to clear Dalvik cache too!"
+  fi
 fi
