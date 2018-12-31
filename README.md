@@ -14,8 +14,9 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 -   [![Magisk](https://img.shields.io/badge/Magisk-17%2B-00B39B.svg)](https://forum.xda-developers.com/apps/magisk/official-magisk-v7-universal-systemless-t3473445)
 -   [![Android Oreo+](https://img.shields.io/badge/Oreo-8.0+-blue.svg)](https://www.android.com/versions/oreo-8-0/)
--   Close to Stock/AOSP ROMs (not for MIUI, TouchWiz, EMUI, etc.)
+-   Close to Stock/AOSP ROMs (not for MIUI, TouchWiz, EMUI, OOS, etc.)
 -   All root solutions (requires init.d support if not using Magisk or supersu. Try [Init.d Injector](https://forum.xda-developers.com/android/software-hacking/mod-universal-init-d-injector-wip-t3692105))
+-   Some Pixel devices experience bootloops after install. Please make a full backup before install.
 
 ## ⭐ Reminders
 
@@ -29,7 +30,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Adds Digital Wellbeing in Settings app
 -   Adds Gestures in Settings app (device dependent)
 -   Adds Pixel alarms/media/ringtones/UI sounds
--   Adds Pixel Stand app
+-   Adds Pixel Stand app (wireless charging stand)
 -   Adds Pixel Sounds app (mileage may vary)
 -   Enables Google Dialer's Call Screening ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Call-Screening))
 -   Enables Camera2 API support (find a working Modded Google Camera app [here](https://www.celsoazevedo.com/files/android/google*camera/))
@@ -37,7 +38,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables Google Assistant
 -   Enables Pixel exclusive wallpapers
 -   Enables Night Light (device dependent)
--   Enables Flip to Shhh (mileage may vary)
+-   Currently under development ~Enables Flip to Shhh (mileage may vary)~
 
 ## ⭐ Changelog
 
@@ -174,7 +175,9 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Credits
 
--   @thehappydinoa for the Google Call Screening codes
+-   @Pika for code reviews and support
+-   @JohnFawkes for debugging help
+-   @thehappydinoa for the Google Call Screening and Flip to Shhh
 -   @Laster K. for Night Light fixes and Daydream VR additions
 -   @Skittles9823 for helping me rename the module
 -   @topjohnwu for Magisk
