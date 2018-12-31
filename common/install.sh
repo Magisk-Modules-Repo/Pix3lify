@@ -109,6 +109,7 @@ else
     ui_print " "
     ui_print "   Disabling overlays..."
     sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
     rm -rf /data/resource-cache
     ui_print "You may want to clear Dalvik Cache aswell!"
   fi
