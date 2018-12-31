@@ -1,3 +1,8 @@
+if [ "PX1" ] || [ "PX1XL" ] || [ "PX2" ] || [ "PX2XL" ] || [ "PX3" ] || [ "PX3XL" ]; then
+ui_print " Pix3lify is only for non pixel devices "
+abort
+fi
+
 ui_print " "
 ui_print "   Removing remnants from past Pix3lify installs..."
 # remove /data/resource-cache/overlays.list

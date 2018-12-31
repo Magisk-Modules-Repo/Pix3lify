@@ -54,7 +54,13 @@ MINAPI=26
 
 # Custom Variables for Install AND Uninstall - Keep everything within this function
 unity_custom() {
-  :
+  if [ -f $VEN/build.prop ]; then BUILDS="/system/build.prop $VEN/build.prop"; else BUILDS="/system/build.prop"; fi
+  PX1=$(grep -E "ro.vendor.product.device=sailfish|ro.vendor.product.name=sailfish" $BUILDS)
+  PX1XL=$(grep -E "ro.vendor.product.device=marlin|ro.vendor.product.name=marlin" $BUILDS)
+  PX2=$(grep -E "ro.vendor.product.device=walleye|ro.vendor.product.name=walleye" $BUILDS)
+  PX2XL=$(grep -E "ro.vendor.product.name=taimen|ro.vendor.product.device=taimen" $BUILDS)
+  PX3=$(grep -E "ro.vendor.product.device=blueline|ro.vendor.product.name=blueline" $BUILDS)
+  PX3XL=$(grep -E "ro.vendor.product.device=crosshatch|ro.vendor.product.name=crosshatch" $BUILDS)
 }
 
 # Custom Functions for Install AND Uninstall - You can put them here
