@@ -3,7 +3,7 @@
 # This will make your scripts compatible even if Magisk change its mount point in the future
 MODDIR=${0%/*}
 
-if [ $(getprop ro.build.version.sdk) -eq 28 ]; then
+if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
   pm enable "com.google.android.apps.wellbeing/com.google.android.apps.wellbeing.autodnd.ui.AutoDndGesturesSettingsActivity"
 fi
 
