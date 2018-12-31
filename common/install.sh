@@ -7,7 +7,7 @@ if [ -f "$OVERLAY" ] ;then
   rm -f "$OVERLAY"
 fi
 
-if [ $(getprop ro.build.version.sdk) -eq 28 ]; then
+if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
   DIALER_PREF_FILE=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
   if [ -f $DIALER_PREF_FILE ]; then
     ui_print " "
