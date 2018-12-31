@@ -61,6 +61,8 @@ unity_custom() {
   PX2XL=$(grep -E "ro.vendor.product.name=taimen|ro.vendor.product.device=taimen" $BUILDS)
   PX3=$(grep -E "ro.vendor.product.device=blueline|ro.vendor.product.name=blueline" $BUILDS)
   PX3XL=$(grep -E "ro.vendor.product.device=crosshatch|ro.vendor.product.name=crosshatch" $BUILDS)
+  N5X=$(grep -E "ro.product.device=bullhead|ro.product.name=bullhead" $BUILDS)
+  N6P=$(grep -E "ro.product.device=angler|ro.product.name=angler" $BUILDS)
 }
 
 # Custom Functions for Install AND Uninstall - You can put them here
