@@ -91,7 +91,7 @@ $FUNCTION "DOWN"
 
 ui_print " "
 ui_print " - Overlay Options -"
-ui_print "   Do you want overlays (theme accent and rounded corners) enabled:"
+ui_print "   Do you want overlays (theme accent and rounded corners) enabled?"
 ui_print "   Vol Up = Yes, Vol Down = More Options"
 if $FUNCTION; then
   ui_print " "
@@ -99,20 +99,20 @@ if $FUNCTION; then
 else
   ui_print " "
   ui_print " - Overlay Options -"
-  ui_print "   Do you want overlays (rounded corners) enabled:"
+  ui_print "   Do you want overlays (rounded corners) enabled?"
   ui_print "   Vol Up = Yes, Vol Down = No"
   if $FUNCTION; then
     ui_print " "
-    ui_print "   Disabling theme..."
+    ui_print "   Enabling overlays..."
     sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
     rm -rf /data/resource-cache
-    ui_print "You may want to clear Dalvik cache too!"
+    ui_print "You may want to clear Dalvik Cache aswell!"
   else
     ui_print " "
-    ui_print "   Disabling all overlays..."
+    ui_print "   Disabling overlays..."
     sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
     rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
     rm -rf /data/resource-cache
-    ui_print "You may want to clear Dalvik cache too!"
+    ui_print "You may want to clear Dalvik Cache aswell!"
   fi
 fi
