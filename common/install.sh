@@ -15,7 +15,7 @@ fi
 
 if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
   ui_print " "
-  ui_print "   Google's Call Screening will enable on reboot..."
+  ui_print "   Enabling Google's Call Screening..."
   ui_print " "
   ui_print "   Enabling Google's Flip to Shhh..."
   # Enabling Google's Flip to Shhh
@@ -90,16 +90,16 @@ $FUNCTION "DOWN"
 # fi
 
 ui_print " "
-ui_print " - Select Option -"
-ui_print "   Do you want overlays (theme accent and or rounded corners) enabled:"
-ui_print "   Vol Up = Yes, Vol Down = No"
+ui_print " - Overlay Options -"
+ui_print "   Do you want overlays (theme accent and rounded corners) enabled:"
+ui_print "   Vol Up = Yes, Vol Down = More Options"
 if $FUNCTION; then
   ui_print " "
   ui_print "   Enabling overlays..."
 else
   ui_print " "
-  ui_print " - Select Secondary Option -"
-  ui_print "   Do you want only the Pixel theme disabled:"
+  ui_print " - Overlay Options -"
+  ui_print "   Do you want overlays (rounded corners) enabled:"
   ui_print "   Vol Up = Yes, Vol Down = No"
   if $FUNCTION; then
     ui_print " "
