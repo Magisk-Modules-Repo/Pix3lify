@@ -16,12 +16,13 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   [![Android Oreo+](https://img.shields.io/badge/Oreo-8.0+-blue.svg)](https://www.android.com/versions/oreo-8-0/)
 -   Close to Stock/AOSP ROMs (not for MIUI, TouchWiz, EMUI, OOS, etc.)
 -   All root solutions (requires init.d support if not using Magisk or supersu. Try [Init.d Injector](https://forum.xda-developers.com/android/software-hacking/mod-universal-init-d-injector-wip-t3692105))
--   Some Pixel devices experience bootloops after install. Please make a full backup before install.
+-   Pixel devices are not compatible are were leading to bootloops. The module will now abort to avoid this.
 
 ## ⭐ Reminders
 
 -   TO COMPLETELY UNINSTALL THE MODULE AND AVOID BOOTLOOPS, INSTALL THE ZIP AGAIN IN MAGISK OR TWRP!!
 -   Take a full backup before installing the module.
+-   Please send pix3lify debug file from internal storage if any issues/bugs
 
 ## ⭐ Features
 
@@ -43,6 +44,10 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Currently under development ~Enables Flip to Shhh (mileage may vary)~
 
 ## ⭐ Changelog
+
+### v2.4
+-   Abort installation on Pixel devices
+-   Enable Debug feature
 
 ### v2.3
 
