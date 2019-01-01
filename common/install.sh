@@ -1,4 +1,3 @@
-#!/system/bin/sh
 if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
 ui_print "   Pix3lify is only for non-Google devices! "
 abort
