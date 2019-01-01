@@ -3,6 +3,11 @@ ui_print "   Pix3lify is only for non-Google devices! "
 abort
 fi
 
+if $MAGISK; then
+supolicy --live "create system_server untrusted_app_all_devpts system_server untrusted_25_devpts system_server untrusted_app_devpts"
+supolicy --live "allow system_server devpts chr_file { read write }" "allow system_server untrusted_app_devpts chr_file { read write }" "allow system_server untrusted_app_25_devpts chr_file { read write }" "allow system_server untrusted_app_all_devpts chr_file { read write }"
+fi
+
 ui_print " "
 ui_print "   Removing remnants from past Pix3lify installs..."
 # remove /data/resource-cache/overlays.list
