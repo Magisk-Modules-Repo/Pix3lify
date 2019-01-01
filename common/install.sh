@@ -17,7 +17,7 @@ if [ -f "$OVERLAY" ] ;then
   rm -f "$OVERLAY"
 fi
 
-if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
+if [ $API -ge 28 ]; then
   ui_print " "
   ui_print "   Enabling Google's Call Screening..."
   ui_print " "
@@ -31,13 +31,9 @@ if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
   am force-stop "com.google.android.apps.wellbeing"
 fi
 
-if [ $(getprop ro.build.version.sdk) -ge 27 ]; then
+if [ $API -ge 27 ]; then
   rm -rf $INSTALLER/system/framework
 fi
-
-# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
-KEYCHECK=$INSTALLER/common/keycheck
-chmod 755 $KEYCHECK
 
 keytest() {
   ui_print " - Vol Key Test -"
@@ -61,6 +57,10 @@ choose() {
   fi
 }
 
+# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
+KEYCHECK=$INSTALLER/common/keycheck
+chmod 755 $KEYCHECK
+
 chooseold() {
   # Calling it first time detects previous input. Calling it second time will do what we want
   $KEYCHECK
@@ -80,18 +80,18 @@ chooseold() {
   fi
 }
 
-# if keytest; then
-#   FUNCTION=choose
-# else
-FUNCTION=chooseold
-# ui_print "   ! Legacy device detected! Using old keycheck method"
-ui_print " "
-ui_print " - Vol Key Programming -"
-ui_print "   Press Vol Up:"
-$FUNCTION "UP"
-ui_print "   Press Vol Down:"
-$FUNCTION "DOWN"
-# fi
+  if keytest; then
+    FUNCTION=choose
+  else
+    FUNCTION=chooseold
+    ui_print "   ! Legacy device detected! Using old keycheck method"
+    ui_print " "
+    ui_print "- Vol Key Programming -"
+    ui_print "   Press Vol Up Again:"
+    $FUNCTION "UP"
+    ui_print "   Press Vol Down"
+    $FUNCTION "DOWN"
+  fi
 
 ui_print " "
 ui_print " - Overlay Options -"
@@ -108,7 +108,7 @@ if $FUNCTION; then
   else
     ui_print " "
     ui_print "   Enabling overlay features..."
-    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
     rm -rf $INSTALLER/system/vendor/overlay/Pixel
     rm -rf /data/resource-cache
     rm -rf /data/dalvik-cache
@@ -118,7 +118,7 @@ if $FUNCTION; then
 else
   ui_print " "
   ui_print "   Disabling Pixel accent and overlay features..."
-  sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+  sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
   rm -rf $INSTALLER/system/vendor/overlay/Pixel
   rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
   rm -rf /data/resource-cache
