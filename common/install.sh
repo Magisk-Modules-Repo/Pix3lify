@@ -110,11 +110,11 @@ if $FUNCTION; then
     ui_print "   You may want to clear your Dalvik Cache aswell!"
   fi
 else
-    ui_print " "
-    ui_print "   Disabling Pixel blue accent and overlay features..."
-    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-    rm -rf $INSTALLER/system/vendor/overlay/Pixel
-    rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
-    rm -rf /data/resource-cache
-    ui_print "   You may want to clear your Dalvik Cache aswell!"
+  ui_print " "
+  ui_print "   Disabling Pixel blue accent and overlay features..."
+  sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+  rm -rf $INSTALLER/system/vendor/overlay/Pixel
+  rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
+  rm -rf /data/resource-cache
+  ui_print "   You may want to clear your Dalvik Cache aswell!"
 fi
