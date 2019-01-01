@@ -61,7 +61,7 @@ ignorewarning() {
   ui_print "   Vol Up = Yes, Vol Down = No"
   if $FUNCTION; then
     ui_print " "
-    ui_print "   Ignoring warning..."
+    ui_print "   Ignoring warnings..."
   else
     ui_print " "
     ui_print "   Exiting..."
@@ -77,7 +77,7 @@ fi
 
 if [ "$OOS" ]; then
   ui_print " "
-  ui_print "   Pix3lify has a hard time with OnePlus devices!"
+  ui_print "   Pix3lify has been known to not work and cause issues on devices running OxygenOS!"
   ignorewarning
 fi
 
