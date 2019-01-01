@@ -7,9 +7,3 @@ MODDIR=${0%/*}
 # More info in the main Magisk thread
 am force-stop "com.google.android.dialer"
 am force-stop "com.google.android.apps.wellbeing"
-
-
-
-  
-
-
