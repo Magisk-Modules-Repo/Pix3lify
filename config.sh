@@ -50,7 +50,7 @@ SEPOLICY=true
 #DYNAMICOREO=true
 #DYNAMICAPP=true
 #RAMDISK=true
-# DEBUG=true
+ DEBUG=true
 
 # Custom Variables for Install AND Uninstall - Keep everything within this function
 unity_custom() {
