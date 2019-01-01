@@ -70,7 +70,7 @@ ignorewarning() {
 }
 
 if $MAGISK; then 
-Magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }" 
+  magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }" 
 fi
 
 if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
@@ -140,7 +140,7 @@ if [ $API -ge 28 ]; then
   mkdir -p $WELLBEING_PREF_FOLDER
   cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
   if $BOOTMODE; then
-  am force-stop "com.google.android.apps.wellbeing"
+    am force-stop "com.google.android.apps.wellbeing"
   fi
 fi
 
