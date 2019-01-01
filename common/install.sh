@@ -3,42 +3,6 @@ ui_print "   Pix3lify is only for non-Google devices! "
 abort
 fi
 
-if $MAGISK; then
-supolicy --live "create system_server untrusted_app_all_devpts system_server untrusted_25_devpts system_server untrusted_app_devpts"
-supolicy --live "allow system_server devpts chr_file { read write }" "allow system_server untrusted_app_devpts chr_file { read write }" "allow system_server untrusted_app_25_devpts chr_file { read write }" "allow system_server untrusted_app_all_devpts chr_file { read write }"
-fi
-
-ui_print " "
-ui_print "   Removing remnants from past Pix3lify installs..."
-# remove /data/resource-cache/overlays.list
-OVERLAY='/data/resource-cache/overlays.list'
-if [ -f "$OVERLAY" ] ;then
-  ui_print "   Removing $OVERLAY"
-  rm -f "$OVERLAY"
-fi
-
-if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
-  ui_print " "
-  ui_print "   Enabling Google's Call Screening..."
-  ui_print " "
-  ui_print "   Enabling Google's Flip to Shhh..."
-  # Enabling Google's Flip to Shhh
-  WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
-  chmod 660 $WELLBEING_PREF_FILE
-  WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
-  mkdir -p $WELLBEING_PREF_FOLDER
-  cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
-  am force-stop "com.google.android.apps.wellbeing"
-fi
-
-if [ $(getprop ro.build.version.sdk) -ge 27 ]; then
-  rm -rf $INSTALLER/system/framework
-fi
-
-# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
-KEYCHECK=$INSTALLER/common/keycheck
-chmod 755 $KEYCHECK
-
 keytest() {
   ui_print " - Vol Key Test -"
   ui_print "   Press Vol Up:"
@@ -48,7 +12,7 @@ keytest() {
 
 choose() {
   #note from chainfire @xda-developers: getevent behaves weird when piped, and busybox grep likes that even less than toolbox/toybox grep
-  while (true); do
+  while true; do
     /system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events
     if (`cat $INSTALLER/events 2>/dev/null | /system/bin/grep VOLUME >/dev/null`); then
       break
@@ -63,8 +27,8 @@ choose() {
 
 chooseold() {
   # Calling it first time detects previous input. Calling it second time will do what we want
-  $KEYCHECK
-  $KEYCHECK
+  $INSTALLER/common/keycheck
+  $INSTALLER/common/keycheck
   SEL=$?
   if [ "$1" == "UP" ]; then
     UP=$SEL
@@ -80,18 +44,49 @@ chooseold() {
   fi
 }
 
-# if keytest; then
-#   FUNCTION=choose
-# else
+# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
+KEYCHECK=$INSTALLER/common/keycheck
+chmod 755 $KEYCHECK
+
+ui_print " "
+ui_print "   Removing remnants from past Pix3lify installs..."
+# remove /data/resource-cache/overlays.list
+OVERLAY='/data/resource-cache/overlays.list'
+if [ -f "$OVERLAY" ] ;then
+  ui_print "   Removing $OVERLAY"
+  rm -f "$OVERLAY"
+fi
+
+if [ $API -ge 28 ]; then
+  ui_print " "
+  ui_print "   Enabling Google's Call Screening..."
+  ui_print " "
+  ui_print "   Enabling Google's Flip to Shhh..."
+  # Enabling Google's Flip to Shhh
+  WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
+  chmod 660 $WELLBEING_PREF_FILE
+  WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
+  mkdir -p $WELLBEING_PREF_FOLDER
+  cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
+  am force-stop "com.google.android.apps.wellbeing"
+fi
+
+if [ $API -ge 27 ]; then
+  rm -rf $INSTALLER/system/framework
+fi
+
+if keytest; then
+FUNCTION=choose
+else
 FUNCTION=chooseold
-# ui_print "   ! Legacy device detected! Using old keycheck method"
+ui_print "   ! Legacy device detected! Using old keycheck method"
 ui_print " "
 ui_print " - Vol Key Programming -"
 ui_print "   Press Vol Up:"
 $FUNCTION "UP"
 ui_print "   Press Vol Down:"
 $FUNCTION "DOWN"
-# fi
+fi
 
 ui_print " "
 ui_print " - Overlay Options -"
