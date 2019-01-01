@@ -1,6 +1,6 @@
 #!/system/bin/sh
-if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ]; then
-ui_print " Pix3lify is only for non Pixel devices! "
+if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
+ui_print "   Pix3lify is only for non-Google devices! "
 abort
 fi
 
@@ -15,7 +15,7 @@ fi
 
 if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
   ui_print " "
-  ui_print "   Google's Call Screening will enable on reboot..."
+  ui_print "   Enabling Google's Call Screening..."
   ui_print " "
   ui_print "   Enabling Google's Flip to Shhh..."
   # Enabling Google's Flip to Shhh
@@ -90,16 +90,31 @@ $FUNCTION "DOWN"
 # fi
 
 ui_print " "
-ui_print " - Select Option -"
-ui_print "   Do you want overlays (theme accent and rounded corners) enabled:"
+ui_print " - Overlay Options -"
+ui_print "   Do you want the Pixel accent or overlay features enabled?"
 ui_print "   Vol Up = Yes, Vol Down = No"
 if $FUNCTION; then
   ui_print " "
-  ui_print "   Enabling overlays..."
+  ui_print " - Overlay Options -"
+  ui_print "   Do you want the Pixel accent enabled?"
+  ui_print "   Vol Up = Yes, Vol Down = No"
+  if $FUNCTION; then
+    ui_print " "
+    ui_print "   Enabling overlays and Pixel blue accent..."
+  else
+    ui_print " "
+    ui_print "   Enabling only overlay features..."
+    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    rm -rf $INSTALLER/system/vendor/overlay/Pixel
+    rm -rf /data/resource-cache
+    ui_print "   You may want to clear your Dalvik Cache aswell!"
+  fi
 else
-  ui_print " "
-  ui_print "   Disabling overlays..."
-  sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-  rm -rf /data/resource-cache
-  ui_print "You may want to clear Dalvik Cache aswell!"
+    ui_print " "
+    ui_print "   Disabling Pixel blue accent and overlay features..."
+    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    rm -rf $INSTALLER/system/vendor/overlay/Pixel
+    rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
+    rm -rf /data/resource-cache
+    ui_print "   You may want to clear your Dalvik Cache aswell!"
 fi
