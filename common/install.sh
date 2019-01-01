@@ -56,9 +56,7 @@ else
   $FUNCTION "DOWN"
 fi
 
-if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
-  ui_print " "
-  ui_print "   Pix3lify is only for non-Google devices!"
+ignorewarning() {
   ui_print "   DO YOU WANT TO IGNORE OUR WARNING AND RISK BOOTLOOPS?"
   ui_print "   Vol Up = Yes, Vol Down = No"
   if $FUNCTION; then
@@ -69,6 +67,18 @@ if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "
     ui_print "   Exiting..."
     abort
   fi
+}
+
+if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
+  ui_print " "
+  ui_print "   Pix3lify is only for non-Google devices!"
+  ignorewarning
+fi
+
+if [ "$OOS" ]; then
+  ui_print " "
+  ui_print "   Pix3lify has a hard time with OnePlus devices!"
+  ignorewarning
 fi
 
 ui_print " "
