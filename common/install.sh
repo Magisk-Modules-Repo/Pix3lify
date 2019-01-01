@@ -107,7 +107,9 @@ if $FUNCTION; then
     sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
     rm -rf $INSTALLER/system/vendor/overlay/Pixel
     rm -rf /data/resource-cache
-    ui_print "   You may want to clear your Dalvik Cache aswell!"
+    rm -rf /data/dalvik-cache
+    ui_print "   Dalvik-Cache has been cleared!"
+    ui-print "   Next boot may take a little longer to boot!"
   fi
 else
   ui_print " "
@@ -116,5 +118,7 @@ else
   rm -rf $INSTALLER/system/vendor/overlay/Pixel
   rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
   rm -rf /data/resource-cache
-  ui_print "   You may want to clear your Dalvik Cache aswell!"
+  rm -rf /data/dalvik-cache
+  ui_print "   Dalvik-Cache has been cleared!"
+  ui-print "   Next boot may take a little longer to boot!"
 fi
