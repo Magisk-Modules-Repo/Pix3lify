@@ -20,6 +20,7 @@ fi
 if [ $API -ge 28 ]; then
   ui_print " "
   ui_print "   Enabling Google's Call Screening..."
+  ui_print "   You will have to reboot after installing Google Dialer!"
   ui_print " "
   ui_print "   Enabling Google's Flip to Shhh..."
   # Enabling Google's Flip to Shhh
@@ -80,18 +81,18 @@ chooseold() {
   fi
 }
 
-  if keytest; then
-    FUNCTION=choose
-  else
-    FUNCTION=chooseold
-    ui_print "   ! Legacy device detected! Using old keycheck method"
-    ui_print " "
-    ui_print "- Vol Key Programming -"
-    ui_print "   Press Vol Up Again:"
-    $FUNCTION "UP"
-    ui_print "   Press Vol Down"
-    $FUNCTION "DOWN"
-  fi
+if keytest; then
+  FUNCTION=choose
+else
+  FUNCTION=chooseold
+  ui_print "   ! Legacy device detected! Using old keycheck method"
+  ui_print " "
+  ui_print " - Vol Key Programming -"
+  ui_print "   Press Vol Up Again:"
+  $FUNCTION "UP"
+  ui_print "   Press Vol Down"
+  $FUNCTION "DOWN"
+fi
 
 ui_print " "
 ui_print " - Overlay Options -"
@@ -111,18 +112,15 @@ if $FUNCTION; then
     sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
     rm -rf $INSTALLER/system/vendor/overlay/Pixel
     rm -rf /data/resource-cache
-    rm -rf /data/dalvik-cache
-    ui_print "   Dalvik-Cache has been cleared!"
-    ui_print "   Next boot may take a little longer to boot!"
   fi
 else
   ui_print " "
   ui_print "   Disabling Pixel accent and overlay features..."
   sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-  rm -rf $INSTALLER/system/vendor/overlay/Pixel
   rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
-  rm -rf /data/resource-cache
+  rm -rf $INSTALLER/system/vendor/overlay/Pixel
   rm -rf /data/dalvik-cache
+  rm -rf /data/resource-cache
   ui_print "   Dalvik-Cache has been cleared!"
   ui_print "   Next boot may take a little longer to boot!"
 fi
