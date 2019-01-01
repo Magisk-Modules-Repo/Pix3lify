@@ -92,7 +92,7 @@ $FUNCTION "DOWN"
 ui_print " "
 ui_print " - Overlay Options -"
 ui_print "   Do you want the Pixel accent or overlay features enabled?"
-ui_print "   Vol Up = Yes, Vol Down = More Options"
+ui_print "   Vol Up = Yes, Vol Down = No"
 if $FUNCTION; then
   ui_print " "
   ui_print " - Overlay Options -"
