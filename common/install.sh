@@ -103,7 +103,7 @@ if $FUNCTION; then
     ui_print "   Enabling overlays and Pixel blue accent..."
   else
     ui_print " "
-    ui_print "   Enabling only overlay features..."
+    ui_print "   Enabling overlay features..."
     sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
     rm -rf $INSTALLER/system/vendor/overlay/Pixel
     rm -rf /data/resource-cache
