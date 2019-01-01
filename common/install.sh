@@ -1,8 +1,3 @@
-if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
-ui_print "   Pix3lify is only for non-Google devices! "
-abort
-fi
-
 keytest() {
   ui_print " - Vol Key Test -"
   ui_print "   Press Vol Up:"
@@ -48,44 +43,42 @@ chooseold() {
 KEYCHECK=$INSTALLER/common/keycheck
 chmod 755 $KEYCHECK
 
-ui_print " "
-ui_print "   Removing remnants from past Pix3lify installs..."
-# remove /data/resource-cache/overlays.list
-OVERLAY='/data/resource-cache/overlays.list'
-if [ -f "$OVERLAY" ] ;then
-  ui_print "   Removing $OVERLAY"
-  rm -f "$OVERLAY"
-fi
-
-if [ $API -ge 28 ]; then
-  ui_print " "
-  ui_print "   Enabling Google's Call Screening..."
-  ui_print " "
-  ui_print "   Enabling Google's Flip to Shhh..."
-  # Enabling Google's Flip to Shhh
-  WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
-  chmod 660 $WELLBEING_PREF_FILE
-  WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
-  mkdir -p $WELLBEING_PREF_FOLDER
-  cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
-  am force-stop "com.google.android.apps.wellbeing"
-fi
-
-if [ $API -ge 27 ]; then
-  rm -rf $INSTALLER/system/framework
-fi
-
 if keytest; then
-FUNCTION=choose
+  FUNCTION=choose
 else
-FUNCTION=chooseold
-ui_print "   ! Legacy device detected! Using old keycheck method"
-ui_print " "
-ui_print " - Vol Key Programming -"
-ui_print "   Press Vol Up:"
-$FUNCTION "UP"
-ui_print "   Press Vol Down:"
-$FUNCTION "DOWN"
+  FUNCTION=chooseold
+  ui_print "   ! Legacy device detected! Using old keycheck method"
+  ui_print " "
+  ui_print " - Vol Key Programming -"
+  ui_print "   Press Vol Up:"
+  $FUNCTION "UP"
+  ui_print "   Press Vol Down:"
+  $FUNCTION "DOWN"
+fi
+
+ignorewarning() {
+  ui_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
+  ui_print "   Vol Up = Yes, Vol Down = No"
+  if $FUNCTION; then
+    ui_print " "
+    ui_print "   Ignoring warnings..."
+  else
+    ui_print " "
+    ui_print "   Exiting..."
+    abort
+  fi
+}
+
+if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
+  ui_print " "
+  ui_print "   Pix3lify is only for non-Google devices!"
+  ignorewarning
+fi
+
+if [ "$OOS" ]; then
+  ui_print " "
+  ui_print "   Pix3lify has been known to not work and cause issues on devices running OxygenOS!"
+  ignorewarning
 fi
 
 ui_print " "
@@ -120,4 +113,31 @@ else
   rm -rf /data/dalvik-cache
   ui_print "   Dalvik-Cache has been cleared!"
   ui_print "   Next boot may take a little longer to boot!"
+fi
+
+ui_print " "
+ui_print "   Removing remnants from past Pix3lify installs..."
+# remove /data/resource-cache/overlays.list
+OVERLAY='/data/resource-cache/overlays.list'
+if [ -f "$OVERLAY" ] ;then
+  ui_print "   Removing $OVERLAY"
+  rm -f "$OVERLAY"
+fi
+
+if [ $API -ge 28 ]; then
+  ui_print " "
+  ui_print "   Enabling Google's Call Screening..."
+  ui_print " "
+  ui_print "   Enabling Google's Flip to Shhh..."
+  # Enabling Google's Flip to Shhh
+  WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
+  chmod 660 $WELLBEING_PREF_FILE
+  WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
+  mkdir -p $WELLBEING_PREF_FOLDER
+  cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
+  am force-stop "com.google.android.apps.wellbeing"
+fi
+
+if [ $API -ge 27 ]; then
+  rm -rf $INSTALLER/system/framework
 fi
