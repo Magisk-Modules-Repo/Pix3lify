@@ -50,7 +50,7 @@ MINAPI=26
 #DYNAMICOREO=true
 #DYNAMICAPP=true
 #RAMDISK=true
-DEBUG=true
+# DEBUG=true
 
 # Custom Variables for Install AND Uninstall - Keep everything within this function
 unity_custom() {
@@ -63,6 +63,7 @@ unity_custom() {
   PX3XL=$(grep -E "ro.vendor.product.device=crosshatch|ro.vendor.product.name=crosshatch" $BUILDS)
   N5X=$(grep -E "ro.product.device=bullhead|ro.product.name=bullhead" $BUILDS)
   N6P=$(grep -E "ro.product.device=angler|ro.product.name=angler" $BUILDS)
+  OOS=$(grep -E "ro.product.manufacturer=OnePlus|ro.product.vendor.brand=OnePlus" $BUILDS)
 }
 
 # Custom Functions for Install AND Uninstall - You can put them here
