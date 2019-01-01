@@ -57,7 +57,7 @@ else
 fi
 
 ignorewarning() {
-  ui_print "   DO YOU WANT TO IGNORE OUR WARNING AND RISK BOOTLOOPS?"
+  ui_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK BOOTLOOP?"
   ui_print "   Vol Up = Yes, Vol Down = No"
   if $FUNCTION; then
     ui_print " "
