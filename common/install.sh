@@ -113,7 +113,7 @@ if $FUNCTION; then
     rm -rf /data/resource-cache
     rm -rf /data/dalvik-cache
     ui_print "   Dalvik-Cache has been cleared!"
-    ui-print "   Next boot may take a little longer to boot!"
+    ui_print "   Next boot may take a little longer to boot!"
   fi
 else
   ui_print " "
@@ -124,5 +124,5 @@ else
   rm -rf /data/resource-cache
   rm -rf /data/dalvik-cache
   ui_print "   Dalvik-Cache has been cleared!"
-  ui-print "   Next boot may take a little longer to boot!"
+  ui_print "   Next boot may take a little longer to boot!"
 fi
