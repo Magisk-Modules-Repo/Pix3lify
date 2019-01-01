@@ -100,7 +100,7 @@ if $FUNCTION; then
   ui_print "   Vol Up = Yes, Vol Down = No"
   if $FUNCTION; then
     ui_print " "
-    ui_print "   Enabling overlays and Pixel blue accent..."
+    ui_print "   Enabling overlays and Pixel accent..."
   else
     ui_print " "
     ui_print "   Enabling overlay features..."
@@ -113,7 +113,7 @@ if $FUNCTION; then
   fi
 else
   ui_print " "
-  ui_print "   Disabling Pixel blue accent and overlay features..."
+  ui_print "   Disabling Pixel accent and overlay features..."
   sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
   rm -rf $INSTALLER/system/vendor/overlay/Pixel
   rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
