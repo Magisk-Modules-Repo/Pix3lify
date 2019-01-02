@@ -20,6 +20,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Reminders
 
+-   **This is the slim version, if a feature is not there, try the normal version instead~!**
 -   TO COMPLETELY UNINSTALL THE MODULE AND AVOID BOOTLOOPS, INSTALL THE ZIP AGAIN IN MAGISK OR TWRP!!
 -   Take a full backup before installing the module.
 -   Please send Pix3lify debug file from internal storage or logcat if any issues/bugs occur.
@@ -28,11 +29,6 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 -   Pixel Blue theme accent
 -   Adds Daydream VR support
--   Adds Digital Wellbeing in Settings app
--   Adds Gestures in Settings app (device dependent)
--   Adds Pixel alarms/media/ringtones/UI sounds
--   Adds Pixel Stand app (wireless charging stand)
--   Adds Pixel Sounds app ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Sounds))
 -   Adds Google Markup app (mileage may vary)
 -   Enable Google Dialer install via Playstore
 -   Enables Google Dialer's Call Screening ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Call-Screening))
@@ -41,7 +37,6 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables Google Assistant
 -   Enables Pixel exclusive wallpapers
 -   Enables Night Light (device dependent)
--   Currently under development ~Enables Flip to Shhh (mileage may vary)~
 
 ## ⭐ Changelog
 
