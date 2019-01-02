@@ -85,7 +85,7 @@ ui_print " "
 ui_print "   Removing remnants from past Pix3lify installs..."
 # remove /data/resource-cache/overlays.list
 OVERLAY='/data/resource-cache/overlays.list'
-if [ -f "$OVERLAY" ] ;then
+if [ -f "$OVERLAY" ]; then
   ui_print "   Removing $OVERLAY"
   rm -f "$OVERLAY"
 fi
