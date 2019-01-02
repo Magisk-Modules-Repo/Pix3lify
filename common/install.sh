@@ -82,40 +82,6 @@ if [ "$OOS" ]; then
 fi
 
 ui_print " "
-ui_print " - Overlay Options -"
-ui_print "   Do you want the Pixel accent or overlay features enabled?"
-ui_print "   Vol Up = Yes, Vol Down = No"
-if $FUNCTION; then
-  ui_print " "
-  ui_print " - Overlay Options -"
-  ui_print "   Do you want the Pixel accent enabled?"
-  ui_print "   Vol Up = Yes, Vol Down = No"
-  if $FUNCTION; then
-    ui_print " "
-    ui_print "   Enabling overlays and Pixel accent..."
-  else
-    ui_print " "
-    ui_print "   Enabling overlay features..."
-    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-    rm -rf $INSTALLER/system/vendor/overlay/Pixel
-    rm -rf /data/resource-cache
-    rm -rf /data/dalvik-cache
-    ui_print "   Dalvik-Cache has been cleared!"
-    ui_print "   Next boot may take a little longer to boot!"
-  fi
-else
-  ui_print " "
-  ui_print "   Disabling Pixel accent and overlay features..."
-  sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-  rm -rf $INSTALLER/system/vendor/overlay/Pixel
-  rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
-  rm -rf /data/resource-cache
-  rm -rf /data/dalvik-cache
-  ui_print "   Dalvik-Cache has been cleared!"
-  ui_print "   Next boot may take a little longer to boot!"
-fi
-
-ui_print " "
 ui_print "   Removing remnants from past Pix3lify installs..."
 # remove /data/resource-cache/overlays.list
 OVERLAY='/data/resource-cache/overlays.list'
