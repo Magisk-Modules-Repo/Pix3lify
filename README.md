@@ -45,12 +45,23 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Changelog
 
+### v2.4.2
+
+-   Warnings for devices running OxygenOS
+-   Ignore warnings options
+-   Refactor the installation script
+-   Fixed keycheck
+-   Added sepolicy statements
+-   Various bug fixes
+
 ### v2.4.1
+
 -   Expanded the list of unsupported devices to the Nexuses
 -   Cleaned the installation script
 -   Added an option to install without the Pixel accent
 
 ### v2.4
+
 -   Abort installation on Pixel devices
 -   Enable Debug feature
 
