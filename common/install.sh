@@ -69,6 +69,10 @@ ignorewarning() {
   fi
 }
 
+if $MAGISK; then 
+  magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }" 
+fi
+
 if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
   ui_print " "
   ui_print "   Pix3lify is only for non-Google devices!"
@@ -135,7 +139,9 @@ if [ $API -ge 28 ]; then
   WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
   mkdir -p $WELLBEING_PREF_FOLDER
   cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
-  am force-stop "com.google.android.apps.wellbeing"
+  if $BOOTMODE; then
+    am force-stop "com.google.android.apps.wellbeing"
+  fi
 fi
 
 if [ $API -ge 27 ]; then
