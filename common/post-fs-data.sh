@@ -4,14 +4,6 @@
 MODDIR=${0%/*}
 
 if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
-  pm enable "com.google.android.apps.wellbeing/com.google.android.apps.wellbeing.autodnd.ui.AutoDndGesturesSettingsActivity"
-fi
-
-if [[ $(pm list packages "com.google.android.soundpicker") ]]; then
-  pm grant com.google.android.soundpicker android.permission.READ_EXTERNAL_STORAGE
-fi
-
-if [ $(getprop ro.build.version.sdk) -ge 28 ]; then
   DIALER_PREF_FILE=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
   if [ -f $DIALER_PREF_FILE ]; then
     # Enabling Google's Call Screening

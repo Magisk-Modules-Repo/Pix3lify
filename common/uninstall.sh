@@ -16,15 +16,6 @@ if [ -f $DIALER_PREF_FILE ]; then
   am force-stop "com.google.android.dialer"
 fi
 
-ui_print " "
-ui_print "   Disabling Google's Flip to Shhh..."
-# Disabling Google's Flip to Shhh
-WELLBEING_PREF_FILE=/data/data/com.google.android.apps.wellbeing/shared_prefs/PhenotypePrefs.xml
-if [ -f $WELLBEING_PREF_FILE ]; then
-  rm -f $WELLBEING_PREF_FILE
-  am force-stop "com.google.android.apps.wellbeing"
-fi
-
 OVERLAY='/data/resource-cache/overlays.list'
 if [ -f "$OVERLAY" ] ;then
   ui_print "   Removing $OVERLAY"
