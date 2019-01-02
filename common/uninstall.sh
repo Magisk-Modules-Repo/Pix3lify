@@ -17,7 +17,7 @@ if [ -f $DIALER_PREF_FILE ]; then
 fi
 
 OVERLAY='/data/resource-cache/overlays.list'
-if [ -f "$OVERLAY" ] ;then
+if [ -f "$OVERLAY" ]; then
   ui_print "   Removing $OVERLAY"
   rm -f "$OVERLAY"
 fi
