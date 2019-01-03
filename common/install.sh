@@ -69,8 +69,8 @@ ignorewarning() {
   fi
 }
 
-if $MAGISK; then 
-  magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }" 
+if $MAGISK; then
+  magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }"
 fi
 
 if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
@@ -83,6 +83,19 @@ if [ "$OOS" ]; then
   ui_print " "
   ui_print "   Pix3lify has been known to not work and cause issues on devices running OxygenOS!"
   ignorewarning
+fi
+
+ui_print " "
+ui_print " - Animation Options -"
+ui_print "   Do you want the Pixel boot animation?"
+ui_print "   Vol Up = Yes, Vol Down = No"
+if $FUNCTION; then
+  ui_print " "
+  ui_print "   Enabling boot animation..."
+else
+  ui_print " "
+  ui_print "   Disabling boot animation..."
+  rm -rf $INSTALLER/system/media/bootanimation.zip
 fi
 
 ui_print " "
@@ -133,6 +146,7 @@ if [ $API -ge 28 ]; then
   ui_print "   Enabling Google's Call Screening..."
   ui_print " "
   ui_print "   Enabling Google's Flip to Shhh..."
+  ui_print " "
   # Enabling Google's Flip to Shhh
   WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
   chmod 660 $WELLBEING_PREF_FILE
