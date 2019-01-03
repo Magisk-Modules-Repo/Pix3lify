@@ -9,3 +9,10 @@ cd $INSTALLER
 mkdir -p builds
 zip -r $ZIP ./ -x "*.git*" -x "*.DS_Store" -x "./builds/*"
 echo "\nCreated $ZIP"
+
+read -p "Do you want to push to device? " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  adb push $ZIP /sdcard/Download/
+fi
