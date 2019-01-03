@@ -33,7 +33,7 @@ PROPFILE=true
 POSTFSDATA=true
 
 # Set to true if you need late_start service script
-LATESTARTSERVICE=true
+LATESTARTSERVICE=false
 
 # Unity Variables
 # Uncomment and change 'MINAPI' and 'MAXAPI' to the minimum and maxium android version for your mod (note that magisk has it's own minimum api: 21 (lollipop))
@@ -45,7 +45,7 @@ LATESTARTSERVICE=true
 # Uncomment DEBUG if you want full debug logs (saved to SDCARD if in twrp, part of regular log if in magisk manager (user will need to save log after flashing)
 MINAPI=26
 #MAXAPI=25
-SEPOLICY=true
+#SEPOLICY=true
 #SYSOVERRIDE=true
 #DYNAMICOREO=true
 #DYNAMICAPP=true
@@ -63,7 +63,6 @@ unity_custom() {
   PX3XL=$(grep -E "ro.vendor.product.device=crosshatch|ro.vendor.product.name=crosshatch" $BUILDS)
   N5X=$(grep -E "ro.product.device=bullhead|ro.product.name=bullhead" $BUILDS)
   N6P=$(grep -E "ro.product.device=angler|ro.product.name=angler" $BUILDS)
-  OOS=$(grep -E "ro.product.manufacturer=OnePlus|ro.product.vendor.brand=OnePlus" $BUILDS)
 }
 
 # Custom Functions for Install AND Uninstall - You can put them here
