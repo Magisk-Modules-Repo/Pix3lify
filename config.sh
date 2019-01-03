@@ -64,6 +64,14 @@ unity_custom() {
   N5X=$(grep -E "ro.product.device=bullhead|ro.product.name=bullhead" $BUILDS)
   N6P=$(grep -E "ro.product.device=angler|ro.product.name=angler" $BUILDS)
   OOS=$(grep -E "ro.product.manufacturer=OnePlus|ro.product.vendor.brand=OnePlus" $BUILDS)
+  manufacturer="$( grep_prop ro.product.manufacturer )"
+  if [ "$manufacturer" == "HTC" ]; then
+    BFOLDER="/customize/resource/"
+    BZIP="hTC_bootup.zip"
+  else
+    BFOLDER="/media/"
+    BZIP="bootanimation.zip"
+  fi
 }
 
 # Custom Functions for Install AND Uninstall - You can put them here

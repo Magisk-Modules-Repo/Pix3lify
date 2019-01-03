@@ -1,0 +1,6 @@
+# From Pixel 3 XL vendor
+ro.config.media_vol_steps=25
+ro.boot.vendor.overlay.theme=com.google.android.theme.pixel
+ro.config.ringtone=The_big_adventure.ogg
+ro.config.notification_sound=Popcorn.ogg
+ro.config.alarm_alert=Bright_morning.ogg
