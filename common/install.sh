@@ -86,6 +86,19 @@ if [ "$OOS" ]; then
 fi
 
 ui_print " "
+ui_print " - Animation Options -"
+ui_print "   Do you want the Pixel boot animation?"
+ui_print "   Vol Up = Yes, Vol Down = No"
+if $FUNCTION; then
+  ui_print " "
+  ui_print "   Enabling boot animation..."
+else
+  ui_print " "
+  ui_print "   Disabling boot animation..."
+  rm -rf $INSTALLER/system/media/bootanimation.zip
+fi
+
+ui_print " "
 ui_print " - Overlay Options -"
 ui_print "   Do you want the Pixel accent or overlay features enabled?"
 ui_print "   Vol Up = Yes, Vol Down = No"
