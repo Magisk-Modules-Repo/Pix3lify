@@ -58,9 +58,9 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 ## ⭐ Changelog
 
 ### v2.5
--  Rewrote install
+-  Rewrote install script to add more customization options
 -  Added basename zip for users without working volume keys
--  Add pixel boot animation option
+-  Add Pixel boot animation option
 
 ### v2.4.2
 
