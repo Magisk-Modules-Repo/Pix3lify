@@ -6,7 +6,7 @@ keytest() {
 }
 
 choose() {
-  #note from chainfire @xda-developers: getevent behaves weird when piped, and busybox grep likes that even less than toolbox/toybox grep
+  # Note from chainfire @xda-developers: getevent behaves weird when piped, and busybox grep likes that even less than toolbox/toybox grep
   while true; do
     /system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events
     if (`cat $INSTALLER/events 2>/dev/null | /system/bin/grep VOLUME >/dev/null`); then
@@ -40,13 +40,13 @@ chooseold() {
 }
 
 SLIM=false; FULL=false; OVER=false; BOOT=false; ACC=false;
-# GET STOCK/LIMIT FROM ZIP NAME
+# Gets stock/limit from zip name
 case $(basename $ZIP) in
-  *slim*|*Slim*|*SLIM*) SLIM=true;;
-  *full*|*Full*|*FULL*) FULL=true;;
-  *over*|*Over*|*OVER*) OVER=true;;
-  *boot*|*Boot*|*BOOT*) BOOT=true;;
-  *acc*|*Acc*|*ACC*) ACC=true;;
+  *slim*|*Slim*|*SLIM*) SLIM=true ;;
+  *full*|*Full*|*FULL*) FULL=true ;;
+  *over*|*Over*|*OVER*) OVER=true ;;
+  *boot*|*Boot*|*BOOT*) BOOT=true ;;
+  *acc*|*Acc*|*ACC*) ACC=true ;;
 esac
 
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
@@ -74,14 +74,14 @@ fi
 
 ui_print " "
 ui_print "   Removing remnants from past Pix3lify installs..."
-# remove /data/resource-cache/overlays.list
+# Removes /data/resource-cache/overlays.list
 OVERLAY='/data/resource-cache/overlays.list'
 if [ -f "$OVERLAY" ]; then
   ui_print "   Removing $OVERLAY"
   rm -f "$OVERLAY"
 fi
 
-if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ] then
+if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ]; then
   if keytest; then
     FUNCTION=choose
   else
@@ -116,7 +116,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ] then
         ui_print " - Accent Options -"
         ui_print "   Do you want the Pixel accent enabled?"
         ui_print "   Vol Up = Yes, Vol Down = No"
-        if $FUNCTION; then 
+        if $FUNCTION; then
           ACC=true
         fi
       fi
@@ -133,8 +133,8 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ] then
   fi
 fi
 
-#had to break up volume options this way for basename zip for users without working vol keys
-if $SLIM; then 
+# had to break up volume options this way for basename zip for users without working vol keys
+if $SLIM; then
   ui_print " "
   ui_print "   Enabling slim mode..."
   rm -rf $INSTALLER/system/app
@@ -157,46 +157,38 @@ fi
 if $FULL; then
   ui_print " "
   ui_print " Full mode selected..."
-  prop_process $INSTALLER/common/full.prop
-  if [ "$OVER" ]; then 
+  if $OVER; then
     ui_print " "
     ui_print "   Enabling overlay features..."
-    sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-    rm -rf $INSTALLER/system/vendor/overlay/Pixel
-    rm -rf /data/resource-cache
-    rm -rf /data/dalvik-cache
-    ui_print "   Dalvik-Cache has been cleared!"
-    ui_print "   Next boot may take a little longer!"
   else
     ui_print " "
     ui_print "   Disabling overlay features..."
-    sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/full.prop
     rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
     rm -rf /data/resource-cache
     rm -rf /data/dalvik-cache
     ui_print "   Dalvik-Cache has been cleared!"
-     ui_print "   Next boot may take a little longer to boot!"
-    fi
+    ui_print "   Next boot may take a little longer to boot!"
   fi
-    if [ "$ACC" ]; then
-      ui_print " "
-      ui_print "   Enabling Pixel accent..."
-      sed -i 's/# ro.boot.vendor.overlay.theme/ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-    else
-      ui_print " "
-      ui_print "   Disabling Pixel accent..."
-      rm -rf $INSTALLER/system/vendor/overlay/Pixel
-      rm -rf /data/resource-cache
-      rm -rf /data/dalvik-cache
-      ui_print "   Dalvik-Cache has been cleared!"
-      ui_print "   Next boot may take a little longer to boot!"
-    fi
+  if $ACC; then
+    ui_print " "
+    ui_print "   Enabling Pixel accent..."
+  else
+    ui_print " "
+    ui_print "   Disabling Pixel accent..."
+    rm -rf $INSTALLER/system/vendor/overlay/Pixel
+    rm -rf /data/resource-cache
+    rm -rf /data/dalvik-cache
+    ui_print "   Dalvik-Cache has been cleared!"
+    ui_print "   Next boot may take a little longer to boot!"
   fi
+  prop_process $INSTALLER/common/full.prop
 fi
 
 if $BOOT; then
   ui_print " "
   ui_print "   Enabling boot animation..."
+  ui_print "   $UNITY$BFOLDER$BZIP"
   cp -f $INSTALLER/common/bootanimation.zip $UNITY$BFOLDERBZIP
 else
   ui_print " "
@@ -227,8 +219,8 @@ if [ $API -ge 28 ]; then
   fi
 fi
 
-#add slim & full variables to service.sh
+# Adds slim & full variables to service.sh
 for i in "SLIM" "FULL"; do
-sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
+  sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
 done
 cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
