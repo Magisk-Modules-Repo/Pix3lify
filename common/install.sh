@@ -122,7 +122,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ] then
       BOOT=true
     fi
   else
-    ui_print " Options Specified in Zipname!"
+    ui_print " Options specified in zip name!"
   fi
 fi
 
