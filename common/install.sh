@@ -85,6 +85,33 @@ if [ "$OOS" ]; then
   ignorewarning
 fi
 
+SLIM=false
+
+ui_print " "
+ui_print " - Slim Options -"
+ui_print "   Do you want to enable slim mode (heavily reduced featureset, see README)?"
+ui_print "   Vol Up = Yes, Vol Down = No"
+if $FUNCTION; then
+  ui_print " "
+  ui_print "   Enabling slim mode..."
+  
+  rm -f $INSTALLER/common/PhenotypePrefs.xml
+  # TODO: Do I really just sed all the lines out of system.prop?
+  rm -rf $INSTALLER/system/app
+  rm -rf $INSTALLER/system/fonts
+  rm -rf $INSTALLER/system/lib
+  rm -rf $INSTALLER/system/lib64
+  rm -rf $INSTALLER/system/media
+  rm -rf $INSTALLER/system/priv-app
+  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationCorner
+  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationDouble
+  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationTall
+  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutNoCutout
+  rm -rf $INSTALLER/system/vendor/overlay/Pixel
+  
+  SLIM=true
+fi
+
 ui_print " "
 ui_print " - Overlay Options -"
 ui_print "   Do you want the Pixel accent or overlay features enabled?"
@@ -131,16 +158,18 @@ fi
 if [ $API -ge 28 ]; then
   ui_print " "
   ui_print "   Enabling Google's Call Screening..."
-  ui_print " "
-  ui_print "   Enabling Google's Flip to Shhh..."
-  # Enabling Google's Flip to Shhh
-  WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
-  chmod 660 $WELLBEING_PREF_FILE
-  WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
-  mkdir -p $WELLBEING_PREF_FOLDER
-  cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
-  if $BOOTMODE; then
-    am force-stop "com.google.android.apps.wellbeing"
+  if [ "$SLIM" = false ]; then
+    ui_print " "
+    ui_print "   Enabling Google's Flip to Shhh..."
+    # Enabling Google's Flip to Shhh
+    WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
+    chmod 660 $WELLBEING_PREF_FILE
+    WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
+    mkdir -p $WELLBEING_PREF_FOLDER
+    cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
+    if $BOOTMODE; then
+      am force-stop "com.google.android.apps.wellbeing"
+    fi
   fi
 fi
 
