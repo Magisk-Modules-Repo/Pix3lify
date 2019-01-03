@@ -5,7 +5,8 @@ if [ $API -ge 28 ] && [ "$FULL" ]; then
   am force-stop "com.google.android.apps.wellbeing"
   pm enable "com.google.android.apps.wellbeing/com.google.android.apps.wellbeing.autodnd.ui.AutoDndGesturesSettingsActivity"
   if [[ $(pm list packages "com.google.android.soundpicker") ]]; then
-  pm grant com.google.android.soundpicker android.permission.READ_EXTERNAL_STORAGE
+    pm grant com.google.android.soundpicker android.permission.READ_EXTERNAL_STORAGE
   fi
 fi
+
 am force-stop "com.google.android.dialer"

@@ -130,7 +130,6 @@ fi
 if $SLIM; then 
   ui_print " "
   ui_print "   Enabling slim mode..."
-  rm -f $INSTALLER/common/PhenotypePrefs.xml
   rm -rf $INSTALLER/system/app
   rm -rf $INSTALLER/system/fonts
   rm -rf $INSTALLER/system/lib
@@ -184,7 +183,7 @@ else
   ui_print "   Next boot may take a little longer to boot!"
 fi
 
-if $BOOT;then
+if $BOOT; then
   ui_print " "
   ui_print "   Enabling boot animation..."
   cp -f $INSTALLER/common/bootanimation.zip $UNITY$BFOLDERBZIP
@@ -218,6 +217,6 @@ if [ $API -ge 28 ]; then
 fi
 #add slim & full variables to service.sh
 for i in "SLIM" "FULL"; do
-  sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
+sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
 done
-  cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
+cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
