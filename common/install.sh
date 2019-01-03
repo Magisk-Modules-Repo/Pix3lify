@@ -69,7 +69,6 @@ ignorewarning() {
   fi
 }
 
-<<<<<<< HEAD
 if $MAGISK; then
   magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }"
 fi
@@ -118,91 +117,23 @@ else
   rm -rf /data/dalvik-cache
   ui_print "   Dalvik-Cache has been cleared!"
   ui_print "   Next boot may take a little longer to boot!"
-=======
-if $MAGISK; then 
-  magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }" 
->>>>>>> parent of 646a3cf... Full and Slim Merge
-fi
-
-if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
-  ui_print " "
-  ui_print "   Pix3lify is only for non-Google devices!"
-  ignorewarning
-fi
-
-<<<<<<< HEAD
-if [ $API -ge 28 ]; then
-  ui_print " "
-  ui_print "   Enabling Google's Call Screening..."
-  ui_print " "
-  ui_print "   Enabling Google's Flip to Shhh..."
-  ui_print " "
-  # Enabling Google's Flip to Shhh
-  WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
-  chmod 660 $WELLBEING_PREF_FILE
-  WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
-  mkdir -p $WELLBEING_PREF_FOLDER
-  cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
-  if $BOOTMODE; then
-    am force-stop "com.google.android.apps.wellbeing"
-=======
-if [ "$OOS" ]; then
-  ui_print " "
-  ui_print "   Pix3lify has been known to not work and cause issues on devices running OxygenOS!"
-  ignorewarning
-fi
-
-ui_print " "
-ui_print " - Overlay Options -"
-ui_print "   Do you want the Pixel accent or overlay features enabled?"
-ui_print "   Vol Up = Yes, Vol Down = No"
-if $FUNCTION; then
-  ui_print " "
-  ui_print " - Overlay Options -"
-  ui_print "   Do you want the Pixel accent enabled?"
-  ui_print "   Vol Up = Yes, Vol Down = No"
-  if $FUNCTION; then
-    ui_print " "
-    ui_print "   Enabling overlays and Pixel accent..."
-  else
-    ui_print " "
-    ui_print "   Enabling overlay features..."
-    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-    rm -rf $INSTALLER/system/vendor/overlay/Pixel
-    rm -rf /data/resource-cache
-    rm -rf /data/dalvik-cache
-    ui_print "   Dalvik-Cache has been cleared!"
-    ui_print "   Next boot may take a little longer to boot!"
->>>>>>> parent of 646a3cf... Full and Slim Merge
-  fi
-else
-  ui_print " "
-  ui_print "   Disabling Pixel accent and overlay features..."
-  sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-  rm -rf $INSTALLER/system/vendor/overlay/Pixel
-  rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
-  rm -rf /data/resource-cache
-  rm -rf /data/dalvik-cache
-  ui_print "   Dalvik-Cache has been cleared!"
-  ui_print "   Next boot may take a little longer to boot!"
 fi
 
 ui_print " "
 ui_print "   Removing remnants from past Pix3lify installs..."
 # remove /data/resource-cache/overlays.list
 OVERLAY='/data/resource-cache/overlays.list'
-if [ -f "$OVERLAY" ] ;then
+if [ -f "$OVERLAY" ]; then
   ui_print "   Removing $OVERLAY"
   rm -f "$OVERLAY"
 fi
-<<<<<<< HEAD
-=======
 
 if [ $API -ge 28 ]; then
   ui_print " "
   ui_print "   Enabling Google's Call Screening..."
   ui_print " "
   ui_print "   Enabling Google's Flip to Shhh..."
+  ui_print " "
   # Enabling Google's Flip to Shhh
   WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
   chmod 660 $WELLBEING_PREF_FILE
@@ -217,4 +148,4 @@ fi
 if [ $API -ge 27 ]; then
   rm -rf $INSTALLER/system/framework
 fi
->>>>>>> parent of 646a3cf... Full and Slim Merge
+
