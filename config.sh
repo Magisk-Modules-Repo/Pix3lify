@@ -33,7 +33,7 @@ PROPFILE=true
 POSTFSDATA=true
 
 # Set to true if you need late_start service script
-LATESTARTSERVICE=false
+LATESTARTSERVICE=true
 
 # Unity Variables
 # Uncomment and change 'MINAPI' and 'MAXAPI' to the minimum and maxium android version for your mod (note that magisk has it's own minimum api: 21 (lollipop))
@@ -45,7 +45,7 @@ LATESTARTSERVICE=false
 # Uncomment DEBUG if you want full debug logs (saved to SDCARD if in twrp, part of regular log if in magisk manager (user will need to save log after flashing)
 MINAPI=26
 #MAXAPI=25
-#SEPOLICY=true
+SEPOLICY=true
 #SYSOVERRIDE=true
 #DYNAMICOREO=true
 #DYNAMICAPP=true
