@@ -39,24 +39,26 @@ chooseold() {
   fi
 }
 
+SLIM=false; FULL=false; OVER=false;
+# GET STOCK/LIMIT FROM ZIP NAME
+case $(basename $ZIP) in
+  *slim*|*Slim*|*SLIM*) SLIM=true;;
+  *full*|*Full*|*FULL*) FULL=true;;
+  *over*|*Over*|*OVER*) OVER=true;;
+esac
+
+
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
 KEYCHECK=$INSTALLER/common/keycheck
 chmod 755 $KEYCHECK
 
-if keytest; then
-  FUNCTION=choose
-else
-  FUNCTION=chooseold
-  ui_print "   ! Legacy device detected! Using old keycheck method"
+if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ] || [ "$OOS" ]; then
   ui_print " "
-  ui_print " - Vol Key Programming -"
-  ui_print "   Press Vol Up:"
-  $FUNCTION "UP"
-  ui_print "   Press Vol Down:"
-  $FUNCTION "DOWN"
-fi
-
-ignorewarning() {
+  if [ "$OOS" ]; then
+    ui_print "   Pix3lify has been known to not work and cause issues on devices running OxygenOS!"
+  else
+    ui_print "   Pix3lify is only for non-Google devices!"
+  fi
   ui_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
   ui_print "   Vol Up = Yes, Vol Down = No"
   if $FUNCTION; then
@@ -67,56 +69,6 @@ ignorewarning() {
     ui_print "   Exiting..."
     abort
   fi
-}
-
-if $MAGISK; then
-  magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }"
-fi
-
-if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
-  ui_print " "
-  ui_print "   Pix3lify is only for non-Google devices!"
-  ignorewarning
-fi
-
-if [ "$OOS" ]; then
-  ui_print " "
-  ui_print "   Pix3lify has been known to not work and cause issues on devices running OxygenOS!"
-  ignorewarning
-fi
-
-ui_print " "
-ui_print " - Overlay Options -"
-ui_print "   Do you want the Pixel accent or overlay features enabled?"
-ui_print "   Vol Up = Yes, Vol Down = No"
-if $FUNCTION; then
-  ui_print " "
-  ui_print " - Overlay Options -"
-  ui_print "   Do you want the Pixel accent enabled?"
-  ui_print "   Vol Up = Yes, Vol Down = No"
-  if $FUNCTION; then
-    ui_print " "
-    ui_print "   Enabling overlays and Pixel accent..."
-  else
-    ui_print " "
-    ui_print "   Enabling overlay features..."
-    sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-    rm -rf $INSTALLER/system/vendor/overlay/Pixel
-    rm -rf /data/resource-cache
-    rm -rf /data/dalvik-cache
-    ui_print "   Dalvik-Cache has been cleared!"
-    ui_print "   Next boot may take a little longer to boot!"
-  fi
-else
-  ui_print " "
-  ui_print "   Disabling Pixel accent and overlay features..."
-  sed -i -e 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-  rm -rf $INSTALLER/system/vendor/overlay/Pixel
-  rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
-  rm -rf /data/resource-cache
-  rm -rf /data/dalvik-cache
-  ui_print "   Dalvik-Cache has been cleared!"
-  ui_print "   Next boot may take a little longer to boot!"
 fi
 
 ui_print " "
@@ -128,23 +80,112 @@ if [ -f "$OVERLAY" ]; then
   rm -f "$OVERLAY"
 fi
 
-if [ $API -ge 28 ]; then
-  ui_print " "
-  ui_print "   Enabling Google's Call Screening..."
-  ui_print " "
-  ui_print "   Enabling Google's Flip to Shhh..."
-  ui_print " "
-  # Enabling Google's Flip to Shhh
-  WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
-  chmod 660 $WELLBEING_PREF_FILE
-  WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
-  mkdir -p $WELLBEING_PREF_FOLDER
-  cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
-  if $BOOTMODE; then
-    am force-stop "com.google.android.apps.wellbeing"
+if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false ] then
+  if keytest; then
+    FUNCTION=choose
+  else
+    FUNCTION=chooseold
+    ui_print "   ! Legacy device detected! Using old keycheck method"
+    ui_print " "
+    ui_print " - Vol Key Programming -"
+    ui_print "   Press Vol Up:"
+    $FUNCTION "UP"
+    ui_print "   Press Vol Down:"
+    $FUNCTION "DOWN"
+  fi
+  if ! $SLIM && ! $FULL & ! $OVER; then
+    ui_print " "
+    ui_print " - Slim Options -"
+    ui_print "   Dohttps://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256 you want to enable slim mode (heavily reduced featureset, see README)?"
+    ui_print "   Vohttps://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256l Up = Yes, Vol Down = No"
+    if $FUNCTION; thttps://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256hen
+      SLIM=truehttps://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256
+      ui_print " "https://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256
+      ui_print "   https://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256Enabling slim mode..."
+      rm -f $INSTALhttps://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256LER/common/PhenotypePrefs.xml
+      rm -rf $INSTALLER/system/app
+      rm -rf $INSTALLER/system/fonts
+      rm -rf $INSTALLER/system/lib
+      rm -rf $INSTALLER/system/lib64
+      rm -rf $INSTALLER/system/media
+      rm -rf $INSTALLER/system/priv-app
+      rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationCorner
+      rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationDouble
+      rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationTall
+      rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutNoCutout
+      rm -rf $INSTALLER/system/vendor/overlay/Pixel
+      rm -rf /data/resource-cache
+      rm -rf /data/dalvik-cache
+      ui_print "   Dalvik-Cache has been cleared!"
+      ui_print "   Next boot may take a little longer!"
+    else
+      ui_print " "
+      ui_print " Full mode selected..."
+      prop_process $INSTALLER/common/full.prop
+      ui_print " "
+      ui_print " - Overlay Options -"
+      ui_print "   Do you want the Pixel accent or overlay features enabled?"
+      ui_print "   Vol Up = Yes, Vol Down = No"
+      if $FUNCTION; then
+        ui_print " "
+        ui_print " - Overlay Options -"
+        ui_print "   Do you want the Pixel accent enabled?"
+        ui_print "   Vol Up = Yes, Vol Down = No"
+        if $FUNCTION; then
+          ui_print " "
+          ui_print "   Enabling overlays and Pixel accent..."
+        else
+          ui_print " "
+          ui_print "   Enabling overlay features..."
+          sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+          rm -rf $INSTALLER/system/vendor/overlay/Pixel
+          rm -rf /data/resource-cache
+          rm -rf /data/dalvik-cache
+          ui_print "   Dalvik-Cache has been cleared!"
+          ui_print "   Next boot may take a little longer!"
+        fi
+      else
+        ui_print " "
+        ui_print "   Disabling Pixel accent and overlay features..."
+        sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+        rm -rf $INSTALLER/system/vendor/overlay/Pixel
+        rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
+        rm -rf /data/resource-cache
+        rm -rf /data/dalvik-cache
+        ui_print "   Dalvik-Cache has been cleared!"
+        ui_print "   Next boot may take a little longer to boot!"
+      fi
+    fi
+  else
+    ui_print " Options Specified in Zipname!"
   fi
 fi
 
 if [ $API -ge 27 ]; then
   rm -rf $INSTALLER/system/framework
 fi
+
+if [ $API -ge 28 ]; then
+  ui_print " "
+  ui_print "   Enabling Google's Call Screening..."
+  if [ "$SLIM" = false ]; then
+    ui_print " "
+    ui_print "   Enabling Google's Flip to Shhh..."
+    ui_print " "
+    # Enabling Google's Flip to Shhh
+    WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
+    chmod 660 $WELLBEING_PREF_FILE
+    WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
+    mkdir -p $WELLBEING_PREF_FOLDER
+    cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
+    if $MAGISK && $BOOTMODE; then
+      magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }"
+      am force-stop "com.google.android.apps.wellbeing"
+    fi
+  fi
+fi
+  
+for i in "SLIM" "FULL"; do
+  sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
+done
+  cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
