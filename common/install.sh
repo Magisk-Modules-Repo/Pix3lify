@@ -69,8 +69,8 @@ ignorewarning() {
   fi
 }
 
-if $MAGISK; then 
-  magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }" 
+if $MAGISK; then
+  magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }"
 fi
 
 if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ]; then
@@ -133,6 +133,7 @@ if [ $API -ge 28 ]; then
   ui_print "   Enabling Google's Call Screening..."
   ui_print " "
   ui_print "   Enabling Google's Flip to Shhh..."
+  ui_print " "
   # Enabling Google's Flip to Shhh
   WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
   chmod 660 $WELLBEING_PREF_FILE

@@ -1,3 +1,7 @@
+if $MAGISK; then
+  magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }"
+fi
+
 ui_print " "
 ui_print "   Disabling Google's Call Screening..."
 # Disabling Google's Call Screening
