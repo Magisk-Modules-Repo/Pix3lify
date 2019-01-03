@@ -96,13 +96,13 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false ] then
   if ! $SLIM && ! $FULL & ! $OVER; then
     ui_print " "
     ui_print " - Slim Options -"
-    ui_print "   Do you want to enable slim mode (heavily reduced featureset, see README)?"
-    ui_print "   Vol Up = Yes, Vol Down = No"
-    if $FUNCTION; then
-      SLIM=true
-      ui_print " "
-      ui_print "   Enabling slim mode..."
-      rm -f $INSTALLER/common/PhenotypePrefs.xml
+    ui_print "   Dohttps://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256 you want to enable slim mode (heavily reduced featureset, see README)?"
+    ui_print "   Vohttps://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256l Up = Yes, Vol Down = No"
+    if $FUNCTION; thttps://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256hen
+      SLIM=truehttps://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256
+      ui_print " "https://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256
+      ui_print "   https://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256Enabling slim mode..."
+      rm -f $INSTALhttps://forum.xda-developers.com/showpost.php?p=78573257&postcount=1256LER/common/PhenotypePrefs.xml
       rm -rf $INSTALLER/system/app
       rm -rf $INSTALLER/system/fonts
       rm -rf $INSTALLER/system/lib
@@ -171,6 +171,7 @@ if [ $API -ge 28 ]; then
   if [ "$SLIM" = false ]; then
     ui_print " "
     ui_print "   Enabling Google's Flip to Shhh..."
+    ui_print " "
     # Enabling Google's Flip to Shhh
     WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
     chmod 660 $WELLBEING_PREF_FILE

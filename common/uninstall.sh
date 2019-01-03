@@ -1,3 +1,7 @@
+if $MAGISK; then
+  magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }"
+fi
+
 ui_print " "
 ui_print "   Disabling Google's Call Screening..."
 # Disabling Google's Call Screening
@@ -25,7 +29,7 @@ if [ -f $WELLBEING_PREF_FILE ]; then
 fi
 
 OVERLAY='/data/resource-cache/overlays.list'
-if [ -f "$OVERLAY" ] ;then
+if [ -f "$OVERLAY" ]; then
   ui_print "   Removing $OVERLAY"
   rm -f "$OVERLAY"
 fi
