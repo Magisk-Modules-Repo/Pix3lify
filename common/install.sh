@@ -81,7 +81,7 @@ if [ -f "$OVERLAY" ]; then
   rm -f "$OVERLAY"
 fi
 
-if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ] then
+if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ]; then
   if keytest; then
     FUNCTION=choose
   else
