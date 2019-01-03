@@ -16,13 +16,25 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   [![Android Oreo+](https://img.shields.io/badge/Oreo-8.0+-blue.svg)](https://www.android.com/versions/oreo-8-0/)
 -   Close to Stock/AOSP ROMs (not for MIUI, TouchWiz, EMUI, OOS, etc.)
 -   All root solutions (requires init.d support if not using Magisk or supersu. Try [Init.d Injector](https://forum.xda-developers.com/android/software-hacking/mod-universal-init-d-injector-wip-t3692105))
--   Pixel devices are not compatible are were leading to bootloops. The module will now abort to avoid this.
+-   Pixel, Nexus, and OxygenOS devices are not compatible and were leading to bootloops. The module will now warn about this and give the option to abort or bypass warning and install anyway(to uninstall if in bootloop, boot to twrp and flash zip).
 
 ## ⭐ Reminders
 
 -   TO COMPLETELY UNINSTALL THE MODULE AND AVOID BOOTLOOPS, INSTALL THE ZIP AGAIN IN MAGISK OR TWRP!!
 -   Take a full backup before installing the module.
 -   Please send Pix3lify debug file from internal storage or logcat if any issues/bugs occur.
+
+## ⭐ Users without working volume keys
+
+-  To choose options without using volume keys, you can rename the zip
+-  Currently the choices are FULL, SLIM, OVER, and BOOT.
+-  FULL = The full module not including overlay/accent and boot animation
+-  SLIM = No additional apps, wellbeing scripts, fonts, sounds, and all overlays except pix3lify.
+-  OVER = Install pixel overlays
+-  ACC = Install pixel accent
+-  BOOT = Install pixel boot animation
+-  To use the basename zip feature all you need to do is add the options to the zipname and only flash the zip in recovery. Magisk renames all zips to install.zip so flashing in magisk manager will NOT work. Heres an example of using basename to install full and overlays ( Pix3lify-2.5-full-over.zip )
+-  The options can either be full, Full, or FULL ( applies to all options ) 
 
 ## ⭐ Features
 
@@ -34,16 +46,21 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Adds Pixel Stand app (wireless charging stand)
 -   Adds Pixel Sounds app ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Sounds))
 -   Adds Google Markup app (mileage may vary)
--   Enable Google Dialer install via Playstore
+-   Adds Pixel exclusive wallpapers
+-   Enables Google Dialer install via Playstore
 -   Enables Google Dialer's Call Screening ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Call-Screening))
 -   Enables Camera2 API support (find a working Modded Google Camera app [here](https://www.celsoazevedo.com/files/android/google-camera/))
 -   Enables EIS support (device dependent)
 -   Enables Google Assistant
--   Enables Pixel exclusive wallpapers
 -   Enables Night Light (device dependent)
 -   Currently under development ~Enables Flip to Shhh (mileage may vary)~
 
 ## ⭐ Changelog
+
+### v2.5
+-  Rewrote install script to add more customization options
+-  Added basename zip for users without working volume keys
+-  Add Pixel boot animation option
 
 ### v2.4.2
 
