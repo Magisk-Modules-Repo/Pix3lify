@@ -95,7 +95,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ]; then
     $FUNCTION "DOWN"
   fi
 
-  if ! $SLIM && ! $FULL & ! $OVER ! $BOOT ! $ACC; then
+  if ! $SLIM && ! $FULL && ! $OVER && ! $BOOT && ! $ACC; then
     ui_print " "
     ui_print " - Slim Options -"
     ui_print "   Do you want to enable slim mode (heavily reduced featureset, see README)?"
