@@ -42,11 +42,11 @@ chooseold() {
 SLIM=false; FULL=false; OVER=false; BOOT=false; ACC=false;
 # Gets stock/limit from zip name
 case $(basename $ZIP) in
-  *slim*|*Slim*|*SLIM*) SLIM=true ;;
-  *full*|*Full*|*FULL*) FULL=true ;;
-  *over*|*Over*|*OVER*) OVER=true ;;
-  *boot*|*Boot*|*BOOT*) BOOT=true ;;
-  *acc*|*Acc*|*ACC*) ACC=true ;;
+  *slim*|*Slim*|*SLIM*) SLIM=true;;
+  *full*|*Full*|*FULL*) FULL=true;;
+  *over*|*Over*|*OVER*) OVER=true;;
+  *boot*|*Boot*|*BOOT*) BOOT=true;;
+  *acc*|*Acc*|*ACC*) ACC=true;;
 esac
 
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
@@ -157,6 +157,7 @@ fi
 if $FULL; then
   ui_print " "
   ui_print " Full mode selected..."
+  prop_process $INSTALLER/common/full.prop
   if $OVER; then
     ui_print " "
     ui_print "   Enabling overlay features..."
@@ -182,7 +183,6 @@ if $FULL; then
     ui_print "   Dalvik-Cache has been cleared!"
     ui_print "   Next boot may take a little longer to boot!"
   fi
-  prop_process $INSTALLER/common/full.prop
 fi
 
 if $BOOT; then
