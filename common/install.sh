@@ -126,6 +126,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ] then
   fi
 fi
 
+#had to break up volume options this way for basename zip for users without working vol keys
 if $SLIM; then 
   ui_print " "
   ui_print "   Enabling slim mode..."
@@ -215,7 +216,7 @@ if [ $API -ge 28 ]; then
     fi
   fi
 fi
-  
+#add slim & full variables to service.sh
 for i in "SLIM" "FULL"; do
   sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
 done
