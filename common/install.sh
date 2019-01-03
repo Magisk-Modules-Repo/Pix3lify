@@ -42,11 +42,11 @@ chooseold() {
 SLIM=false; FULL=false; OVER=false; BOOT=false; ACC=false;
 # GET STOCK/LIMIT FROM ZIP NAME
 case $(basename $ZIP) in
-  *slim*|*Slim*|*SLIM*) SLIM=true;;
-  *full*|*Full*|*FULL*) FULL=true;;
-  *over*|*Over*|*OVER*) OVER=true;;
-  *boot*|*Boot*|*BOOT*) BOOT=true;;
-  *acc*|*Acc*|*ACC*) ACC=true;;
+  *slim*|*Slim*|*SLIM*) SLIM=true ;;
+  *full*|*Full*|*FULL*) FULL=true ;;
+  *over*|*Over*|*OVER*) OVER=true ;;
+  *boot*|*Boot*|*BOOT*) BOOT=true ;;
+  *acc*|*Acc*|*ACC*) ACC=true ;;
 esac
 
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
@@ -116,7 +116,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ]; then
         ui_print " - Accent Options -"
         ui_print "   Do you want the Pixel accent enabled?"
         ui_print "   Vol Up = Yes, Vol Down = No"
-        if $FUNCTION; then 
+        if $FUNCTION; then
           ACC=true
         fi
       fi
@@ -134,7 +134,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ]; then
 fi
 
 #had to break up volume options this way for basename zip for users without working vol keys
-if $SLIM; then 
+if $SLIM; then
   ui_print " "
   ui_print "   Enabling slim mode..."
   rm -rf $INSTALLER/system/app
@@ -158,7 +158,7 @@ if $FULL; then
   ui_print " "
   ui_print " Full mode selected..."
   prop_process $INSTALLER/common/full.prop
-  if [ "$OVER" ]; then 
+  if [ "$OVER" ]; then
     ui_print " "
     ui_print "   Enabling overlay features..."
     sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
@@ -175,22 +175,20 @@ if $FULL; then
     rm -rf /data/resource-cache
     rm -rf /data/dalvik-cache
     ui_print "   Dalvik-Cache has been cleared!"
-     ui_print "   Next boot may take a little longer to boot!"
-    fi
+    ui_print "   Next boot may take a little longer to boot!"
   fi
-    if [ "$ACC" ]; then
-      ui_print " "
-      ui_print "   Enabling Pixel accent..."
-      sed -i 's/# ro.boot.vendor.overlay.theme/ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-    else
-      ui_print " "
-      ui_print "   Disabling Pixel accent..."
-      rm -rf $INSTALLER/system/vendor/overlay/Pixel
-      rm -rf /data/resource-cache
-      rm -rf /data/dalvik-cache
-      ui_print "   Dalvik-Cache has been cleared!"
-      ui_print "   Next boot may take a little longer to boot!"
-    fi
+  if [ "$ACC" ]; then
+    ui_print " "
+    ui_print "   Enabling Pixel accent..."
+    sed -i 's/# ro.boot.vendor.overlay.theme/ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+  else
+    ui_print " "
+    ui_print "   Disabling Pixel accent..."
+    rm -rf $INSTALLER/system/vendor/overlay/Pixel
+    rm -rf /data/resource-cache
+    rm -rf /data/dalvik-cache
+    ui_print "   Dalvik-Cache has been cleared!"
+    ui_print "   Next boot may take a little longer to boot!"
   fi
 fi
 
@@ -229,6 +227,6 @@ fi
 
 #add slim & full variables to service.sh
 for i in "SLIM" "FULL"; do
-sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
+  sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
 done
 cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
