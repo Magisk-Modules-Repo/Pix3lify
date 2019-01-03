@@ -39,15 +39,15 @@ chooseold() {
   fi
 }
 
-SLIM=false; FULL=false; OVER=false; BOOT=false;
+SLIM=false; FULL=false; OVER=false; BOOT=false; ACC=false;
 # GET STOCK/LIMIT FROM ZIP NAME
 case $(basename $ZIP) in
   *slim*|*Slim*|*SLIM*) SLIM=true;;
   *full*|*Full*|*FULL*) FULL=true;;
   *over*|*Over*|*OVER*) OVER=true;;
   *boot*|*Boot*|*BOOT*) BOOT=true;;
+  *acc*|*Acc*|*ACC*) ACC=true;;
 esac
-
 
 # Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
 KEYCHECK=$INSTALLER/common/keycheck
@@ -95,7 +95,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ] then
     $FUNCTION "DOWN"
   fi
 
-  if ! $SLIM && ! $FULL & ! $OVER ! $BOOT; then
+  if ! $SLIM && ! $FULL & ! $OVER ! $BOOT ! $ACC; then
     ui_print " "
     ui_print " - Slim Options -"
     ui_print "   Do you want to enable slim mode (heavily reduced featureset, see README)?"
@@ -108,11 +108,18 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ] then
     if $FULL; then
       ui_print " "
       ui_print " - Overlay Options -"
-      ui_print "   Do you want the Pixel accent or overlay features enabled?"
+      ui_print "   Do you want the Pixel overlays enabled?"
       ui_print "   Vol Up = Yes, Vol Down = No"
       if $FUNCTION; then
         OVER=true
-      fi 
+        ui_print " "
+        ui_print " - Accent Options -"
+        ui_print "   Do you want the Pixel accent enabled?"
+        ui_print "   Vol Up = Yes, Vol Down = No"
+        if $FUNCTION; then 
+          ACC=true
+        fi
+      fi
     fi
     ui_print " "
     ui_print " - Animation Options -"
@@ -147,21 +154,11 @@ if $SLIM; then
   ui_print "   Next boot may take a little longer!"
 fi
 
-if $FULL
+if $FULL; then
   ui_print " "
   ui_print " Full mode selected..."
   prop_process $INSTALLER/common/full.prop
-fi  
-
-if [ "$FULL" ] && [ "$OVER" ]; then 
-  ui_print " "
-  ui_print " - Overlay Options -"
-  ui_print "   Do you want the Pixel accent enabled?"
-  ui_print "   Vol Up = Yes, Vol Down = No"
-  if $FUNCTION; then
-    ui_print " "
-    ui_print "   Enabling overlays and Pixel accent..."
-  else
+  if [ "$OVER" ]; then 
     ui_print " "
     ui_print "   Enabling overlay features..."
     sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
@@ -170,17 +167,31 @@ if [ "$FULL" ] && [ "$OVER" ]; then
     rm -rf /data/dalvik-cache
     ui_print "   Dalvik-Cache has been cleared!"
     ui_print "   Next boot may take a little longer!"
+  else
+    ui_print " "
+    ui_print "   Disabling overlay features..."
+    sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
+    rm -rf /data/resource-cache
+    rm -rf /data/dalvik-cache
+    ui_print "   Dalvik-Cache has been cleared!"
+     ui_print "   Next boot may take a little longer to boot!"
+    fi
   fi
-else
-  ui_print " "
-  ui_print "   Disabling Pixel accent and overlay features..."
-  sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-  rm -rf $INSTALLER/system/vendor/overlay/Pixel
-  rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
-  rm -rf /data/resource-cache
-  rm -rf /data/dalvik-cache
-  ui_print "   Dalvik-Cache has been cleared!"
-  ui_print "   Next boot may take a little longer to boot!"
+    if [ "$ACC" ]; then
+      ui_print " "
+      ui_print "   Enabling Pixel accent..."
+      sed -i 's/# ro.boot.vendor.overlay.theme/ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    else
+      ui_print " "
+      ui_print "   Disabling Pixel accent..."
+      rm -rf $INSTALLER/system/vendor/overlay/Pixel
+      rm -rf /data/resource-cache
+      rm -rf /data/dalvik-cache
+      ui_print "   Dalvik-Cache has been cleared!"
+      ui_print "   Next boot may take a little longer to boot!"
+    fi
+  fi
 fi
 
 if $BOOT; then
@@ -215,6 +226,7 @@ if [ $API -ge 28 ]; then
     fi
   fi
 fi
+
 #add slim & full variables to service.sh
 for i in "SLIM" "FULL"; do
 sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
