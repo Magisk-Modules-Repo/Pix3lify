@@ -101,7 +101,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" ] then
     ui_print "   Do you want to enable slim mode (heavily reduced featureset, see README)?"
     ui_print "   Vol Up = Yes, Vol Down = No"
     if $FUNCTION; then
-      SLIM=true     
+      SLIM=true
     else
       FULL=true
     fi
