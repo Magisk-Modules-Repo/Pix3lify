@@ -61,7 +61,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 ### v2.5.5
 
 -   Rewrote customization options for simplicity
--   Fixed accent not being removed
+-   Fixed accent and bootanimation not being removed on option
 
 ### v2.5.2
 
