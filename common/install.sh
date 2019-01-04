@@ -79,7 +79,7 @@ if [ -f "$OVERLAY" ]; then
   rm -f "$OVERLAY"
 fi
 
-if [ "$SLIM" == false -a "$FULL" == false -a "$THEM" == true ]; then
+if [ "$SLIM" == false -a "$FULL" == false ]; then
   if keytest; then
     FUNCTION=choose
   else
