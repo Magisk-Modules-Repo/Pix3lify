@@ -27,13 +27,11 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 ## ⭐ Users without working volume keys
 
 -   To choose options without using volume keys, you can rename the zip
--   Currently the choices are FULL, SLIM, OVER, and BOOT.
--   FULL = The full module not including overlay/accent and boot animation
--   SLIM = No additional apps, wellbeing scripts, fonts, sounds, and all overlays except pix3lify.
--   OVER = Install pixel overlays
--   ACC = Install pixel accent
--   BOOT = Install pixel boot animation
--   To use the basename zip feature all you need to do is add the options to the zipname and only flash the zip in recovery. Magisk renames all zips to install.zip so flashing in magisk manager will NOT work. Heres an example of using basename to install full and overlays ( Pix3lify-2.5-full-over.zip )
+-   Currently the choices are FULL, SLIM, and THEME.
+-   FULL = The full module
+-   SLIM = No additional apps, wellbeing scripts, fonts, sounds, and only the pix3lify overlay.
+-   THEME = The full module without the Google theme (fonts, sounds, bootanimation, and accent).
+-   To use the basename zip feature all you need to do is add the options to the zipname and only flash the zip in recovery. Magisk renames all zips to install.zip so flashing in magisk manager will NOT work. Heres an example of using basename to install full and no theme ( Pix3lify-2.5-full-theme.zip )
 -   The options can either be full, Full, or FULL ( applies to all options )
 
 ## ⭐ Features
@@ -59,6 +57,11 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Flip to Shhh (mileage may vary)
 
 ## ⭐ Changelog
+
+### v2.5.5
+
+-   Rewrote customization options for simplicity
+-   Fixed accent not being removed
 
 ### v2.5.2
 
