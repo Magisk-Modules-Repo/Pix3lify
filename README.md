@@ -53,7 +53,10 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables EIS support (device dependent)
 -   Enables Google Assistant
 -   Enables Night Light (device dependent)
--   Currently under development ~Enables Flip to Shhh (mileage may vary)~
+
+## ⭐ Features Under Development
+
+-   Flip to Shhh (mileage may vary)
 
 ## ⭐ Changelog
 
