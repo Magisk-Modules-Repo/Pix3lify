@@ -106,7 +106,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$THEM" == true ]; then
       ui_print " - Overlay Options -"
       ui_print "   Do you want the Google theme enabled?"
       ui_print "   Vol Up = Yes, Vol Down = No"
-      if ! THEM; then
+      if ! $FUNCTION; then
         THEM=false
       fi
     fi
