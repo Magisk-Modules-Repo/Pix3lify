@@ -185,8 +185,7 @@ fi
 if $BOOT; then
   ui_print " "
   ui_print "   Enabling boot animation..."
-  ui_print "   $UNITY$BFOLDER$BZIP"
-  cp -f $INSTALLER/common/bootanimation.zip $UNITY$BFOLDERBZIP
+  cp -f $INSTALLER/common/bootanimation.zip $UNITY$BFOLDER$BZIP
 else
   ui_print " "
   ui_print "   Disabling boot animation..."
