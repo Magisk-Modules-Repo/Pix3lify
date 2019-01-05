@@ -22,8 +22,8 @@ choose() {
 
 chooseold() {
   # Calling it first time detects previous input. Calling it second time will do what we want
-  $INSTALLER/common/keycheck
-  $INSTALLER/common/keycheck
+  keycheck
+  keycheck
   SEL=$?
   if [ "$1" == "UP" ]; then
     UP=$SEL
@@ -49,9 +49,6 @@ case $(basename $ZIP) in
   *acc*|*Acc*|*ACC*) ACC=true;;
 esac
 
-# Keycheck binary by someone755 @Github, idea for code below by Zappo @xda-developers
-KEYCHECK=$INSTALLER/common/keycheck
-chmod 755 $KEYCHECK
 
 if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ] || [ "$OOS" ]; then
   ui_print " "
@@ -185,7 +182,6 @@ fi
 if $BOOT; then
   ui_print " "
   ui_print "   Enabling boot animation..."
-  ui_print "   $UNITY$BFOLDER$BZIP"
   cp -f $INSTALLER/common/bootanimation.zip $UNITY$BFOLDERBZIP
 else
   ui_print " "
@@ -199,7 +195,7 @@ fi
 if [ $API -ge 28 ]; then
   ui_print " "
   ui_print "   Enabling Google's Call Screening..."
-  if [ "$SLIM" = false ]; then
+  if [ "$SLIM" == "false" ]; then
     ui_print " "
     ui_print "   Enabling Google's Flip to Shhh..."
     ui_print " "
@@ -221,3 +217,6 @@ for i in "SLIM" "FULL"; do
   sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
 done
 cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
+
+mkdir -p $INSTALLER/system/bin
+cp -f $INSTALLER/common/unityfiles/tools/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
