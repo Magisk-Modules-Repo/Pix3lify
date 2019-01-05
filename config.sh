@@ -30,7 +30,7 @@ AUTOMOUNT=true
 PROPFILE=true
 
 # Set to true if you need post-fs-data script
-POSTFSDATA=true
+POSTFSDATA=false
 
 # Set to true if you need late_start service script
 LATESTARTSERVICE=true
@@ -125,7 +125,7 @@ REPLACE="
 set_permissions() {
   # DEFAULT PERMISSIONS, DON'T REMOVE THEM
   $MAGISK && set_perm_recursive $MODPATH 0 0 0755 0644
-  
+
   # CUSTOM PERMISSIONS
   set_perm $UNITY/system/bin/xmlstarlet 0 2000 0755
 
