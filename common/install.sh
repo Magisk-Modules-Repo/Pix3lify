@@ -161,7 +161,6 @@ if $FULL; then
   else
     ui_print " "
     ui_print "   Disabling overlay features..."
-    sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
     rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk
     rm -rf /data/resource-cache
     rm -rf /data/dalvik-cache
@@ -174,6 +173,7 @@ if $FULL; then
   else
     ui_print " "
     ui_print "   Disabling Pixel accent..."
+       sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
     rm -rf $INSTALLER/system/vendor/overlay/Pixel
     rm -rf /data/resource-cache
   fi
