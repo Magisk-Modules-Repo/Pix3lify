@@ -88,7 +88,8 @@ print_modname() {
   ui_print "    *<name>*"
   ui_print "    *******************************************"
   ui_print "    *<version>*"
-  ui_print "    *<author>*"
+  ui_print "    *    Joey Huab, Aidan Holland, Pika       *" 
+  ui_print "    *    John Fawkes, Laster K. (lazerl0rd)   *"
   ui_print "    *******************************************"
   ui_print " "
 }

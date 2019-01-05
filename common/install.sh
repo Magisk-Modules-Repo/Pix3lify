@@ -8,7 +8,7 @@ patch_xml() {
     VALC="value"; VAL="$4"
   fi
   case $2 in
-    *dialer_phenotype_flags*.xml)  sed -i "/#DIALERPATCHES/a\          patch_xml $1 \$MODPATH/\ '$3' \"$4\"" $INSTALLER/common/ppost-fs-data.sh; VAR1=boolean; VAR2=string; VAR3=long;;
+    *dialer_phenotype_flags*.xml)  sed -i "/#DIALERPATCHES/a\          patch_xml $1 \$MODPATH/\ '$3' \"$4\"" $INSTALLER/common/post-fs-data.sh; VAR1=boolean; VAR2=string; VAR3=long;;
     *mixer_paths*.xml) sed -i "/#MIXERPATCHES/a\                       patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=ctl; VAR2=mixer;;
     *sapa_feature*.xml) sed -i "/#SAPAPATCHES/a\                        patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=feature; VAR2=model;;
     *mixer_gains*.xml) sed -i "/#GAINPATCHES/a\                       patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=ctl; VAR2=mixer;;
@@ -196,6 +196,7 @@ fi
 if $SLIM; then
   ui_print " "
   ui_print "   Enabling slim mode..."
+  sed -ri "s/name=(.*)/name=\1 (SLIM)/" $INSTALLER/module.prop
   rm -rf $INSTALLER/system/app
   rm -rf $INSTALLER/system/fonts
   rm -rf $INSTALLER/system/lib
@@ -213,6 +214,7 @@ fi
 if $FULL; then
   ui_print " "
   ui_print " Full mode selected..."
+  sed -ri "s/name=(.*)/name=\1 (FULL)/" $INSTALLER/module.prop
   prop_process $INSTALLER/common/full.prop
   if $OVER; then
     ui_print " "
