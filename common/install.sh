@@ -146,9 +146,6 @@ if $SLIM; then
   rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutNoCutout
   rm -rf $INSTALLER/system/vendor/overlay/Pixel
   rm -rf /data/resource-cache
-  rm -rf /data/dalvik-cache
-  ui_print "   Dalvik-Cache has been cleared!"
-  ui_print "   Next boot may take a little longer!"
 fi
 
 if $FULL; then
