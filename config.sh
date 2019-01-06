@@ -30,7 +30,7 @@ AUTOMOUNT=true
 PROPFILE=true
 
 # Set to true if you need post-fs-data script
-POSTFSDATA=false
+POSTFSDATA=true
 
 # Set to true if you need late_start service script
 LATESTARTSERVICE=true
@@ -55,6 +55,15 @@ DEBUG=true
 # Custom Variables for Install AND Uninstall - Keep everything within this function
 unity_custom() {
   if [ -f $VEN/build.prop ]; then BUILDS="/system/build.prop $VEN/build.prop"; else BUILDS="/system/build.prop"; fi
+  if [ -d /cache ]; then CACHELOC=/cache; else CACHELOC=/data/cache; fi
+  BIN=$SYS/bin
+  XBIN=$SYS/xbin
+  if [ -d $XBIN ]; then BINPATH=$XBIN; else BINPATH=$BIN; fi
+  if $BOOTMODE; then
+    SDCARD=/storage/emulated/0
+  else
+    SDCARD=/data/media/0
+  fi
   PX1=$(grep -E "ro.vendor.product.device=sailfish|ro.vendor.product.name=sailfish|ro.product.device=sailfish|ro.product.model=Pixel|ro.product.name=sailfish" $BUILDS)
   PX1XL=$(grep -E "ro.vendor.product.device=marlin|ro.vendor.product.name=marlin|ro.product.model=Pixel XL|ro.product.device=marlin|ro.product.name=marlin" $BUILDS)
   PX2=$(grep -E "ro.vendor.product.device=walleye|ro.vendor.product.name=walleye|ro.product.model=Pixel 2|ro.product.name=walleye|ro.product.device=walleye" $BUILDS)
@@ -72,6 +81,44 @@ unity_custom() {
     BFOLDER="/system/media/"
     BZIP="bootanimation.zip"
   fi
+  MODTITLE=$(grep_prop name $INSTALLER/module.prop)
+  VER=$(grep_prop version $INSTALLER/module.prop)
+	AUTHOR=$(grep_prop author $INSTALLER/module.prop)
+  INSTLOG=$CACHELOC/$MODID_install.log
+} 
+
+# Custom Functions for Install AND Uninstall - You can put them here
+# Log functions
+
+log_handler() {
+  echo "" >> $INSTLOG 2>&1
+  echo -e "$(date +"%m-%d-%Y %H:%M:%S") - $1" >> $INSTLOG 2>&1
+}
+
+log_start() {
+	if [ -f "$INSTLOG" ]; then
+    rm -f $INSTLOG
+  fi
+  touch $INSTLOG
+  echo " " >> $INSTLOG 2>&1
+  echo "    *********************************************" >> $INSTLOG 2>&1
+  echo "    *         $MODTITLE                         *" >> $INSTLOG 2>&1
+  echo "    *********************************************" >> $INSTLOG 2>&1
+  echo "    *                 $VER                      *" >> $INSTLOG 2>&1
+  echo "    *********************************************" >> $INSTLOG 2>&1
+  echo "    *      Joey Huab, Aidan Holland, Pika       *" >> $INSTLOG 2>&1
+  echo "    *   John Fawkes, Laster K. (lazerl0rd)      *" >> $INSTLOG 2>&1
+  echo "    *********************************************" >> $INSTLOG 2>&1
+  echo " " >> $INSTLOG 2>&1
+  log_handler "Starting module installation script"
+}
+
+# PRINT MOD NAME
+log_start
+
+log_print() {
+  ui_print "$1"
+  log_handler "$1"
 }
 
 # Custom Functions for Install AND Uninstall - You can put them here
@@ -129,6 +176,7 @@ set_permissions() {
 
   # CUSTOM PERMISSIONS
   set_perm $UNITY/system/bin/xmlstarlet 0 2000 0755
+  set_perm $UNITY$BINPATH/pix3lify 0 2000 0755
 
   # Some templates if you have no idea what to do:
   # Note that all files/folders have the $UNITY prefix - keep this prefix on all of your files/folders

@@ -352,9 +352,9 @@ cp_ch() {
     esac
   done
   case $2 in
+    /system/*|/vendor/*) BAK=true; BAKFILE=$INFO; EXT=".bak";;
     $RD/*) BAK=true; BAKFILE=$INFORD; EXT="~";;
     $INSTALLER/*|$MOUNTPATH/*|$MAGISKTMP/img/*|$MAGISKBIN/*) BAK=false; BAKFILE=$INFO; EXT=".bak";;
-    /system/*|/vendor/*) BAK=true; BAKFILE=$INFO; EXT=".bak";;
     *) BAK=true; BAKFILE=$INFO; EXT=".bak";;
   esac
   [ -z $PERM ] && PERM=0644
@@ -379,8 +379,8 @@ cp_ch() {
 
 patch_script() {
   [ -L /system/vendor ] && local VEN=/vendor
-  sed -i -e "s|<ROOT>|\"$ROOT\"|" -e "s|<SYS>|$ROOT/system|" -e "s|<VEN>|$ROOT$VEN|" -e "s|<SHEBANG>|$SHEBANG|" -e "s|<MAGISK>|$MAGISK|" -e "s|<LIBDIR>|$LIBDIR|" -e "s|<SYSOVERRIDE>|$SYSOVERRIDE|" -e "s|<MODID>|$MODID|" -e "s|<INFO>|$(echo $INFO | sed "s|$MOUNTPATH|$MAGISKTMP/img|")|" $1
-  if $MAGISK; then sed -i -e "s|\$MOUNTPATH|$MAGISKTMP/img|g" -e "s|\$UNITY|$MAGISKTMP/img/$MODID|g" $1; else sed -i -e "s|\$MOUNTPATH||g" -e "s|\$UNITY||g" $1; fi
+  sed -i -e "s|<ROOT>|\"$ROOT\"|" -e "s|<SYS>|$ROOT/system|" -e "s|<VEN>|$ROOT$VEN|" -e "s|<SHEBANG>|$SHEBANG|" -e "s|<MAGISK>|$MAGISK|" -e "s|<LIBDIR>|$LIBDIR|" -e "s|<SYSOVERRIDE>|$SYSOVERRIDE|" -e "s|<MODID>|$MODID|" $1
+  if $MAGISK; then sed -i -e "s|\$MOUNTPATH|$MAGISKTMP/img|g" -e "s|\$UNITY|$MAGISKTMP/img/$MODID|g" -e "s|<INFO>|$(echo $INFO | sed "s|$MOUNTPATH|$MAGISKTMP/img|")|" $1; else sed -i -e "s|\$MOUNTPATH||g" -e "s|\$UNITY||g" -e "s|<INFO>|$INFO|" $1; fi
 }
 
 install_script() {
@@ -424,7 +424,8 @@ prop_process() {
 
 set_vars() {
   if $BOOTMODE; then MOD_VER="$MAGISKTMP/img/$MODID/module.prop"; $MAGISK && ORIGDIR="$MAGISKTMP/mirror"; else MOD_VER="$MODPATH/module.prop"; ORIGDIR=""; fi
-  SYS=/system; VEN=/system/vendor; ORIGVEN=$ORIGDIR/system/vendor; INITD=false; RD=$INSTALLER/common/unityfiles/boot/ramdisk
+  SYS=/system; VEN=/system/vendor; ORIGVEN=$ORIGDIR/system/vendor; INITD=false
+  RD=$INSTALLER/common/unityfiles/boot/ramdisk; INFORD="$RD/$MODID-files"
   ROOTTYPE="MagiskSU"; SHEBANG="#!/system/bin/sh"; UNITY="$MODPATH"; INFO="$MODPATH/$MODID-files"; PROP=$MODPATH/system.prop
   if $DYNAMICOREO && [ $API -ge 26 ]; then LIBPATCH="\/vendor"; LIBDIR=$VEN; else LIBPATCH="\/system"; LIBDIR=/system; fi  
   if ! $MAGISK || $SYSOVERRIDE; then
@@ -432,10 +433,9 @@ set_vars() {
     [ -L /system/vendor ] && { VEN=/vendor; $BOOTMODE && ORIGVEN=$ORIGDIR/vendor; }
     if [ -d /system/addon.d ]; then INFO=/system/addon.d/$MODID-files; else INFO=/system/etc/$MODID-files; fi
     if ! $MAGISK; then
-      PROP=$MODPATH/$MODID-props.sh; MOD_VER="/system/etc/$MODID-module.prop"
       # Determine system boot script type
       supersuimg_mount
-      ROOTTYPE="other root or rootless"; MODPATH=/system/etc/init.d
+      ROOTTYPE="other root or rootless"; MODPATH=/system/etc/init.d; PROP=$MODPATH/$MODID-props.sh; MOD_VER="/system/etc/$MODID-module.prop"
       if [ "$supersuimg" ] || [ -d /su ]; then
         SHEBANG="#!/su/bin/sush"; ROOTTYPE="systemless SuperSU"; MODPATH=/su/su.d
       elif [ -e "$(find /data /cache -name supersu_is_here | head -n1)" ]; then
@@ -463,13 +463,12 @@ initd_message() {
 }
 
 uninstall_files() {
-  local TMP FILE=$1
-  [ -z $FILE ] && FILE=$INFO
-  if [ "$FILE" == "$INFORD" ]; then
-    TMP="~"
+  local TMP FILE
+  if [ "$1" == "$INFORD" ]; then
+    TMP="~"; FILE=$1
   else
+    TMP=".bak"; FILE=$INFO
     $BOOTMODE && [ -f $MAGISKTMP/img/$MODID/$MODID-files ] && FILE=$MAGISKTMP/img/$MODID/$MODID-files
-    TMP=".bak"
     $MAGISK || [ -f $FILE ] || abort "   ! Mod not detected !"
   fi
   if [ -f $FILE ]; then
@@ -513,7 +512,6 @@ unpack_ramdisk() {
     return
   fi; }
   ui_print "$PRE Checking boot image signature$POST"
-  INFORD="$RD/$MODID-files"
   BOOTSIGNER="/system/bin/dalvikvm -Xbootclasspath:/system/framework/core-oj.jar:/system/framework/core-libart.jar:/system/framework/conscrypt.jar:/system/framework/bouncycastle.jar -Xnodex2oat -Xnoimage-dex2oat -cp $INSTALLER/common/unityfiles/tools/avb/BootSignature_Android.jar com.android.verity.BootSignature"
   RAMDISK=true; BOOTSIGNED=false; CHROMEOS=false
   mkdir -p $RD
@@ -559,13 +557,15 @@ unity_install() {
   [ -f "$INSTALLER/common/install.sh" ] && . $INSTALLER/common/install.sh
   
   # Addons
-  if [ "$(ls -A $INSTALLER/addon 2>/dev/null)" ]; then
+  if [ "$(ls -A $INSTALLER/addon/*/install.sh 2>/dev/null)" ]; then
     ui_print " "
     ui_print "- Running Addons -"
-    for i in $INSTALLER/addon/*/main.sh; do
-      [ "$i" == "$INSTALLER/addon/External-Tools/main.sh" ] && continue
+    for i in $INSTALLER/addon/*/install.sh; do
+      ui_print "  Running $(echo $i | sed -r "s|$INSTALLER/addon/(.*)/install.sh|\1|")..."
       . $i
     done
+    ui_print " "
+    ui_print "- Installing (cont) -"
   fi
   
   # Sepolicy
@@ -669,6 +669,7 @@ unity_install() {
     [ -d "$RD" ] || unpack_ramdisk -l
     # Remove ramdisk mod if exists
     if [ "$(grep "#$MODID-UnityIndicator" $RD/init.rc 2>/dev/null)" ]; then
+      ui_print " "
       ui_print "   ! Mod detected in ramdisk!"
       ui_print "   ! Upgrading mod ramdisk modifications..."
       uninstall_files $INFORD
@@ -697,6 +698,18 @@ unity_install() {
 unity_uninstall() {
   ui_print " "
   ui_print "- Uninstalling"
+  
+  # Addons
+  if [ "$(ls -A $INSTALLER/addon/*/uninstall.sh 2>/dev/null)" ]; then
+    ui_print " "
+    ui_print "- Running Addons -"
+    for i in $INSTALLER/addon/*/uninstall.sh; do
+      ui_print "  Running $(echo $i | sed -r "s|$INSTALLER/addon/(.*)/uninstall.sh|\1|")..."
+      . $i
+    done
+    ui_print " "
+    ui_print "- Installing (cont) -"
+  fi
 
   # Remove files
   uninstall_files
@@ -795,6 +808,7 @@ else
     sed -i "s/-o ro/-o rw/g" $INSTALLER/common/unityfiles/util_functions_mag.sh
   fi
   . $INSTALLER/common/unityfiles/util_functions_mag.sh
+  . $INSTALLER/common/unityfiles/util_functions2.sh
   [ ! -z $MAGISK_VER_CODE -a $MAGISK_VER_CODE -ge $MINMAGISK ] || require_new_magisk
   if [ $MAGISK_VER_CODE -ge 18000 ]; then MAGISKTMP=/sbin/.magisk; else MAGISKTMP=/sbin/.core; fi
 fi
@@ -838,7 +852,7 @@ for FILE in $INSTALLER/common/*.sh $INSTALLER/common/*.prop; do
 done
 
 # Import user tools
-[ -f "$INSTALLER/addon.tar.gz" ] && tar -xf $INSTALLER/addon.tar.gz -C $INSTALLER 2>/dev/null
+[ -f "$INSTALLER/addon.tar.xz" ] && tar -xf $INSTALLER/addon.tar.xz -C $INSTALLER 2>/dev/null
 [ -f "$INSTALLER/addon/External-Tools/main.sh" ] && . $INSTALLER/addon/External-Tools/main.sh
 
 # Unpack ramdisk
@@ -876,6 +890,7 @@ elif $MAGISK && ! $SYSOVERRIDE && [ -f "/system/addon.d/$MODID-files" -o -f "/sy
   mount -o rw,remount /system
   [ -L /system/vendor ] && mount -o rw,remount /vendor
   if [ -d /system/addon.d ]; then INFO=/system/addon.d/$MODID-files; else INFO=/system/etc/$MODID-files; fi
+  unity_upgrade
   unity_uninstall
   INFO="$MODPATH/$MODID-files"
   unity_install
@@ -884,7 +899,7 @@ elif [ -f "$MOD_VER" ]; then
     ui_print " "
     ui_print "  ! Mod present in system but not in ramdisk!"
     ui_print "  ! Running upgrade..."
-    RAMDISK=false; unity_uninstall
+    RAMDISK=false; unity_upgrade; unity_uninstall
     RAMDISK=true; unity_install
   elif [ $(grep_prop versionCode $MOD_VER) -ge $(grep_prop versionCode $INSTALLER/module.prop) ]; then
     ui_print " "
@@ -893,6 +908,7 @@ elif [ -f "$MOD_VER" ]; then
   else
     ui_print " "
     ui_print "  ! Older version detected! Upgrading..."
+    unity_upgrade
     unity_uninstall
     unity_install
   fi
