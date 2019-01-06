@@ -58,6 +58,13 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 -   Flip to Shhh (mileage may vary)
 
+## ⭐ Thanks!
+
+-  Thanks to @Didgeridoohan for his magisk hide props config logging code
+-  Thanks to @veez21 for his mod-util terminal script template
+-  Thanks to @zackptg5 for Unity and cleaning up our code
+-  Thanks to @TopJohnWu for Magisk
+
 ## ⭐ Changelog
 
 ### v3.0
