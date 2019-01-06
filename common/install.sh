@@ -119,7 +119,7 @@ cp_ch -n $INSTALLER/pix3lify.sh $UNITY$BINPATH/pix3lify
 log_handler "Using $BINPATH."
 sed -i -e "s|<MAGISK>|$MAGISK|" -e "s|<CACHELOC>|$CACHELOC|" -e "s|<BINPATH>|$BINPATH|" -e "s|<MODVERSION>|$(grep_prop versionCode $INSTALLER/module.prop)|" -e "s|<MODID>|$MODID|" $UNITY$BINPATH/icewizard
 if $MAGISK; then
-sed -i -e "s|<PROP>|$(echo $PROP)|" -e "s|<MODPATH>|/sbin/.magisk/img/Pix3lify|" -e "s|<MODPROP>|$(echo $MOD_VER)|" -e "s|<MOUNTPATH>|/sbin/.core/img|" $UNITY$BINPATH/pix3lify
+sed -i -e "s|<PROP>|$(echo $PROP)|" -e "s|<MODPATH>|/sbin/.magisk/img/Pix3lify|" -e "s|<MODPROP>|$(echo $MOD_VER)|" -e "s|<MOUNTPATH>|/sbin/.magisk/img|" $UNITY$BINPATH/pix3lify
 else
   sed -i -e "s|<PROP>|$PROP|" -e "s|<MODPROP>|$MOD_VER|" -e "s|<MODPATH>|\"\"|" -e "s|<MOUNTPATH>|\"\"|" $UNITY$BINPATH/pix3lify
 fi
