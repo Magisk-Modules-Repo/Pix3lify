@@ -121,7 +121,7 @@ sed -i -e "s|<MAGISK>|$MAGISK|" -e "s|<CACHELOC>|$CACHELOC|" -e "s|<BINPATH>|$BI
 if $MAGISK; then
 sed -i -e "s|<PROP>|$(echo $PROP)|" -e "s|<MODPATH>|/sbin/.magisk/img/Pix3lify|" -e "s|<MODPROP>|$(echo $MOD_VER)|" -e "s|<MOUNTPATH>|/sbin/.core/img|" $UNITY$BINPATH/pix3lify
 else
-  sed -i -e "s|<PROP>|$PROP|" -e "s|<MODPROP>|$MOD_VER|" -e "s|<MODPATH>|\"\"|" -e "s|<MOUNTPATH>|\"\"|" $UNITY$BINPATH/icewizard
+  sed -i -e "s|<PROP>|$PROP|" -e "s|<MODPROP>|$MOD_VER|" -e "s|<MODPATH>|\"\"|" -e "s|<MOUNTPATH>|\"\"|" $UNITY$BINPATH/pix3lify
 fi
 patch_script $UNITY$BINPATH/pix3lify
 

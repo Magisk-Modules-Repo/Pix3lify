@@ -102,7 +102,7 @@ log_start() {
   touch $INSTLOG
   echo " " >> $INSTLOG 2>&1
   echo "    *********************************************" >> $INSTLOG 2>&1
-  echo "    *         $MODTITLE                         *" >> $INSTLOG 2>&1
+  echo "    *          $MODTITLE                        *" >> $INSTLOG 2>&1
   echo "    *********************************************" >> $INSTLOG 2>&1
   echo "    *                 $VER                      *" >> $INSTLOG 2>&1
   echo "    *********************************************" >> $INSTLOG 2>&1

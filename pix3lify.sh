@@ -21,11 +21,11 @@ BINPATH=<BINPATH>
 COREPATH=/sbin/.magisk
 MIRRORPATH=$COREPATH/mirror
 SDCARD=/storage/emulated/0
-ALOG=$MODPATH/$MODID_log.log
-AOLDLOG=$MODPATH/$MODID_log_old.log
-TMPLOG=$MODID_logs.log
+ALOG=$MODPATH/${MODID}_log.log
+AOLDLOG=$MODPATH/${MODID}_log_old.log
+TMPLOG=${MODID}_logs.log
 TMPLOGLOC=$CACHELOC/logs
-XZLOG=$SDCARD/$MODID_logs.tar.xz
+XZLOG=$SDCARD/${MODID}_logs.tar.xz
 DPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
 
 
@@ -42,18 +42,16 @@ $MAGISK && [ ! -f $MODPROP ]
 LOGGERS="
 $CACHELOC/magisk.log
 $CACHELOC/magisk.log.bak
-$CACHELOC/$MODID_install.log
-$SDCARD/$MODID-debug.log
+$CACHELOC/${MODID}-install.log
+$SDCARD/${MODID}-debug.log
 $MODPATH$BINPATH/pix3lify
 /data/adb/magisk_debug.log
-$MODPATH/$MODID_log.log
-$MODPATH/$MODID_log_old.log
-$MODID_logs.log
+$MODPATH/${MODID}_log.log
+$MODPATH/${MODID}_log_old.log
 /data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
-$CACHELOC/$MODID.log
-$CACHELOC/$MODID-old.log
-$CACHELOC/$MODID-verbose.log
-$CACHELOC/$MODID-verbose-old.log
+$CACHELOC/${MODID}.log
+$CACHELOC/${MODID}-old.log
+$CACHELOC/${MODID}-verbose-old.log
 "
 
 
@@ -63,11 +61,11 @@ if [ -f $VEN/build.prop ]; then BUILDS="/system/build.prop $VEN/build.prop"; els
 mount -o remount,rw $CACHELOC 2>/dev/null
 mount -o rw,remount $CACHELOC 2>/dev/null
 # > Logs should go in this file
-LOG=$CACHELOC/$MODID.log
-oldLOG=$CACHELOC/$MODID-old.log
+LOG=$CACHELOC/${MODID}.log
+oldLOG=$CACHELOC/${MODID}-old.log
 # > Verbose output goes here
-VERLOG=$CACHELOC/$MODID-verbose.log
-oldVERLOG=$CACHELOC/$MODID-verbose-old.log
+VERLOG=$CACHELOC/${MODID}-verbose.log
+oldVERLOG=$CACHELOC/${MODID}-verbose-old.log
 
 # Start Logging verbosely
 mv -f $VERLOG $oldVERLOG 2>/dev/null; mv -f $LOG $oldLOG 2>/dev/null
