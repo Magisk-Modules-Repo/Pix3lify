@@ -145,7 +145,7 @@ log_print "   Removing remnants from past Pix3lify installs..."
 # Removes /data/resource-cache/overlays.list
 OVERLAY='/data/resource-cache/overlays.list'
 if [ -f "$OVERLAY" ]; then
-  ui_print "   Removing $OVERLAY"
+  log_print "   Removing $OVERLAY"
   rm -f "$OVERLAY"
 fi
 
@@ -173,50 +173,41 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
     else
       FULL=true >> $INSTLOG 2>&1
     fi
-    if $FULL; then
-      ui_print " "
-      if [ "$OOS" ]; then
+    if "$FULL"; then
+      if "$OOS"; then
         log_print "   Pix3lify overlay has been known to not work and cause issues on devices running OxygenOS!"
         log_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
         log_print "   Vol Up = Yes, Vol Down = No"
         if $FUNCTION; then
           ui_print " "
           log_print "   Ignoring warnings..."
-          ui_print " "
-          ui_print " - Overlay Options -"
-          ui_print "   Do you want the Pixel overlays enabled?"
-          ui_print "   Vol Up = Yes, Vol Down = No"
-            if $FUNCTION; then
-            OVER=true >> $INSTLOG 2>&1
-            ui_print " "
-            ui_print " - Accent Options -"
-            ui_print "   Do you want the Pixel accent enabled?"
-            ui_print "   Vol Up = Yes, Vol Down = No"
-              if $FUNCTION; then
-                ACC=true >> $INSTLOG 2>&1
-              fi
-            fi
-        else
-          ui_print " "
-          ui_print " - Accent Options -"
-          ui_print "   Do you want the Pixel accent enabled?"
-          ui_print "   Vol Up = Yes, Vol Down = No"
-            if $FUNCTION; then
-            ACC=true >> $INSTLOG 2>&1
-            fi
         fi
       fi
+          ui_print " "
+          log_print " - Overlay Options -"
+          log_print "   Do you want the Pixel overlays enabled?"
+          log_print "   Vol Up = Yes, Vol Down = No"
+          if $FUNCTION; then
+            OVER=true >> $INSTLOG 2>&1
+            ui_print " "
+            log_print " - Accent Options -"
+            log_print "   Do you want the Pixel accent enabled?"
+            log_print "   Vol Up = Yes, Vol Down = No"
+            if $FUNCTION; then
+              ACC=true >> $INSTLOG 2>&1
+            fi
+          fi
     fi
     ui_print " "
-    ui_print " - Animation Options -"
-    ui_print "   Do you want the Pixel boot animation?"
-    ui_print "   Vol Up = Yes, Vol Down = No"
+    log_print " - Animation Options -"
+    log_print "   Do you want the Pixel boot animation?"
+    log_print "   Vol Up = Yes, Vol Down = No"
     if $FUNCTION; then
       BOOT=true >> $INSTLOG 2>&1
     fi
   fi
 else
-  ui_print " Options specified in zip name!"
+  log_print " Options specified in zip name!"
 fi
 
 # had to break up volume options this way for basename zip for users without working vol keys
