@@ -1,4 +1,3 @@
-#!/system/bin/sh
 patch_xml() {
   local VAR1 VAR2 NAME NAMEC VALC VAL
   NAME=$(echo "$3" | sed -r "s|^.*/.*\[@.*=\"(.*)\".*$|\1|")
@@ -153,12 +152,12 @@ fi
 if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == false -a "$ACC" == false ]; then
   if keytest; then
     FUNCTION=choose >> $INSTLOG 2>&1
-  elseDPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
-    FUNCTION=chooseDPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xmlold >> $INSTLOG 2>&1
-    log_print "   !DPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml Legacy device detected! Using old keycheck method"
-    ui_print " "DPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
-    log_print " - VDPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xmlol Key Programming -"
-    log_print "   PDPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xmlress Vol Up:"
+  else
+    FUNCTION=chooseold >> $INSTLOG 2>&1
+    log_print "   ! Legacy device detected! Using old keycheck method"
+    ui_print " "
+    log_print " - Vol Key Programming -"
+    log_print "   Press Vol Up:"
     $FUNCTION "UP" >> $INSTLOG 2>&1
     log_print "   Press Vol Down:"
     $FUNCTION "DOWN" >> $INSTLOG 2>&1
@@ -188,7 +187,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
           ui_print "   Do you want the Pixel overlays enabled?"
           ui_print "   Vol Up = Yes, Vol Down = No"
             if $FUNCTION; then
-            OVER=true >> $INSTLOG 2>&
+            OVER=true >> $INSTLOG 2>&1
             ui_print " "
             ui_print " - Accent Options -"
             ui_print "   Do you want the Pixel accent enabled?"
@@ -196,6 +195,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
               if $FUNCTION; then
                 ACC=true >> $INSTLOG 2>&1
               fi
+            fi
         else
           ui_print " "
           ui_print " - Accent Options -"
@@ -214,9 +214,9 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
     if $FUNCTION; then
       BOOT=true >> $INSTLOG 2>&1
     fi
-  else
-    ui_print " Options specified in zip name!"
   fi
+else
+  ui_print " Options specified in zip name!"
 fi
 
 # had to break up volume options this way for basename zip for users without working vol keys
