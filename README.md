@@ -52,7 +52,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables Camera2 API support (find a working Modded Google Camera app [here](https://www.celsoazevedo.com/files/android/google-camera/))
 -   Enables EIS support (device dependent)
 -   Enables Google Assistant
--   Enables Night Light (device dependent)
+-   Enables Night Sight (device dependent)
 
 ## ⭐ Features Under Development
 
