@@ -1,33 +1,31 @@
-#!/system/bin/sh
 # Terminal Magisk Mod Template
-# by veez21 @ xda-developers
+# by veez21 @ xda-developer
+
+get_file_value() {
+	cat $1 | grep $2 | sed "s|.*$2||" | sed 's|\"||g'
+}
+
+MAGISK_VERSION=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VER=") | sed 's|-.*||')
+MAGISK_VERSIONCODE=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VER_CODE=") | sed 's|-.*||')
+
+if [ $MAGISK_VERSIONCODE -ge "18000" ]; then
+  MOUNTPATH=/sbin/.magisk/img
+else
+  MOUNTPATH=/sbin/.core/img
+fi
+
+MODPATH=$MOUNTPATH/Pix3lify
 
 
-# Magisk Module ID **
-# > ENTER MAGISK MODULE ID HERE
-MODID=<MODID>
-
-#Logging Varizbles
+# Variables
 OLDPATH=$PATH
-MOUNTPATH=<MOUNTPATH>
-MODPATH=<MODPATH>
-MAGISK=<MAGISK>
-ROOT=<ROOT>
-SYS=<SYS>
-VEN=<VEN>
-LIBDIR=<LIBDIR>
 CACHELOC=<CACHELOC>
 BINPATH=<BINPATH>
-COREPATH=/sbin/.magisk
-MIRRORPATH=$COREPATH/mirror
 SDCARD=/storage/emulated/0
-ALOG=$MODPATH/${MODID}_log.log
-AOLDLOG=$MODPATH/${MODID}_log_old.log
-TMPLOG=${MODID}_logs.log
-TMPLOGLOC=$CACHELOC/logs
-XZLOG=$SDCARD/${MODID}_logs.tar.xz
+TMPLOG=Pix3lify_logs.log
+TMPLOGLOC=$CACHELOC/Pix3lify_logs
+XZLOG=$SDCARD/Pix3lify_logs.tar.xz
 DPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
-
 
 quit() {
   PATH=$OLDPATH
@@ -38,22 +36,9 @@ MODPROP=<MODPROP>
 $MAGISK && [ ! -f $MODPROP ]
 [ -f $MODPROP ] || { echo "Module not detected!"; quit 1; }
 
-# Loggers
-LOGGERS="
-$CACHELOC/magisk.log
-$CACHELOC/magisk.log.bak
-$CACHELOC/${MODID}-install.log
-$SDCARD/${MODID}-debug.log
-$MODPATH$BINPATH/pix3lify
-/data/adb/magisk_debug.log
-$MODPATH/${MODID}_log.log
-$MODPATH/${MODID}_log_old.log
-/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
-$CACHELOC/${MODID}.log
-$CACHELOC/${MODID}-old.log
-$CACHELOC/${MODID}-verbose-old.log
-"
-
+# Detect root
+_name=$(basename $0)
+ls /data >/dev/null 2>&1 || { echo "$MODID needs to run as root!"; echo "type 'su' then '$_name'"; quit 1; }
 
 if [ -f $VEN/build.prop ]; then BUILDS="/system/build.prop $VEN/build.prop"; else BUILDS="/system/build.prop"; fi
 
@@ -61,20 +46,34 @@ if [ -f $VEN/build.prop ]; then BUILDS="/system/build.prop $VEN/build.prop"; els
 mount -o remount,rw $CACHELOC 2>/dev/null
 mount -o rw,remount $CACHELOC 2>/dev/null
 # > Logs should go in this file
-LOG=$CACHELOC/${MODID}.log
-oldLOG=$CACHELOC/${MODID}-old.log
+LOG=$CACHELOC/Pix3lify.log
+oldLOG=$CACHELOC/Pix3lify-old.log
 # > Verbose output goes here
-VERLOG=$CACHELOC/${MODID}-verbose.log
-oldVERLOG=$CACHELOC/${MODID}-verbose-old.log
+VERLOG=$CACHELOC/Pix3lify-verbose.log
+oldVERLOG=$CACHELOC/Pix3lify-verbose-old.log
 
 # Start Logging verbosely
 mv -f $VERLOG $oldVERLOG 2>/dev/null; mv -f $LOG $oldLOG 2>/dev/null
 set -x 2>$VERLOG
 
+# Loggers
+LOGGERS="
+$CACHELOC/magisk.log
+$CACHELOC/magisk.log.bak
+$CACHELOC/Pix3lify-install.log
+$SDCARD/Pix3lify-debug.log
+$CACHELOC/pix3lify
+/data/adb/magisk_debug.log
+/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
+$CACHELOC/Pix3lify.log
+$CACHELOC/Pix3lify-old.log
+$CACHELOC/Pix3lify-verbose-old.log
+"
+
 log_handler() {
 	if [ $(id -u) == 0 ] ; then
-		echo "" >> $ALOG 2>&1
-		echo -e "$(date +"%m-%d-%Y %H:%M:%S") - $1" >> $ALOG 2>&1
+		echo "" >> $LOG 2>&1
+		echo -e "$(date +"%m-%d-%Y %H:%M:%S") - $1" >> $LOG 2>&1
 	fi
 }
 
@@ -85,7 +84,11 @@ log_print() {
 
 log_script_chk() {
 	log_handler "$1"
-	echo -e "$(date +"%m-%d-%Y %H:%M:%S") - $1" >> $ALOG 2>&1
+	echo -e "$(date +"%m-%d-%Y %H:%M:%S") - $1" >> $LOG 2>&1
+}
+
+get_file_value() {
+	cat $1 | grep $2 | sed "s|.*$2||" | sed 's|\"||g'
 }
 
 #ZACKPTG5 BUSYBOX
@@ -158,9 +161,9 @@ api_level_arch_detect() {
 
 magisk_version() {
   if grep MAGISK_VER /data/adb/magisk/util_functions.sh; then
-		echo "$MAGISK_VERSION $MAGISK_VERSIONCODE" >> $ALOG 2>&1
+		log_print "$MAGISK_VERSION $MAGISK_VERSIONCODE" >> $LOG 2>&1
 	else
-		echo "Magisk not installed" >> $ALOG 2>&1
+		log_print "Magisk not installed" >> $LOG 2>&1
 	fi
 }
 
@@ -180,8 +183,8 @@ AUTHOR=$(grep_prop author $MODPROP)
 # Mod Name/Title
 MODTITLE=$(grep_prop name $MODPROP)
 #Grab Magisk Version
-MAGISK_VERSION=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VERSION=") | sed 's|-.*||')
-MAGISK_VERSIONCODE=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VERSIONCODE=") | sed 's|-.*||')
+MAGISK_VERSION=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VER=") | sed 's|-.*||')
+MAGISK_VERSIONCODE=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VER_CODE=") | sed 's|-.*||')
 
 # Colors
 G='\e[01;32m'		# GREEN TEXT
@@ -241,10 +244,13 @@ upload_logs() {
 		[ $? -ne 0 ] && exit
 		logup=none;
 		echo "Uploading logs"
-		[ -s $XZLOG ] && logup=$(cat $XZLOG | curl -i -F "Pix3lify_logs.tar.xz"  http://logs.pix3lify.com/submit)
-	} || echo "Busybox not found!"
+		[ -s $XZLOG ] && logup=$(cat $XZLOG | curl -F "logs=@$SDCARD/Pix3lify_logs.tar.xz"  http://logs.pix3lify.com/submit)
+		echo "$MODEL ($DEVICE) API $API\n$ROM\n$ID\n
+    Log:   $logUp" | curl -F "logs=@$SDCARD/Pix3lify_logs.tar.xz"  http://logs.pix3lify.com/submit
+  } || echo "Busybox not found!"
 	exit
 }
+
 
 # Heading
 mod_head() {
@@ -273,21 +279,21 @@ fi
 #Log Functions
 # Saves the previous log (if available) and creates a new one
 log_start() {
-	if [ -f "$ALOG" ]; then
-		mv -f $ALOG $AOLDLOG
-	fi
-	touch $ALOG
-  echo " " >> $ALOG 2>&1
-  echo "    *********************************************" >> $ALOG 2>&1
-  echo "    *               Pix3lify                    *" >> $ALOG 2>&1
-  echo "    *********************************************" >> $ALOG 2>&1
-  echo "    *                 $VER                      *" >> $ALOG 2>&1
-  echo "    *********************************************" >> $ALOG 2>&1
-  echo "    *       Joey Huab, Aidan Holland, Pika      *" >> $ALOG 2>&1
-  echo "    *     John Fawkes, Laster K. (lazerl0rd)    *" >> $ALOG 2>&1
-  echo "    *********************************************" >> $ALOG 2>&1
-  echo " " >> $ALOG 2>&1
-	log_script_chk "Log start."
+if [ -f "$LOG" ]; then
+	mv -f $LOG $OLDLOG
+fi
+touch $LOG
+echo " " >> $LOG 2>&1
+echo "    *********************************************" >> $LOG 2>&1
+echo "    *               Pix3lify                    *" >> $LOG 2>&1
+echo "    *********************************************" >> $LOG 2>&1
+echo "    *                 $VER                      *" >> $LOG 2>&1
+echo "    *********************************************" >> $LOG 2>&1
+echo "    *       Joey Huab, Aidan Holland, Pika      *" >> $LOG 2>&1
+echo "    *     John Fawkes, Laster K. (lazerl0rd)    *" >> $LOG 2>&1
+echo "    *********************************************" >> $LOG 2>&1
+echo " " >> $LOG 2>&1
+log_script_chk "Log start."
 }
 
 # PRINT MOD NAME
@@ -296,7 +302,7 @@ log_start
 collect_logs() {
 	log_handler "Collecting logs and information."
 	# Create temporary directory
-	mkdir -pv $TMPLOGLOC >> $ALOG 2>&1
+	mkdir -pv $TMPLOGLOC >> $LOG 2>&1
 
 	# Saving Magisk and module log files and device original build.prop
 	for ITEM in $LOGGERS; do
@@ -307,71 +313,75 @@ collect_logs() {
 				*)	BPNAME=""
 				;;
 			esac
-			cp -af $ITEM ${TMPLOGLOC}/${BPNAME} >> $ALOG 2>&1
+			cp -af $ITEM ${TMPLOGLOC}/${BPNAME} >> $LOG 2>&1
 		else
 			case "$ITEM" in 
 				*/cache)
 					if [ "$CACHELOC" == "/cache" ]; then
-						CACHELOCTMP=/data/cache
-					else
 						CACHELOCTMP=/cache
+					else
+						CACHELOCTMP=/data/cache
 					fi
 					ITEMTPM=$(echo $ITEM | sed 's|$CACHELOC|$CACHELOCTMP|')
 					if [ -f "$ITEMTPM" ]; then
-						cp -af $ITEMTPM $TMPLOGLOC >> $ALOG 2>&1
+						cp -af $ITEMTPM $TMPLOGLOC >> $LOG 2>&1
 					else
 						log_handler "$ITEM not available."
 					fi
-				;;
+        ;;
 				*)	log_handler "$ITEM not available."
 				;;
 			esac
-  fi
+    fi
 	done
 
-	# Saving the current prop values
-	if $MAGISK; then 
+# Saving the current prop values
+if $MAGISK; then 
   log_handler "RESETPROPS"
-  echo "==========================================" >> $ALOG 2>&1
-	resetprop >> $ALOG 2>&1
-	else
-  log_handler "GETPROPS"
-  echo "==========================================" >> $ALOG 2>&1
-	getprop >> $ALOG 2>&1
-	fi
-  if $MAGISK; then
-   log_print " Collecting Modules Installed "
-   echo "==========================================" >> $ALOG 2>&1
-   ls /sbin/.magisk/img >> $ALOG 2>&1
-   log_print " Collecting Logs for Installed Files "
-   echo "==========================================" >> $ALOG 2>&1
-   log_handler "$(du -ah $MODPATH)" >> $ALOG 2>&1
-   log_print " Collecting Logs for Patches "
-   echo "==========================================" >> $ALOG 2>&1
-   grep "$MODID" -B 1 $DPF >> $ALOG 2>&1
-  fi
-
-	# Package the files
-	cd $CACHELOC
-	tar -zcvf Pix3lify_logs.tar.gz Pix3lify_logs >> $ALOG 2>&1
-
-  	# Copy package to internal storage
-	mv -f $CACHELOC/Pix3lify_logs.tar.gz $SDCARD >> $ALOG 2>&1
-
-if  [ -e $SDCARD/Pix3lify_logs.tar.gz ]; then 
-  log_print "Pix3lify_logs.tar.gz Created Successfully. Please Upload to Telegram, and tag @JohnFawkes"
+  echo "==========================================" >> $LOG 2>&1
+	resetprop >> $LOG 2>&1
 else
-  log_print "Zip File Not Created. Error in Script"
+  log_handler "GETPROPS"
+  echo "==========================================" >> $LOG 2>&1
+	getprop >> $LOG 2>&1
+fi
+if $MAGISK; then
+  log_print " Collecting Modules Installed "
+  echo "==========================================" >> $LOG 2>&1
+  if [ $MAGISK_VERSIONCODE -ge "18000" ]; then
+    ls /sbin/.magisk/img >> $LOG 2>&1
+  else
+    ls /sbin/.core/img >> $LOG 2>&1
+  fi
+  log_print " Collecting Logs for Installed Files "
+  echo "==========================================" >> $LOG 2>&1
+  log_handler "$(du -ah $MODPATH)" >> $LOG 2>&1
+  log_print " Collecting Logs for Patches "
+  echo "==========================================" >> $LOG 2>&1
+  grep "$MODID" -B 1 $DPF >> $LOG 2>&1
 fi
 
-	# Remove temporary directory
-	rm -rf $TMPLOGLOC >> $ALOG 2>&1
+# Package the files
+cd $CACHELOC
+tar -zcvf Pix3lify_logs.tar.xz Pix3lify_logs >> $LOG 2>&1
 
-	log_handler "Logs and information collected."
+# Copy package to internal storage
+mv -f $CACHELOC/Pix3lify_logs.tar.xz $SDCARD >> $LOG 2>&1
+
+if  [ -e $SDCARD/Pix3lify_logs.tar.xz ]; then 
+  log_print "Pix3lify_logs.tar.xz Created Successfully."
+else
+  log_print "Archive File Not Created. Error in Script. Please contact the Pix3lify Team"
+fi
+
+# Remove temporary directory
+rm -rf $TMPLOGLOC >> $LOG 2>&1
+
+log_handler "Logs and information collected."
 }
 
 # Load functions
-log_start "Running Log script." >> $ALOG 2>&1
+log_start "Running Log script." >> $LOG 2>&1
 
 menu() {
   choice=""
@@ -401,6 +411,7 @@ while [ "$choice" != "q" ];
   echo ""
   echo -e "${B}Please make a Selection${N}"
   echo ""
+
   echo -e "${W}L)${N} ${B}Logging${N}"
   echo ""
   echo -e "${W}Q)${N} ${B}Quit${N}"
@@ -410,11 +421,12 @@ while [ "$choice" != "q" ];
 
 read -r choice
   case $choice in
-  l|L) log_print " Collecting Logs and Creating Zip "
+  l|L) log_print " Collecting logs and creating archive "
   magisk_version 
   collect_logs
-  test_connection
-  upload_logs
+#  test_connection
+#  upload_logs
+#  rm -f $SDCARD/Pix3lify_logs.tar.xz
   break
   ;;
   q|Q) echo "${R}quiting!${N}"

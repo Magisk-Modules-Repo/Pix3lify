@@ -1,13 +1,5 @@
 #!/system/bin/sh
 MODPATH=${0%/*}
-MAGISK=<MAGISK>
-SYSOVERRIDE=<SYSOVERRIDE>
-MODID=<MODID>
-ROOT=<ROOT>
-SYS=<SYS>
-VEN=<VEN>
-LIBDIR=<LIBDIR>
-INFO=<INFO>
 
 if [ ! -f $INFO ]; then
   rm -rf $MOUNTPATH/$MODID

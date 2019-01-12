@@ -103,7 +103,7 @@ chooseold() {
 
 SLIM=false; FULL=false; OVER=false; BOOT=false; ACC=false;
 # Gets stock/limit from zip name
-case $(basename $ZIP) in
+case $(basename $ZIPFILE) in
   *slim*|*Slim*|*SLIM*) SLIM=true;;
   *full*|*Full*|*FULL*) FULL=true;;
   *over*|*Over*|*OVER*) OVER=true;;
@@ -117,11 +117,12 @@ log_print "- Installing Logging Scripts/Prepping Terminal Script "
 mkdir -p $UNITY$BINPATH
 cp_ch -n $INSTALLER/pix3lify.sh $UNITY$BINPATH/pix3lify
 log_handler "Using $BINPATH."
-sed -i -e "s|<MAGISK>|$MAGISK|" -e "s|<CACHELOC>|$CACHELOC|" -e "s|<BINPATH>|$BINPATH|" -e "s|<MODVERSION>|$(grep_prop versionCode $INSTALLER/module.prop)|" -e "s|<MODID>|$MODID|" $UNITY$BINPATH/icewizard
+
+sed -i -e "s|<CACHELOC>|$CACHELOC|" -e "s|<BINPATH>|$BINPATH|" $UNITY$BINPATH/pix3lify
 if $MAGISK; then
-sed -i -e "s|<PROP>|$(echo $PROP)|" -e "s|<MODPATH>|/sbin/.magisk/img/Pix3lify|" -e "s|<MODPROP>|$(echo $MOD_VER)|" -e "s|<MOUNTPATH>|/sbin/.magisk/img|" $UNITY$BINPATH/pix3lify
+sed -i -e "s|<PROP>|$PROPFILE|" -e "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY$BINPATH/pix3lify
 else
-  sed -i -e "s|<PROP>|$PROP|" -e "s|<MODPROP>|$MOD_VER|" -e "s|<MODPATH>|\"\"|" -e "s|<MOUNTPATH>|\"\"|" $UNITY$BINPATH/pix3lify
+  sed -i -e "s|<PROP>|$PROP|" -e "s|<MODPROP>|$MOD_VER|" $UNITY$BINPATH/pix3lify
 fi
 patch_script $UNITY$BINPATH/pix3lify
 
@@ -298,7 +299,7 @@ if [ "$SLIM" == "false" ]; then
   chmod 660 $WELLBEING_PREF_FILE
   WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
   mkdir -p $WELLBEING_PREF_FOLDER
-  cp -p $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
+  cp_ch $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
   if $MAGISK && $BOOTMODE; then
     magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }"
     am force-stop "com.google.android.apps.wellbeing"
@@ -311,7 +312,9 @@ for i in "SLIM" "FULL"; do
 done
 cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
 
-cp_ch -nn $INSTALLER/common/unityfiles/tools/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
+cp_ch -i $INSTALLER/common/unityfiles/tools/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
+
+cp_ch -i $UNITY$BINPATH/pix3lify $CACHELOC
 
 log_print " If you encounter any bugs or issues, please type pix3lify"
 log_print " in a terminal emulator and choose yes to send logs to our server"

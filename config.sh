@@ -41,7 +41,6 @@ LATESTARTSERVICE=true
 # Uncomment DYNAMICOREO if you want libs installed to vendor for oreo and newer and system for anything older
 # Uncomment DYNAMICAPP if you want anything in $INSTALLER/system/app to be installed to the optimal app directory (/system/priv-app if it exists, /system/app otherwise)
 # Uncomment SYSOVERRIDE if you want the mod to always be installed to system (even on magisk)
-# Uncomment RAMDISK if you have ramdisk modifications. If you only want ramdisk patching as part of a conditional, just keep this commented out and set RAMDISK=true in that conditional.
 # Uncomment DEBUG if you want full debug logs (saved to SDCARD if in twrp, part of regular log if in magisk manager (user will need to save log after flashing)
 MINAPI=26
 #MAXAPI=25
@@ -49,8 +48,10 @@ SEPOLICY=true
 #SYSOVERRIDE=true
 #DYNAMICOREO=true
 #DYNAMICAPP=true
-#RAMDISK=true
 DEBUG=true
+
+
+
 
 # Custom Variables for Install AND Uninstall - Keep everything within this function
 unity_custom() {
@@ -84,15 +85,15 @@ unity_custom() {
   MODTITLE=$(grep_prop name $INSTALLER/module.prop)
   VER=$(grep_prop version $INSTALLER/module.prop)
 	AUTHOR=$(grep_prop author $INSTALLER/module.prop)
-  INSTLOG=$CACHELOC/$MODID_install.log
+  INSTLOG=$CACHELOC/Pix3lify-install.log
+  MAGISK_VERSIONCODE=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VERSIONCODE=") | sed 's|-.*||')
 } 
 
 # Custom Functions for Install AND Uninstall - You can put them here
 # Log functions
-
 log_handler() {
-  echo "" >> $INSTLOG 2>&1
-  echo -e "$(date +"%m-%d-%Y %H:%M:%S") - $1" >> $INSTLOG 2>&1
+	echo "" >> $INSTLOG
+	echo -e "$(date +"%m-%d-%Y %H:%M:%S") - $1" >> $INSTLOG 2>&1
 }
 
 log_start() {
@@ -121,7 +122,18 @@ log_print() {
   log_handler "$1"
 }
 
-# Custom Functions for Install AND Uninstall - You can put them here
+get_file_value() {
+if [ -f "$1" ]; then
+cat $1 | grep $2 | sed "s|.*${2}||" | sed 's|"||g'
+fi
+}
+
+# Things that ONLY run during an upgrade (occurs after unity_custom) - you probably won't need this
+# Note that the normal upgrade process is just an uninstall followed by an install
+unity_upgrade() {
+  :
+}
+
 
 ##########################################################################################
 # Installation Message
