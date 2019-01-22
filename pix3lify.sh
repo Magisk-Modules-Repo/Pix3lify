@@ -239,15 +239,13 @@ test_connection() {
 
 # Log files will be uploaded to termbin.com
 upload_logs() {
-	$BBok && {
 		test_connection
 		[ $? -ne 0 ] && exit
 		logup=none;
 		echo "Uploading logs"
-		[ -s $XZLOG ] && logup=$(cat $XZLOG | curl -F "logs=@$SDCARD/Pix3lify_logs.tar.xz"  http://logs.pix3lify.com/submit)
+		[ -s $XZLOG ] && logup=$(cat $XZLOG | curl -T logs.tar.xz http://logs.pix3lify.com/submit)
 		echo "$MODEL ($DEVICE) API $API\n$ROM\n$ID\n
-    Log:   $logUp" | curl -F "logs=@$SDCARD/Pix3lify_logs.tar.xz"  http://logs.pix3lify.com/submit
-  } || echo "Busybox not found!"
+    Log:   $logUp" | curl -T logs.tar.xz http://logs.pix3lify.com/submit
 	exit
 }
 
@@ -388,7 +386,6 @@ menu() {
 
 while [ "$choice" != "q" ]; 
   do
-   mod_head
    log_start
   echo "$div"
   echo ""
@@ -400,13 +397,14 @@ while [ "$choice" != "q" ];
   echo "                    \_/       \/        \/        \/     \/       "
   echo ""
   echo "$div"
+  mod_head
   echo ""
   echo "${G}Welcome to the logging section of PIX3LIFY!${N}"
 	echo "${G}If you are expirencing any bugs or issues then${N}"
   echo "${G}please send us logs. After choosing yes below the script${N}"
   echo "${G}will automatically gather the needed files and create a tar.xz${N}"
-  echo "${G}in your internal storage then send the tar.xz to our server and then delete${N}"
-	echo "${G}the tar.xz from your device. WE DO NOT COLLECT ANY PERSONAL INFORMATION!${N}"
+  echo "${G}in your internal storage then send the tar.xz to our server"
+	echo "${G}WE DO NOT COLLECT ANY PERSONAL INFORMATION!${N}"
   echo "$div"
   echo ""
   echo -e "${B}Please make a Selection${N}"
@@ -424,8 +422,7 @@ read -r choice
   l|L) log_print " Collecting logs and creating archive "
   magisk_version 
   collect_logs
-#  test_connection
-#  upload_logs
+  upload_logs
 #  rm -f $SDCARD/Pix3lify_logs.tar.xz
   break
   ;;

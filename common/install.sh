@@ -60,47 +60,6 @@ patch_xml() {
   done 
 }
 
-keytest() {
-  ui_print " - Vol Key Test -"
-  ui_print "   Press Vol Up:"
-  (/system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events) || return 1
-  return 0
-}
-
-choose() {
-  # Note from chainfire @xda-developers: getevent behaves weird when piped, and busybox grep likes that even less than toolbox/toybox grep
-  while true; do
-    /system/bin/getevent -lc 1 2>&1 | /system/bin/grep VOLUME | /system/bin/grep " DOWN" > $INSTALLER/events
-    if (`cat $INSTALLER/events 2>/dev/null | /system/bin/grep VOLUME >/dev/null`); then
-      break
-    fi
-  done
-  if (`cat $INSTALLER/events 2>/dev/null | /system/bin/grep VOLUMEUP >/dev/null`); then
-    return 0
-  else
-    return 1
-  fi
-}
-
-chooseold() {
-  # Calling it first time detects previous input. Calling it second time will do what we want
-  keycheck
-  keycheck
-  SEL=$?
-  if [ "$1" == "UP" ]; then
-    UP=$SEL
-  elif [ "$1" == "DOWN" ]; then
-    DOWN=$SEL
-  elif [ $SEL -eq $UP ]; then
-    return 0
-  elif [ $SEL -eq $DOWN ]; then
-    return 1
-  else
-    ui_print "   Vol key not detected!"
-    abort "   Use name change method in TWRP"
-  fi
-}
-
 SLIM=false; FULL=false; OVER=false; BOOT=false; ACC=false;
 # Gets stock/limit from zip name
 case $(basename $ZIPFILE) in
@@ -151,25 +110,12 @@ if [ -f "$OVERLAY" ]; then
 fi
 
 if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == false -a "$ACC" == false ]; then
-  if keytest; then
-    FUNCTION=choose >> $INSTLOG 2>&1
-  else
-    FUNCTION=chooseold >> $INSTLOG 2>&1
-    log_print "   ! Legacy device detected! Using old keycheck method"
-    ui_print " "
-    log_print " - Vol Key Programming -"
-    log_print "   Press Vol Up:"
-    $FUNCTION "UP" >> $INSTLOG 2>&1
-    log_print "   Press Vol Down:"
-    $FUNCTION "DOWN" >> $INSTLOG 2>&1
-  fi
-
   if ! $SLIM && ! $FULL && ! $OVER && ! $BOOT && ! $ACC; then
     ui_print " "
     log_print " - Slim Options -"
     log_print "   Do you want to enable slim mode (heavily reduced featureset, see README)?"
     log_print "   Vol Up = Yes, Vol Down = No"
-    if $FUNCTION; then
+    if $VKSEL; then
       SLIM=true >> $INSTLOG 2>&1
     else
       FULL=true >> $INSTLOG 2>&1
@@ -179,7 +125,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
         log_print "   Pix3lify overlay has been known to not work and cause issues on devices running OxygenOS!"
         log_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
         log_print "   Vol Up = Yes, Vol Down = No"
-        if $FUNCTION; then
+        if $VKSEL; then
           ui_print " "
           log_print "   Ignoring warnings..."
         fi
@@ -188,13 +134,13 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
           log_print " - Overlay Options -"
           log_print "   Do you want the Pixel overlays enabled?"
           log_print "   Vol Up = Yes, Vol Down = No"
-          if $FUNCTION; then
+          if $VKSEL; then
             OVER=true >> $INSTLOG 2>&1
             ui_print " "
             log_print " - Accent Options -"
             log_print "   Do you want the Pixel accent enabled?"
             log_print "   Vol Up = Yes, Vol Down = No"
-            if $FUNCTION; then
+            if $VKSEL; then
               ACC=true >> $INSTLOG 2>&1
             fi
           fi
@@ -203,7 +149,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
     log_print " - Animation Options -"
     log_print "   Do you want the Pixel boot animation?"
     log_print "   Vol Up = Yes, Vol Down = No"
-    if $FUNCTION; then
+    if $VKSEL; then
       BOOT=true >> $INSTLOG 2>&1
     fi
   fi
@@ -275,7 +221,7 @@ fi
 if [ $API -ge 28 ]; then
   ui_print " "
   log_print "   Enabling Google's Call Screening..."
-  DPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
+  DPF=/data/data/com.google.android.dialer*/shared_prefs/dialer_phenotype_flags.xml
   if [ -f $DPF ]; then
     # Enabling Google's Call Screening
     patch_xml -s $DPF '/map/boolean[@name="G__speak_easy_bypass_locale_check"]' "true" >> $INSTLOG 2>&1
@@ -297,7 +243,7 @@ if [ "$SLIM" == "false" ]; then
   # Enabling Google's Flip to Shhh
   WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
   chmod 660 $WELLBEING_PREF_FILE
-  WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing/shared_prefs/
+  WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing*/shared_prefs/
   mkdir -p $WELLBEING_PREF_FOLDER
   cp_ch $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
   if $MAGISK && $BOOTMODE; then

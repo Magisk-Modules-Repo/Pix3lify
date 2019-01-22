@@ -73,7 +73,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -  Introduce logging
 -  Add pix3lify terminal script to send logs
 -  Bug fixes/typos
--  Unity 3.1
+-  Unity 3.3
 -  Added xmlstarlet for xml patching
 -  Bug fixes/typos
 -  Add (FULL) or (SLIM) to module.prop depending on user choice
