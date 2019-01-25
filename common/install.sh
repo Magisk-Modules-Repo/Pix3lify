@@ -221,7 +221,7 @@ fi
 if [ $API -ge 28 ]; then
   ui_print " "
   log_print "   Enabling Google's Call Screening..."
-  DPF=/data/data/com.google.android.dialer*/shared_prefs/dialer_phenotype_flags.xml
+  DPF=$(find /data/data/com.google.android.dialer*/shared_prefs/ -name "dialer_phenotype_flags.xml")
   if [ -f $DPF ]; then
     # Enabling Google's Call Screening
     patch_xml -s $DPF '/map/boolean[@name="G__speak_easy_bypass_locale_check"]' "true" >> $INSTLOG 2>&1
@@ -243,7 +243,7 @@ if [ "$SLIM" == "false" ]; then
   # Enabling Google's Flip to Shhh
   WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
   chmod 660 $WELLBEING_PREF_FILE
-  WELLBEING_PREF_FOLDER=/data/data/com.google.android.apps.wellbeing*/shared_prefs/
+  WELLBEING_PREF_FOLDER=$(find /data/data/com.google.android.apps.wellbeing* -name "shared_prefs")
   mkdir -p $WELLBEING_PREF_FOLDER
   cp_ch $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
   if $MAGISK && $BOOTMODE; then
