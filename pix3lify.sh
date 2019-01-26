@@ -25,7 +25,7 @@ SDCARD=/storage/emulated/0
 TMPLOG=Pix3lify_logs.log
 TMPLOGLOC=$CACHELOC/Pix3lify_logs
 XZLOG=$SDCARD/Pix3lify_logs.tar.xz
-  DPF=$(find /data/data/com.google.android.dialer*/shared_prefs/ -name "dialer_phenotype_flags.xml")
+DPF=$(find /data/data/com.google.android.dialer*/shared_prefs/ -name "dialer_phenotype_flags.xml")
 
 quit() {
   PATH=$OLDPATH
