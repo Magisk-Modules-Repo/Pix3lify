@@ -281,14 +281,14 @@ cp_ch() {
 
 patch_script() {
   [ -L /system/vendor ] && local VEN=/vendor
-  sed -i -e "1i $SHEBANG" -e '2i MODPATH=${0%/*}' -e "2i SYS=$ROOT/system" -e "2i VEN=$ROOT$VEN" $1
+  sed -i -e "1i $SHEBANG" -e '1i MODPATH=${0%/*}' -e "1i SYS=$ROOT/system" -e "1i VEN=$ROOT$VEN" $1
   for i in "ROOT" "MAGISK" "LIBDIR" "SYSOVERRIDE" "MODID"; do
-    sed -i "3i $i=$(eval echo \$$i)" $1
+    sed -i "2i $i=$(eval echo \$$i)" $1
   done
   if $MAGISK; then 
-    sed -i -e "s|\$MOUNTPATH|$MAGISKTMP/img|g" -e "s|\$UNITY|$MAGISKTMP/img/$MODID|g" -e "3i INFO=$(echo $INFO | sed "s|$MOUNTPATH|$MAGISKTMP/img|")" $1
+    sed -i -e "s|\$MOUNTPATH|$MAGISKTMP/img|g" -e "s|\$UNITY|$MAGISKTMP/img/$MODID|g" -e "2i INFO=$(echo $INFO | sed "s|$MOUNTPATH|$MAGISKTMP/img|")" $1
   else
-    sed -i -e "s|\$MOUNTPATH||g" -e "s|\$UNITY||g" -e "3i INFO=$INFO" $1
+    sed -i -e "s|\$MOUNTPATH||g" -e "s|\$UNITY||g" -e "2i INFO=$INFO" $1
   fi
 }
 
@@ -317,7 +317,7 @@ install_script() {
 }
 
 prop_process() {
-  sed -i "/^#/d" $1
+  sed -i -e "/^#/d" -e "/^ *$/d" $1
   if $MAGISK; then
     [ -f $PROP ] || mktouch $PROP
   else
