@@ -8,7 +8,7 @@ patch_xml() {
     VALC="value"; VAL="$4"
   fi
   case $2 in
-    *dialer_phenotype_flags*.xml)  sed -i "/#DIALERPATCHES/a\          patch_xml $1 \$MODPATH/\ '$3' \"$4\"" $INSTALLER/common/post-fs-data.sh; VAR1=boolean; VAR2=string; VAR3=long;;
+    *dialer_phenotype_flags*.xml)  sed -i "/#DIALERPATCHES/a\          patch_xml $1 \$MODPATH/\ '$3' \"$4\"" $INSTALLER/common/post-fs-data.sh; VAR1=boolean; VAR2=string;;
     *mixer_paths*.xml) sed -i "/#MIXERPATCHES/a\                       patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=ctl; VAR2=mixer;;
     *sapa_feature*.xml) sed -i "/#SAPAPATCHES/a\                        patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=feature; VAR2=model;;
     *mixer_gains*.xml) sed -i "/#GAINPATCHES/a\                       patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=ctl; VAR2=mixer;;
@@ -79,9 +79,9 @@ log_handler "Using $BINPATH."
 
 sed -i -e "s|<CACHELOC>|$CACHELOC|" -e "s|<BINPATH>|$BINPATH|" $UNITY$BINPATH/pix3lify
 if $MAGISK; then
-sed -i -e "s|<PROP>|$PROPFILE|" -e "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY$BINPATH/pix3lify
+sed -i "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY$BINPATH/pix3lify
 else
-  sed -i -e "s|<PROP>|$PROP|" -e "s|<MODPROP>|$MOD_VER|" $UNITY$BINPATH/pix3lify
+  sed -i "s|<MODPROP>|$MOD_VER|" $UNITY$BINPATH/pix3lify
 fi
 patch_script $UNITY$BINPATH/pix3lify
 

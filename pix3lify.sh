@@ -25,7 +25,7 @@ SDCARD=/storage/emulated/0
 TMPLOG=Pix3lify_logs.log
 TMPLOGLOC=$CACHELOC/Pix3lify_logs
 XZLOG=$SDCARD/Pix3lify_logs.tar.xz
-DPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
+  DPF=$(find /data/data/com.google.android.dialer*/shared_prefs/ -name "dialer_phenotype_flags.xml")
 
 quit() {
   PATH=$OLDPATH
@@ -53,7 +53,7 @@ VERLOG=$CACHELOC/Pix3lify-verbose.log
 oldVERLOG=$CACHELOC/Pix3lify-verbose-old.log
 
 # Start Logging verbosely
-mv -f $VERLOG $oldVERLOG 2>/dev/null; mv -f $LOG $oldLOG 2>/dev/null
+mv -f $VERLOG $oldVERLOG 2>/dev/null
 set -x 2>$VERLOG
 
 # Loggers
@@ -237,16 +237,16 @@ test_connection() {
 	ping -q -c 1 -W 1 google.com >/dev/null 2>/dev/null && echo "- OK" || { echo "Error"; false; }
 }
 
-# Log files will be uploaded to termbin.com
+# Log files will be uploaded to logs.pix3lify.com
 upload_logs() {
-		test_connection
-		[ $? -ne 0 ] && exit
-		logup=none;
-		echo "Uploading logs"
-		[ -s $XZLOG ] && logup=$(cat $XZLOG | curl -T logs.tar.xz http://logs.pix3lify.com/submit)
-		echo "$MODEL ($DEVICE) API $API\n$ROM\n$ID\n
-    Log:   $logUp" | curl -T logs.tar.xz http://logs.pix3lify.com/submit
-	exit
+  test_connection
+  [ $? -ne 0 ] && exit
+  logup=none;
+  echo "Uploading logs"
+  [ -s $XZLOG ] && logup=$(curl -T $XZLOG http://logs.pix3lify.com/submit)
+  echo "$MODEL ($DEVICE) API $API\n$ROM\n$ID\n
+  Log:   $logup"
+  exit
 }
 
 
@@ -278,7 +278,7 @@ fi
 # Saves the previous log (if available) and creates a new one
 log_start() {
 if [ -f "$LOG" ]; then
-	mv -f $LOG $OLDLOG
+	mv -f $LOG $oldLOG
 fi
 touch $LOG
 echo " " >> $LOG 2>&1
@@ -403,7 +403,8 @@ while [ "$choice" != "q" ];
 	echo "${G}If you are expirencing any bugs or issues then${N}"
   echo "${G}please send us logs. After choosing yes below the script${N}"
   echo "${G}will automatically gather the needed files and create a tar.xz${N}"
-  echo "${G}in your internal storage then send the tar.xz to our server"
+  echo "${G}in your internal storage then send the tar.xz to our server${N}"
+  echo "${G}It will then delete the tar.xz from your device${N}"
 	echo "${G}WE DO NOT COLLECT ANY PERSONAL INFORMATION!${N}"
   echo "$div"
   echo ""
@@ -423,7 +424,7 @@ read -r choice
   magisk_version 
   collect_logs
   upload_logs
-#  rm -f $SDCARD/Pix3lify_logs.tar.xz
+  rm -f $SDCARD/Pix3lify_logs.tar.xz
   break
   ;;
   q|Q) echo "${R}quiting!${N}"
