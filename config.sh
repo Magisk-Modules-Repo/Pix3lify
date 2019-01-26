@@ -76,7 +76,7 @@ unity_custom() {
   AUTHOR=$(grep_prop author $INSTALLER/module.prop)
   INSTLOG=$CACHELOC/Pix3lify-install.log
   MAGISK_VERSIONCODE=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VERSIONCODE=") | sed 's|-.*||')
-} 
+}
 
 # Custom Functions for Install AND Uninstall - You can put them here
 # Log functions
@@ -149,6 +149,8 @@ REPLACE="
 set_permissions() {
   set_perm $UNITY/system/bin/xmlstarlet 0 2000 0755
   set_perm $UNITY$BINPATH/pix3lify 0 2000 0755
+  
+  [ -f "$UNITY$BINPATH/curl" ] && set_perm $UNITY$BINPATH/curl 0 2000 0755 
 
   # Note that all files/folders have the $UNITY prefix - keep this prefix on all of your files/folders
   # Also note the lack of '/' between variables - preceding slashes are already included in the variables

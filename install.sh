@@ -275,7 +275,6 @@ fi
 for i in "SLIM" "FULL"; do
   sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
 done
-cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
 
 cp_ch -i $INSTALLER/common/unityfiles/tools/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
 
