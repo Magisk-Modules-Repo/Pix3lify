@@ -2,7 +2,7 @@
 INSTALLER=$(dirname "${BASH_SOURCE[0]}")/../
 VERSION=$(cat "$INSTALLER/module.prop" | grep version= | cut -d "=" -f2)
 BRANCH=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD)
-ZIP=builds/Pix3lify_"$VERSION".zip
+ZIP=builds/Pix3lify_"$BRANCH".zip
 
 echo "Building $VERSION from $BRANCH of Pix3lify\n"
 cd $INSTALLER || exit
