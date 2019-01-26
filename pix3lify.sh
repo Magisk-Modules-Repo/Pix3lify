@@ -239,7 +239,6 @@ test_connection() {
 
 # Log files will be uploaded to logs.pix3lify.com
 upload_logs() {
-<<<<<<< HEAD
   test_connection
   [ $? -ne 0 ] && exit
   logup=none;
@@ -248,16 +247,6 @@ upload_logs() {
   echo "$MODEL ($DEVICE) API $API\n$ROM\n$ID\n
   Log:   $logup"
   exit
-=======
-	test_connection
-	[ $? -ne 0 ] && exit
-	logup=none;
-	echo "Uploading logs"
-	[ -s $XZLOG ] && logup=$(curl -T $XZLOG http://logs.pix3lify.com/submit)
-	echo "$MODEL ($DEVICE) API $API\n$ROM\n$ID\n
-  Log:   $logup"
-	exit
->>>>>>> aa4663b3395b3381a2be8e72dff643d3a4d7e063
 }
 
 
