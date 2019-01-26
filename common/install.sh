@@ -8,11 +8,7 @@ patch_xml() {
     VALC="value"; VAL="$4"
   fi
   case $2 in
-<<<<<<< HEAD
-    *dialer_phenotype_flags*.xml)  sed -i "/#DIALERPATCHES/a\          patch_xml $1 \$MODPATH/\ '$3' \"$4\"" $INSTALLER/common/post-fs-data.sh; VAR1=boolean; VAR2=string; VAR3=long;;
-=======
     *dialer_phenotype_flags*.xml)  sed -i "/#DIALERPATCHES/a\          patch_xml $1 \$MODPATH/\ '$3' \"$4\"" $INSTALLER/common/post-fs-data.sh; VAR1=boolean; VAR2=string;;
->>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
     *mixer_paths*.xml) sed -i "/#MIXERPATCHES/a\                       patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=ctl; VAR2=mixer;;
     *sapa_feature*.xml) sed -i "/#SAPAPATCHES/a\                        patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=feature; VAR2=model;;
     *mixer_gains*.xml) sed -i "/#GAINPATCHES/a\                       patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=ctl; VAR2=mixer;;
@@ -25,7 +21,7 @@ patch_xml() {
       sed -i "0,/<$VAR1 $NAMEC=\"$NAME\" $VALC=\".*\" \/>/ s/\(<$VAR1 $NAMEC=\"$NAME\" $VALC=\"\).*\(\" \/>\)/\1$VAL\2<!--$MODID-->/" $2
     elif [ "$1" == "-t" ]; then
       sed -i "/<$VAR2>/ a\    <$VAR1 $NAMEC=\"$NAME\" $VALC=\"$VAL\" \/><!--$MODID-->" $2
-    fi    
+    fi
   elif [ "$(xmlstarlet sel -t -m "$3" -c . $2)" ]; then
     [ "$(xmlstarlet sel -t -m "$3" -c . $2 | sed -r "s/.*$VALC=(\".*\").*/\1/")" == "$VAL" ] && return
     xmlstarlet ed -P -L -i "$3" -t elem -n "$MODID" $2
@@ -55,26 +51,19 @@ patch_xml() {
     for i in ${LN}; do
       sed -i "$i d" $2
       sed -ri "${i}s/$/<!--$MODID-->/" $2
-    done 
+    done
   fi
   local LN=$(sed -n "/^ *<!--$MODID-->$/=" $2 | tac)
   for i in ${LN}; do
     sed -i "$i d" $2
     sed -ri "$((i-1))s/$/<!--$MODID-->/" $2
-  done 
+  done
 }
 
-log_print "   Decompressing files..."
-tar -xf $INSTALLER/system.tar.xz -C $INSTALLER 2>/dev/null
-
 # Gets stock/limit from zip name
-<<<<<<< HEAD
-case $(basename $ZIPFILE) in
-=======
 SLIM=false; FULL=false; OVER=false BOOT=false; ACC=false
 OIFS=$IFS; IFS=\|
 case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
->>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
   *slim*|*Slim*|*SLIM*) SLIM=true;;
   *full*|*Full*|*FULL*) FULL=true;;
   *over*|*Over*|*OVER*) OVER=true;;
@@ -90,26 +79,11 @@ mkdir -p $UNITY$BINPATH
 cp_ch -n $INSTALLER/pix3lify.sh $UNITY$BINPATH/pix3lify
 log_handler "Using $BINPATH."
 
-<<<<<<< HEAD
-## Debug Stuff
-log_start
-log_print "- Installing Logging Scripts/Prepping Terminal Script "
-mkdir -p $UNITY$BINPATH
-cp_ch -n $INSTALLER/pix3lify.sh $UNITY$BINPATH/pix3lify
-log_handler "Using $BINPATH."
-
-sed -i -e "s|<CACHELOC>|$CACHELOC|" -e "s|<BINPATH>|$BINPATH|" $UNITY$BINPATH/pix3lify
-if $MAGISK; then
-sed -i -e "s|<PROP>|$PROPFILE|" -e "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY$BINPATH/pix3lify
-else
-  sed -i -e "s|<PROP>|$PROP|" -e "s|<MODPROP>|$MOD_VER|" $UNITY$BINPATH/pix3lify
-=======
 sed -i -e "s|<CACHELOC>|$CACHELOC|" -e "s|<BINPATH>|$BINPATH|" $UNITY$BINPATH/pix3lify
 if $MAGISK; then
 sed -i "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY$BINPATH/pix3lify
 else
   sed -i "s|<MODPROP>|$MOD_VER|" $UNITY$BINPATH/pix3lify
->>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
 fi
 patch_script $UNITY$BINPATH/pix3lify
 
@@ -118,11 +92,7 @@ if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "
   log_print "   Pix3lify is only for non-Google devices!"
   log_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
   log_print "   Vol Up = Yes, Vol Down = No"
-<<<<<<< HEAD
-  if $FUNCTION; then
-=======
   if $VKSEL; then
->>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
     ui_print " "
     log_print "   Ignoring warnings..."
   else
@@ -142,10 +112,6 @@ if [ -f "$OVERLAY" ]; then
 fi
 
 if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == false -a "$ACC" == false ]; then
-<<<<<<< HEAD
-  if ! $SLIM && ! $FULL && ! $OVER && ! $BOOT && ! $ACC; then
-=======
->>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
     ui_print " "
     log_print " - Slim Options -"
     log_print "   Do you want to enable slim mode (heavily reduced featureset, see README)?"
@@ -163,8 +129,6 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
         if $VKSEL; then
           ui_print " "
           log_print "   Ignoring warnings..."
-<<<<<<< HEAD
-=======
         fi
       fi
       ui_print " "
@@ -179,7 +143,6 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
         log_print "   Vol Up = Yes, Vol Down = No"
         if $VKSEL; then
           ACC=true >> $INSTLOG 2>&1
->>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
         fi
       fi
           ui_print " "
@@ -204,12 +167,12 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
     if $VKSEL; then
       BOOT=true >> $INSTLOG 2>&1
     fi
-<<<<<<< HEAD
-  fi
-=======
->>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
 else
   log_print " Options specified in zip name!"
+fi
+
+if [ ! -f "$BINPATH/curl" ]; then
+  cp_ch $INSTALLER/curl $UNITY$BINPATH/curl
 fi
 
 # had to break up volume options this way for basename zip for users without working vol keys

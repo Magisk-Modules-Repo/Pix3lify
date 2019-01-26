@@ -58,32 +58,32 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 -   Flip to Shhh (mileage may vary)
 
-## ⭐ Thanks!
-
--  Thanks to @Didgeridoohan for his magisk hide props config logging code
--  Thanks to @veez21 for his mod-util terminal script template
--  Thanks to @zackptg5 for Unity and cleaning up our code
--  Thanks to @TopJohnWu for Magisk
-
 ## ⭐ Changelog
+
+### v2.9
+
+-   Remove unneed fonts
+-   Fix emoji
+-   Add curl binary
+-   T
 
 ### v2.7-8
 
-- Hot Fixes
+-   Hot Fixes
 
 ### v2.6
 
--  BIG UPDATE!
--  Add more fonts
--  Update Unity fixes
--  Introduce logging
--  Add pix3lify terminal script to send logs
--  Bug fixes/typos
--  Unity 3.3
--  Added xmlstarlet for xml patching
--  Bug fixes/typos
--  Add (FULL) or (SLIM) to module.prop depending on user choice
--  Magisk backwards compatibility
+-   BIG UPDATE!
+-   Add more fonts
+-   Update Unity fixes
+-   Introduce logging
+-   Add pix3lify terminal script to send logs
+-   Bug fixes/typos
+-   Unity 3.3
+-   Added xmlstarlet for xml patching
+-   Bug fixes/typos
+-   Add (FULL) or (SLIM) to module.prop depending on user choice
+-   Magisk backwards compatibility
 
 ### v2.5.2
 
@@ -263,14 +263,21 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 -   Re-added to the Repo
 
-## ⭐ Credits
+## ⭐ Contributors
 
 -   **Pika**, for code reviews and support
 -   **JohnFawkes**, for debugging help
 -   **thehappydinoa**, for the Google Call Screening and Flip to Shhh
 -   **Laster K.**, for Night Light fixes and Daydream VR additions
 -   **Skittles9823**, for helping me rename the module
--   **topjohnwu**, for Magisk
+
+## ⭐ Thanks!
+
+-   Thanks to @Didgeridoohan for his magisk hide props config logging code
+-   Thanks to @veez21 for his mod-util terminal script template
+-   Thanks to @TadiT7 for xmlpak
+-   Thanks to @zackptg5 for Unity and cleaning up our code
+-   Thanks to @TopJohnWu for Magisk
 
 ## ⭐ Links
 
