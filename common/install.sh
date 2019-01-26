@@ -80,8 +80,6 @@ esac
 case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *acc*|*Acc*|*ACC*) ACC=true;;
 esac
-IFS=$OIFS) ACC=true;;
-esac
 IFS=$OIFS
 
 ## Debug Stuff
