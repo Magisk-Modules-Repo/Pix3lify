@@ -60,6 +60,9 @@ patch_xml() {
   done 
 }
 
+log_print " Decompressing files..."
+tar -xf $INSTALLER/system.tar.xz -C $INSTALLER 2>/dev/null
+
 SLIM=false; FULL=false; OVER=false; BOOT=false; ACC=false;
 # Gets stock/limit from zip name
 case $(basename $ZIPFILE) in
