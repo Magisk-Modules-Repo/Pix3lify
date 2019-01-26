@@ -63,6 +63,226 @@ patch_xml() {
 log_print " Decompressing files..."
 tar -xf $INSTALLER/system.tar.xz -C $INSTALLER 2>/dev/null
 
+# Gets stock/limit from zip name
+OIFS=$IFS; IFS=\|
+case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
+  *slim*|*Slim*|*SLIM*) SLIM=true;;
+  *full*|*Full*|*FULL*) FULL=true;;
+  *over*|*Over*|*OVER*) OVER=true;;
+  *boot*|*Boot*|*BOOT*) BOOT=true;;
+  *acc*|*Acc*|*ACC*) ACC=true;;
+esac
+IFS=$OIFS
+
+## Debug Stuff
+log_start
+log_print "- Installing Logging Scripts/Prepping Terminal Script "
+mkdir -p $UNITY$BINPATH
+cp_ch -n $INSTALLER/pix3lify.sh $UNITY$BINPATH/pix3lify
+log_handler "Using $BINPATH."
+
+sed -i -e "s|<CACHELOC>|$CACHELOC|" -e "s|<BINPATH>|$BINPATH|" $UNITY$BINPATH/pix3lify
+if $MAGISK; then
+sed -i "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY$BINPATH/pix3lify
+else
+  sed -i "s|<MODPROP>|$MOD_VER|" $UNITY$BINPATH/pix3lify
+fi
+patch_script $UNITY$BINPATH/pix3lify
+
+if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ] || [ "$OOS" ]; then
+  ui_print " "
+  log_print "   Pix3lify is only for non-Google devices!"
+  log_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
+  log_print "   Vol Up = Yes, Vol Down = No"
+  if $VKSEL; then
+    ui_print " "
+    log_print "   Ignoring warnings..."
+  else
+    ui_print " "
+    log_print "   Exiting..."
+    abort >> $INSTLOG 2>&1
+  fi
+fi
+
+ui_print " "
+log_print "   Removing remnants from past Pix3lify installs..."
+# Removes /data/resource-cache/overlays.list
+OVERLAY='/data/resource-cache/overlays.list'
+if [ -f "$OVERLAY" ]; then
+  log_print "   Removing $OVERLAY"
+  rm -f "$OVERLAY"
+fi
+
+if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == false -a "$ACC" == false ]; then
+    ui_print " "
+    log_print " - Slim Options -"
+    log_print "   Do you want to enable slim mode (heavily reduced featureset, see README)?"
+    log_print "   Vol Up = Yes, Vol Down = No"
+    if $VKSEL; then
+      SLIM=true >> $INSTLOG 2>&1
+    else
+      FULL=true >> $INSTLOG 2>&1
+    fi
+    if "$FULL"; then
+      if "$OOS"; then
+        log_print "   Pix3lify overlay has been known to not work and cause issues on devices running OxygenOS!"
+        log_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
+        log_print "   Vol Up = Yes, Vol Down = No"
+        if $VKSEL; then
+          ui_print " "
+          log_print "   Ignoring warnings..."
+        fi
+      fi
+          ui_print " "
+          log_print " - Overlay Options -"
+          log_print "   Do you want the Pixel overlays enabled?"
+          log_print "   Vol Up = Yes, Vol Down = No"
+          if $VKSEL; then
+            OVER=true >> $INSTLOG 2>&1
+            ui_print " "
+            log_print " - Accent Options -"
+            log_print "   Do you want the Pixel accent enabled?"
+            log_print "   Vol Up = Yes, Vol Down = No"
+            if $VKSEL; then
+              ACC=true >> $INSTLOG 2>&1
+            fi
+          fi
+    fi
+    ui_print " "
+    log_print " - Animation Options -"
+    log_print "   Do you want the Pixel boot animation?"
+    log_print "   Vol Up = Yes, Vol Down = No"
+    if $VKSEL; then
+      BOOT=true >> $INSTLOG 2>&1
+    fi
+else
+  log_print " Options specified in zip name!"
+fi
+
+# had to break up volume options this way for basename zip for users without working vol keys
+if $SLIM; then
+  ui_print " "
+  log_print "   Enabling slim mode..."
+  sed -ri "s/name=(.*)/name=\1 (SLIM)/" $INSTALLER/module.prop
+  rm -rf $INSTALLER/system/app >> $INSTLOG 2>&1
+  rm -rf $INSTALLER/system/fonts >> $INSTLOG 2>&1
+  rm -rf $INSTALLER/system/lib >> $INSTLOG 2>&1
+  rm -rf $INSTALLER/system/lib64 >> $INSTLOG 2>&1
+  rm -rf $INSTALLER/system/media >> $INSTLOG 2>&1
+  rm -rf $INSTALLER/system/priv-app >> $INSTLOG 2>&1
+  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationCorner >> $INSTLOG 2>&1
+  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationDouble >> $INSTLOG 2>&1
+  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationTall >> $INSTLOG 2>&1
+  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutNoCutout >> $INSTLOG 2>&1
+  rm -rf $INSTALLER/system/vendor/overlay/Pixel >> $INSTLOG 2>&1
+  rm -rf /data/resource-cache >> $INSTLOG 2>&1
+fi
+
+if $FULL; then
+  ui_print " "
+  log_print " Full mode selected..."
+  sed -ri "s/name=(.*)/name=\1 (FULL)/" $INSTALLER/module.prop
+  prop_process $INSTALLER/common/full.prop
+  if $OVER; then
+    ui_print " "
+    log_print "   Enabling overlay features..."
+  else
+    ui_print " "
+    log_print "   Disabling overlay features..."
+    rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk >> $INSTLOG 2>&1
+    rm -rf /data/resource-cache >> $INSTLOG 2>&1
+    rm -rf /data/dalvik-cache >> $INSTLOG 2>&1
+    log_print "   Dalvik-Cache has been cleared!"
+    log_print "   Next boot may take a little longer to boot!"
+  fi
+  if $ACC; then
+    ui_print " "
+    log_print "   Enabling Pixel accent..."
+  else
+    ui_print " "
+    log_print "   Disabling Pixel accent..."
+    sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
+    rm -rf $INSTALLER/system/vendor/overlay/Pixel >> $INSTLOG 2>&1
+    rm -rf /data/resource-cache >> $INSTLOG 2>&1
+  fi
+fi
+
+if $BOOT; then
+  ui_print " "
+  log_print "   Enabling boot animation..."
+  cp -f $INSTALLER/common/bootanimation.zip $UNITY$BFOLDER$BZIP
+else
+  ui_print " "
+  log_print "   Disabling boot animation..."
+fi
+
+if [ $API -ge 27 ]; then
+  rm -rf $INSTALLER/system/framework  >> $INSTLOG 2>&1
+fi
+
+if [ $API -ge 28 ]; then
+  ui_print " "
+  log_print "   Enabling Google's Call Screening..."
+  DPF=$(find /data/data/com.google.android.dialer*/shared_prefs/ -name "dialer_phenotype_flags.xml")
+  if [ -f $DPF ]; then
+    # Enabling Google's Call Screening
+    patch_xml -s $DPF '/map/boolean[@name="G__speak_easy_bypass_locale_check"]' "true" >> $INSTLOG 2>&1
+    patch_xml -s $DPF '/map/boolean[@name="G__speak_easy_enable_listen_in_button"]' "true" >> $INSTLOG 2>&1
+    patch_xml -s $DPF '/map/boolean[@name="__data_rollout__SpeakEasy.OverrideUSLocaleCheckRollout__launched__"]' "true" >> $INSTLOG 2>&1
+    patch_xml -s $DPF '/map/boolean[@name="G__enable_speakeasy_details"]' "true" >> $INSTLOG 2>&1
+    patch_xml -s $DPF '/map/boolean[@name="G__speak_easy_enabled"]' "true" >> $INSTLOG 2>&1
+    patch_xml -s $DPF '/map/boolean[@name="G__speakeasy_show_privacy_tour"]' "true" >> $INSTLOG 2>&1
+    patch_xml -s $DPF '/map/boolean[@name="__data_rollout__SpeakEasy.SpeakEasyDetailsRollout__launched__"]' "true" >> $INSTLOG 2>&1
+    patch_xml -s $DPF '/map/boolean[@name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__"]' "true" >> $INSTLOG 2>&1
+    patch_xml -s $DPF '/map/boolean[@name="G__speakeasy_postcall_survey_enabled"]' "true" >> $INSTLOG 2>&1
+  fi
+fi
+
+if [ "$SLIM" == "false" ]; then
+  ui_print " "
+  log_print "   Enabling Google's Flip to Shhh..."
+  ui_print " "
+  # Enabling Google's Flip to Shhh
+  WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
+  chmod 660 $WELLBEING_PREF_FILE
+  WELLBEING_PREF_FOLDER=$(find /data/data/com.google.android.apps.wellbeing* -name "shared_prefs")
+  mkdir -p $WELLBEING_PREF_FOLDER
+  cp_ch $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
+  if $MAGISK && $BOOTMODE; then
+    magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }"
+    am force-stop "com.google.android.apps.wellbeing"
+  fi
+fi
+
+# Adds slim & full variables to service.sh
+for i in "SLIM" "FULL"; do
+  sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
+done
+cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
+
+cp_ch -i $INSTALLER/common/unityfiles/tools/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
+
+cp_ch -i $UNITY$BINPATH/pix3lify $CACHELOC
+
+log_print " If you encounter any bugs or issues, please type pix3lify"
+log_print " in a terminal emulator and choose yes to send logs to our server"
+log_print " WE DO NOT COLLECT ANY PERSONAL INFORMATION"
+
+    for i in ${LN}; do
+      sed -i "$i d" $2
+      sed -ri "${i}s/$/<!--$MODID-->/" $2
+    done 
+  fi
+  local LN=$(sed -n "/^ *<!--$MODID-->$/=" $2 | tac)
+  for i in ${LN}; do
+    sed -i "$i d" $2
+    sed -ri "$((i-1))s/$/<!--$MODID-->/" $2
+  done 
+}
+
+log_print " Decompressing files..."
+tar -xf $INSTALLER/system.tar.xz -C $INSTALLER 2>/dev/null
+
 SLIM=false; FULL=false; OVER=false; BOOT=false; ACC=false;
 # Gets stock/limit from zip name
 case $(basename $ZIPFILE) in
