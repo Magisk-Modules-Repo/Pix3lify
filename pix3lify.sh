@@ -16,7 +16,6 @@ fi
 
 MODPATH=$MOUNTPATH/Pix3lify
 
-
 # Variables
 OLDPATH=$PATH
 CACHELOC=<CACHELOC>
