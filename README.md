@@ -33,7 +33,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   OVER = Install pixel overlays
 -   ACC = Install pixel accent
 -   BOOT = Install pixel boot animation
--   To use the basename zip feature all you need to do is add the options to the zipname and only flash the zip in recovery. Magisk renames all zips to install.zip so flashing in magisk manager will NOT work. Heres an example of using basename to install full and overlays ( Pix3lify-2.6-full-over.zip )
+-   To use the basename zip feature all you need to do is add the options to the zipname and only flash the zip in recovery. Magisk renames all zips to install.zip so flashing in magisk manager will NOT work. Heres an example of using basename to install full and overlays ( Pix3lify-2.5-full-over.zip )
 -   The options can either be full, Full, or FULL ( applies to all options )
 
 ## ⭐ Features
@@ -69,8 +69,6 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ### v2.6
 
--  BIG UPDATE!
--  Add more fonts
 -  Update Unity fixes
 -  Introduce logging
 -  Add pix3lify terminal script to send logs
