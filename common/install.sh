@@ -63,16 +63,15 @@ patch_xml() {
 log_print " Decompressing files..."
 tar -xf $INSTALLER/system.tar.xz -C $INSTALLER 2>/dev/null
 
+SLIM=false; FULL=false; OVER=false; BOOT=false; ACC=false;
 # Gets stock/limit from zip name
-OIFS=$IFS; IFS=\|
-case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
+case $(basename $ZIPFILE) in
   *slim*|*Slim*|*SLIM*) SLIM=true;;
   *full*|*Full*|*FULL*) FULL=true;;
   *over*|*Over*|*OVER*) OVER=true;;
   *boot*|*Boot*|*BOOT*) BOOT=true;;
   *acc*|*Acc*|*ACC*) ACC=true;;
 esac
-IFS=$OIFS
 
 ## Debug Stuff
 log_start
@@ -94,7 +93,7 @@ if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "
   log_print "   Pix3lify is only for non-Google devices!"
   log_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
   log_print "   Vol Up = Yes, Vol Down = No"
-  if $VKSEL; then
+  if $FUNCTION; then
     ui_print " "
     log_print "   Ignoring warnings..."
   else
@@ -114,6 +113,7 @@ if [ -f "$OVERLAY" ]; then
 fi
 
 if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == false -a "$ACC" == false ]; then
+  if ! $SLIM && ! $FULL && ! $OVER && ! $BOOT && ! $ACC; then
     ui_print " "
     log_print " - Slim Options -"
     log_print "   Do you want to enable slim mode (heavily reduced featureset, see README)?"
@@ -155,6 +155,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
     if $VKSEL; then
       BOOT=true >> $INSTLOG 2>&1
     fi
+  fi
 else
   log_print " Options specified in zip name!"
 fi
