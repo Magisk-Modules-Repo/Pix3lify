@@ -60,6 +60,10 @@ patch_xml() {
   done 
 }
 
+ui_print "sorry for the inconvenience but the install is borked"
+ui_print "the install will be fixed in a few hours"
+abort
+
 log_print " Decompressing files..."
 tar -xf $INSTALLER/system.tar.xz -C $INSTALLER 2>/dev/null
 
