@@ -60,28 +60,17 @@ patch_xml() {
   done 
 }
 
-ui_print "sorry for the inconvenience but the install is borked"
-ui_print "the install will be fixed in a few hours"
-abort
-
-log_print " Decompressing files..."
+log_print "   Decompressing files..."
 tar -xf $INSTALLER/system.tar.xz -C $INSTALLER 2>/dev/null
 
 # Gets stock/limit from zip name
+SLIM=false; FULL=false; OVER=false BOOT=false; ACC=false
 OIFS=$IFS; IFS=\|
 case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *slim*|*Slim*|*SLIM*) SLIM=true;;
-esac
-case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *full*|*Full*|*FULL*) FULL=true;;
-esac
-case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *over*|*Over*|*OVER*) OVER=true;;
-esac
-case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *boot*|*Boot*|*BOOT*) BOOT=true;;
-esac
-case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *acc*|*Acc*|*ACC*) ACC=true;;
 esac
 IFS=$OIFS
@@ -145,20 +134,20 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
           log_print "   Ignoring warnings..."
         fi
       fi
-          ui_print " "
-          log_print " - Overlay Options -"
-          log_print "   Do you want the Pixel overlays enabled?"
-          log_print "   Vol Up = Yes, Vol Down = No"
-          if $VKSEL; then
-            OVER=true >> $INSTLOG 2>&1
-            ui_print " "
-            log_print " - Accent Options -"
-            log_print "   Do you want the Pixel accent enabled?"
-            log_print "   Vol Up = Yes, Vol Down = No"
-            if $VKSEL; then
-              ACC=true >> $INSTLOG 2>&1
-            fi
-          fi
+      ui_print " "
+      log_print " - Overlay Options -"
+      log_print "   Do you want the Pixel overlays enabled?"
+      log_print "   Vol Up = Yes, Vol Down = No"
+      if $VKSEL; then
+        OVER=true >> $INSTLOG 2>&1
+        ui_print " "
+        log_print " - Accent Options -"
+        log_print "   Do you want the Pixel accent enabled?"
+        log_print "   Vol Up = Yes, Vol Down = No"
+        if $VKSEL; then
+          ACC=true >> $INSTLOG 2>&1
+        fi
+      fi
     fi
     ui_print " "
     log_print " - Animation Options -"
@@ -222,7 +211,7 @@ fi
 if $BOOT; then
   ui_print " "
   log_print "   Enabling boot animation..."
-  cp -f $INSTALLER/common/bootanimation.zip $UNITY$BFOLDER$BZIP
+  cp_ch -i $INSTALLER/common/bootanimation.zip $UNITY$BFOLDER$BZIP
 else
   ui_print " "
   log_print "   Disabling boot animation..."
@@ -274,9 +263,8 @@ cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
 
 cp_ch -i $INSTALLER/common/unityfiles/tools/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
 
-cp_ch -i $UNITY$BINPATH/pix3lify $CACHELOC
+cp_ch -i $UNITY$BINPATH/pix3lify $CACHELOC/pix3lify
 
 log_print " If you encounter any bugs or issues, please type pix3lify"
 log_print " in a terminal emulator and choose yes to send logs to our server"
 log_print " WE DO NOT COLLECT ANY PERSONAL INFORMATION"
-
