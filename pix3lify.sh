@@ -64,7 +64,7 @@ $CACHELOC/Pix3lify-install.log
 $SDCARD/Pix3lify-debug.log
 $CACHELOC/pix3lify
 /data/adb/magisk_debug.log
-/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
+$DPF
 $CACHELOC/Pix3lify.log
 $CACHELOC/Pix3lify-old.log
 $CACHELOC/Pix3lify-verbose-old.log
