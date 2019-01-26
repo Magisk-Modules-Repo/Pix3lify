@@ -8,7 +8,11 @@ patch_xml() {
     VALC="value"; VAL="$4"
   fi
   case $2 in
+<<<<<<< HEAD
     *dialer_phenotype_flags*.xml)  sed -i "/#DIALERPATCHES/a\          patch_xml $1 \$MODPATH/\ '$3' \"$4\"" $INSTALLER/common/post-fs-data.sh; VAR1=boolean; VAR2=string; VAR3=long;;
+=======
+    *dialer_phenotype_flags*.xml)  sed -i "/#DIALERPATCHES/a\          patch_xml $1 \$MODPATH/\ '$3' \"$4\"" $INSTALLER/common/post-fs-data.sh; VAR1=boolean; VAR2=string;;
+>>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
     *mixer_paths*.xml) sed -i "/#MIXERPATCHES/a\                       patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=ctl; VAR2=mixer;;
     *sapa_feature*.xml) sed -i "/#SAPAPATCHES/a\                        patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=feature; VAR2=model;;
     *mixer_gains*.xml) sed -i "/#GAINPATCHES/a\                       patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=ctl; VAR2=mixer;;
@@ -60,16 +64,33 @@ patch_xml() {
   done 
 }
 
-SLIM=false; FULL=false; OVER=false; BOOT=false; ACC=false;
+log_print "   Decompressing files..."
+tar -xf $INSTALLER/system.tar.xz -C $INSTALLER 2>/dev/null
+
 # Gets stock/limit from zip name
+<<<<<<< HEAD
 case $(basename $ZIPFILE) in
+=======
+SLIM=false; FULL=false; OVER=false BOOT=false; ACC=false
+OIFS=$IFS; IFS=\|
+case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
+>>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
   *slim*|*Slim*|*SLIM*) SLIM=true;;
   *full*|*Full*|*FULL*) FULL=true;;
   *over*|*Over*|*OVER*) OVER=true;;
   *boot*|*Boot*|*BOOT*) BOOT=true;;
   *acc*|*Acc*|*ACC*) ACC=true;;
 esac
+IFS=$OIFS
 
+## Debug Stuff
+log_start
+log_print "- Installing Logging Scripts/Prepping Terminal Script "
+mkdir -p $UNITY$BINPATH
+cp_ch -n $INSTALLER/pix3lify.sh $UNITY$BINPATH/pix3lify
+log_handler "Using $BINPATH."
+
+<<<<<<< HEAD
 ## Debug Stuff
 log_start
 log_print "- Installing Logging Scripts/Prepping Terminal Script "
@@ -82,6 +103,13 @@ if $MAGISK; then
 sed -i -e "s|<PROP>|$PROPFILE|" -e "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY$BINPATH/pix3lify
 else
   sed -i -e "s|<PROP>|$PROP|" -e "s|<MODPROP>|$MOD_VER|" $UNITY$BINPATH/pix3lify
+=======
+sed -i -e "s|<CACHELOC>|$CACHELOC|" -e "s|<BINPATH>|$BINPATH|" $UNITY$BINPATH/pix3lify
+if $MAGISK; then
+sed -i "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY$BINPATH/pix3lify
+else
+  sed -i "s|<MODPROP>|$MOD_VER|" $UNITY$BINPATH/pix3lify
+>>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
 fi
 patch_script $UNITY$BINPATH/pix3lify
 
@@ -90,7 +118,11 @@ if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "
   log_print "   Pix3lify is only for non-Google devices!"
   log_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
   log_print "   Vol Up = Yes, Vol Down = No"
+<<<<<<< HEAD
   if $FUNCTION; then
+=======
+  if $VKSEL; then
+>>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
     ui_print " "
     log_print "   Ignoring warnings..."
   else
@@ -110,7 +142,10 @@ if [ -f "$OVERLAY" ]; then
 fi
 
 if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == false -a "$ACC" == false ]; then
+<<<<<<< HEAD
   if ! $SLIM && ! $FULL && ! $OVER && ! $BOOT && ! $ACC; then
+=======
+>>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
     ui_print " "
     log_print " - Slim Options -"
     log_print "   Do you want to enable slim mode (heavily reduced featureset, see README)?"
@@ -128,6 +163,23 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
         if $VKSEL; then
           ui_print " "
           log_print "   Ignoring warnings..."
+<<<<<<< HEAD
+=======
+        fi
+      fi
+      ui_print " "
+      log_print " - Overlay Options -"
+      log_print "   Do you want the Pixel overlays enabled?"
+      log_print "   Vol Up = Yes, Vol Down = No"
+      if $VKSEL; then
+        OVER=true >> $INSTLOG 2>&1
+        ui_print " "
+        log_print " - Accent Options -"
+        log_print "   Do you want the Pixel accent enabled?"
+        log_print "   Vol Up = Yes, Vol Down = No"
+        if $VKSEL; then
+          ACC=true >> $INSTLOG 2>&1
+>>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
         fi
       fi
           ui_print " "
@@ -152,7 +204,10 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
     if $VKSEL; then
       BOOT=true >> $INSTLOG 2>&1
     fi
+<<<<<<< HEAD
   fi
+=======
+>>>>>>> e031b2b96db0acad2938e99afbfb926bf6ace9c4
 else
   log_print " Options specified in zip name!"
 fi
@@ -208,7 +263,8 @@ fi
 if $BOOT; then
   ui_print " "
   log_print "   Enabling boot animation..."
-  cp -f $INSTALLER/common/bootanimation.zip $UNITY$BFOLDER$BZIP
+  cp_ch -i $INSTALLER/common/bootanimation.zip $UNITY$BFOLDER$BZIP
+
 else
   ui_print " "
   log_print "   Disabling boot animation..."
@@ -260,7 +316,7 @@ cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
 
 cp_ch -i $INSTALLER/common/unityfiles/tools/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
 
-cp_ch -i $UNITY$BINPATH/pix3lify $CACHELOC
+cp_ch -i $UNITY$BINPATH/pix3lify $CACHELOC/pix3lify
 
 log_print " If you encounter any bugs or issues, please type pix3lify"
 log_print " in a terminal emulator and choose yes to send logs to our server"
