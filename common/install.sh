@@ -67,10 +67,20 @@ tar -xf $INSTALLER/system.tar.xz -C $INSTALLER 2>/dev/null
 OIFS=$IFS; IFS=\|
 case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *slim*|*Slim*|*SLIM*) SLIM=true;;
+esac
+case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *full*|*Full*|*FULL*) FULL=true;;
+esac
+case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *over*|*Over*|*OVER*) OVER=true;;
+esac
+case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *boot*|*Boot*|*BOOT*) BOOT=true;;
+esac
+case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *acc*|*Acc*|*ACC*) ACC=true;;
+esac
+IFS=$OIFS) ACC=true;;
 esac
 IFS=$OIFS
 
