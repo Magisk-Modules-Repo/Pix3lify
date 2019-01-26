@@ -26,7 +26,11 @@ TMPLOGLOC=$CACHELOC/Pix3lify_logs
 XZLOG=$SDCARD/Pix3lify_logs.tar.xz
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 DPF=$(find /data/data/com.google.android.dialer*/shared_prefs/ -name "dialer_phenotype_flags.xml")
+=======
+DPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
+>>>>>>> parent of b8bef3a... Finish v2.6
 =======
 DPF=/data/data/com.google.android.dialer/shared_prefs/dialer_phenotype_flags.xml
 >>>>>>> parent of b8bef3a... Finish v2.6
