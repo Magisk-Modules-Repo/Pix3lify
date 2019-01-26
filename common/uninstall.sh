@@ -18,7 +18,7 @@ fi
 ui_print " "
 ui_print "   Disabling Google's Flip to Shhh..."
 # Disabling Google's Flip to Shhh
- WELLBEING_PREF_FILE=$(find /data/data/com.google.android.apps.wellbeing*/shared_prefs -name "PhenotypePrefs.xml")
+WELLBEING_PREF_FILE=$(find /data/data/com.google.android.apps.wellbeing*/shared_prefs -name "PhenotypePrefs.xml")
 if [ -f $WELLBEING_PREF_FILE ]; then
   rm -f $WELLBEING_PREF_FILE
   if $BOOTMODE; then

@@ -21,7 +21,7 @@ patch_xml() {
       sed -i "0,/<$VAR1 $NAMEC=\"$NAME\" $VALC=\".*\" \/>/ s/\(<$VAR1 $NAMEC=\"$NAME\" $VALC=\"\).*\(\" \/>\)/\1$VAL\2<!--$MODID-->/" $2
     elif [ "$1" == "-t" ]; then
       sed -i "/<$VAR2>/ a\    <$VAR1 $NAMEC=\"$NAME\" $VALC=\"$VAL\" \/><!--$MODID-->" $2
-    fi    
+    fi
   elif [ "$(xmlstarlet sel -t -m "$3" -c . $2)" ]; then
     [ "$(xmlstarlet sel -t -m "$3" -c . $2 | sed -r "s/.*$VALC=(\".*\").*/\1/")" == "$VAL" ] && return
     xmlstarlet ed -P -L -i "$3" -t elem -n "$MODID" $2
@@ -51,17 +51,14 @@ patch_xml() {
     for i in ${LN}; do
       sed -i "$i d" $2
       sed -ri "${i}s/$/<!--$MODID-->/" $2
-    done 
+    done
   fi
   local LN=$(sed -n "/^ *<!--$MODID-->$/=" $2 | tac)
   for i in ${LN}; do
     sed -i "$i d" $2
     sed -ri "$((i-1))s/$/<!--$MODID-->/" $2
-  done 
+  done
 }
-
-log_print "   Decompressing files..."
-tar -xf $INSTALLER/system.tar.xz -C $INSTALLER 2>/dev/null
 
 # Gets stock/limit from zip name
 SLIM=false; FULL=false; OVER=false BOOT=false; ACC=false
