@@ -9,4 +9,5 @@ if [ $API -ge 28 ] && [ "$FULL" ]; then
   fi
 fi
 
+pm grant "com.google.android.dialer" android.permission.READ_EXTERNAL_STORAGE
 am force-stop "com.google.android.dialer"
