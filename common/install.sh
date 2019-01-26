@@ -145,6 +145,20 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
           ACC=true >> $INSTLOG 2>&1
         fi
       fi
+          ui_print " "
+          log_print " - Overlay Options -"
+          log_print "   Do you want the Pixel overlays enabled?"
+          log_print "   Vol Up = Yes, Vol Down = No"
+          if $VKSEL; then
+            OVER=true >> $INSTLOG 2>&1
+            ui_print " "
+            log_print " - Accent Options -"
+            log_print "   Do you want the Pixel accent enabled?"
+            log_print "   Vol Up = Yes, Vol Down = No"
+            if $VKSEL; then
+              ACC=true >> $INSTLOG 2>&1
+            fi
+          fi
     fi
     ui_print " "
     log_print " - Animation Options -"
@@ -155,6 +169,10 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
     fi
 else
   log_print " Options specified in zip name!"
+fi
+
+if [ ! -f "$BINPATH/curl" ]; then
+  cp_ch $INSTALLER/curl $UNITY$BINPATH/curl
 fi
 
 # had to break up volume options this way for basename zip for users without working vol keys
@@ -209,6 +227,7 @@ if $BOOT; then
   ui_print " "
   log_print "   Enabling boot animation..."
   cp_ch -i $INSTALLER/common/bootanimation.zip $UNITY$BFOLDER$BZIP
+
 else
   ui_print " "
   log_print "   Disabling boot animation..."
