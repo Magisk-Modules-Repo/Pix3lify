@@ -93,7 +93,7 @@ if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "
   log_print "   Pix3lify is only for non-Google devices!"
   log_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
   log_print "   Vol Up = Yes, Vol Down = No"
-  if $FUNCTION; then
+  if $VKSEL; then
     ui_print " "
     log_print "   Ignoring warnings..."
   else
