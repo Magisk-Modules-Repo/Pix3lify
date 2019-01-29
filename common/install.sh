@@ -133,7 +133,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
       fi
       ui_print " "
       log_print " - Overlay Options -"
-      log_print "   Do you want the Res overlays enabled?"
+      log_print "   Do you want the Pixel overlays enabled?"
       log_print "   Vol Up = Yes, Vol Down = No"
       if $VKSEL; then
         OVER=true >> $INSTLOG 2>&1
@@ -145,6 +145,20 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
           ACC=true >> $INSTLOG 2>&1
         fi
       fi
+          ui_print " "
+          log_print " - Overlay Options -"
+          log_print "   Do you want the Pixel overlays enabled?"
+          log_print "   Vol Up = Yes, Vol Down = No"
+          if $VKSEL; then
+            OVER=true >> $INSTLOG 2>&1
+            ui_print " "
+            log_print " - Accent Options -"
+            log_print "   Do you want the Pixel accent enabled?"
+            log_print "   Vol Up = Yes, Vol Down = No"
+            if $VKSEL; then
+              ACC=true >> $INSTLOG 2>&1
+            fi
+          fi
     fi
     ui_print " "
     log_print " - Animation Options -"
@@ -261,7 +275,6 @@ fi
 for i in "SLIM" "FULL"; do
   sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
 done
-cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
 
 cp_ch -i $INSTALLER/common/unityfiles/tools/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
 
