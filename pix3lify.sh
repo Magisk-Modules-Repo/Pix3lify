@@ -5,15 +5,6 @@ get_file_value() {
   cat $1 | grep $2 | sed "s|.*$2||" | sed 's|\"||g'
 }
 
-MAGISK_VERSION=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VER=") | sed 's|-.*||')
-MAGISK_VERSIONCODE=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VER_CODE=") | sed 's|-.*||')
-
-if [ $MAGISK_VERSIONCODE -ge "18000" ]; then
-  MOUNTPATH=/sbin/.magisk/img
-else
-  MOUNTPATH=/sbin/.core/img
-fi
-
 MODPATH=$MOUNTPATH/Pix3lify
 
 # Variables
@@ -25,6 +16,7 @@ TMPLOG=Pix3lify_logs.log
 TMPLOGLOC=$CACHELOC/Pix3lify_logs
 XZLOG=$SDCARD/Pix3lify_logs.tar.xz
 DPF=$(find /data/data/com.google.android.dialer*/shared_prefs/ -name "dialer_phenotype_flags.xml")
+XML=/data/system/packages.xml
 
 quit() {
   PATH=$OLDPATH
@@ -353,9 +345,14 @@ if $MAGISK; then
   log_print " Collecting Logs for Installed Files "
   echo "==========================================" >> $LOG 2>&1
   log_handler "$(du -ah $MODPATH)" >> $LOG 2>&1
-  log_print " Collecting Logs for Patches "
-  echo "==========================================" >> $LOG 2>&1
-  grep "$MODID" -B 1 $DPF >> $LOG 2>&1
+  if grep -qF "com.google.android.dialer" $LIST; then
+    log_print " Collecting Logs for Patches "
+    echo "==========================================" >> $LOG 2>&1
+    grep "$MODID" -B 1 $DPF >> $LOG 2>&1
+  else
+    log_print " Google Dialer not Detected "
+    echo "==========================================" >> $LOG 2>&1
+  fi
 fi
 
 # Package the files

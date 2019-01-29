@@ -147,7 +147,7 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
       fi
           ui_print " "
           log_print " - Overlay Options -"
-          log_print "   Do you want the Pixel overlays enabled?"
+          log_print "   Do you want the Res overlays enabled?"
           log_print "   Vol Up = Yes, Vol Down = No"
           if $VKSEL; then
             OVER=true >> $INSTLOG 2>&1
