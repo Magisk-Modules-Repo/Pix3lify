@@ -67,7 +67,7 @@ patch_xml() {
 
 (
 if [ $API -ge "28" ]; then
-  DPF=$(find /data/data/com.google.android.dialer*/shared_prefs/ -name "dialer_phenotype_flags.xml")
+  DPF=$(find /data/data/com.google.android.dialer* -name "dialer_phenotype_flags.xml")
   if [ -f $DPF ]; then
     # Enabling Google's Call Screening
     #DIALERPATCHES

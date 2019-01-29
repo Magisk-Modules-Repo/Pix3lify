@@ -7,7 +7,6 @@ if [ $API -ge 28 ] && [ $FULL ]; then
   if [[ $(pm list packages "com.google.android.soundpicker") ]]; then
     pm grant com.google.android.soundpicker android.permission.READ_EXTERNAL_STORAGE
   fi
-  touch /storage/emulated/0/full.txt
 fi
 
 pm grant "com.google.android.dialer" android.permission.WRITE_EXTERNAL_STORAGE
