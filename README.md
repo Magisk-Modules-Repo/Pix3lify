@@ -62,7 +62,6 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ### v2.9.1
 
--   Add LFS support to git repo
 -   Fix hanging in terminal script
 -   Detect if dialer is installed
 -   Fix find command
