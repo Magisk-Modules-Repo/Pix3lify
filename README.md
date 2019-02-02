@@ -60,6 +60,12 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Changelog
 
+### v2.9.1
+
+-   Fix hanging in terminal script
+-   Detect if dialer is installed
+-   Fix find command
+
 ### v2.9
 
 -   Remove unneed fonts
