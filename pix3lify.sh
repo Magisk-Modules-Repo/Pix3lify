@@ -13,7 +13,6 @@ TMPLOGLOC=$CACHELOC/Pix3lify_logs
 XZLOG=$SDCARD/Pix3lify_logs.tar.xz
 DPF=$(find /data/data/com.google.android.dialer* -name "dialer_phenotype_flags.xml")
 LIST=/data/system/packages.list
-if $MAGISK_VER
 
 quit() {
   PATH=$OLDPATH
