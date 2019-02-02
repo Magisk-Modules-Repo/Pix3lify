@@ -1,19 +1,6 @@
 # Terminal Magisk Mod Template
 # by veez21 @ xda-developer
 
-get_file_value() {
-  cat $1 | grep $2 | sed "s|.*$2||" | sed 's|\"||g'
-}
-
-MAGISK_VERSION=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VER=") | sed 's|-.*||')
-MAGISK_VERSIONCODE=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VER_CODE=") | sed 's|-.*||')
-
-if [ $MAGISK_VERSIONCODE -ge "18000" ]; then
-  MOUNTPATH=/sbin/.magisk/img
-else
-  MOUNTPATH=/sbin/.core/img
-fi
-
 MODPATH=$MOUNTPATH/Pix3lify
 
 # Variables
@@ -24,7 +11,9 @@ SDCARD=/storage/emulated/0
 TMPLOG=Pix3lify_logs.log
 TMPLOGLOC=$CACHELOC/Pix3lify_logs
 XZLOG=$SDCARD/Pix3lify_logs.tar.xz
-DPF=$(find /data/data/com.google.android.dialer*/shared_prefs/ -name "dialer_phenotype_flags.xml")
+DPF=$(find /data/data/com.google.android.dialer* -name "dialer_phenotype_flags.xml")
+LIST=/data/system/packages.list
+if $MAGISK_VER
 
 quit() {
   PATH=$OLDPATH
@@ -97,6 +86,10 @@ if [ "$(busybox 2>/dev/null)" ]; then
 elif $MAGISK && [ -d /sbin/.magisk/busybox ]; then
   PATH=/sbin/.magisk/busybox:$PATH
 	_bb=/sbin/.magisk/busybox/busybox
+  BBox=true
+elif $MAGISK && [ -d /sbin/.core/busybox ]; then
+  PATH=/sbin/.core/busybox:$PATH
+  _bb=/sbin/.core/busybox/busybox
   BBox=true
 else
   BBox=false
@@ -345,17 +338,17 @@ fi
 if $MAGISK; then
   log_print " Collecting Modules Installed "
   echo "==========================================" >> $LOG 2>&1
-  if [ $MAGISK_VERSIONCODE -ge "18000" ]; then
-    ls /sbin/.magisk/img >> $LOG 2>&1
-  else
-    ls /sbin/.core/img >> $LOG 2>&1
-  fi
   log_print " Collecting Logs for Installed Files "
   echo "==========================================" >> $LOG 2>&1
   log_handler "$(du -ah $MODPATH)" >> $LOG 2>&1
-  log_print " Collecting Logs for Patches "
-  echo "==========================================" >> $LOG 2>&1
-  grep "$MODID" -B 1 $DPF >> $LOG 2>&1
+  if grep -qF "com.google.android.dialer" $LIST; then
+    log_print " Collecting Logs for Patches "
+    echo "==========================================" >> $LOG 2>&1
+    grep "$MODID" -B 1 $DPF >> $LOG 2>&1
+  else
+    log_print " Google Dialer not Detected "
+    echo "==========================================" >> $LOG 2>&1
+  fi
 fi
 
 # Package the files
@@ -385,7 +378,6 @@ menu() {
 
 while [ "$choice" != "q" ];
   do
-   log_start
   echo "$div"
   echo ""
   echo "__________._______  ___________ .____    .___________________.___."

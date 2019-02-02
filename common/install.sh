@@ -213,7 +213,6 @@ if $BOOT; then
   ui_print " "
   log_print "   Enabling boot animation..."
   cp_ch -i $INSTALLER/common/bootanimation.zip $UNITY$BFOLDER$BZIP
-
 else
   ui_print " "
   log_print "   Disabling boot animation..."
@@ -226,7 +225,7 @@ fi
 if [ $API -ge 28 ]; then
   ui_print " "
   log_print "   Enabling Google's Call Screening..."
-  DPF=$(find /data/data/com.google.android.dialer*/shared_prefs/ -name "dialer_phenotype_flags.xml")
+  DPF=$(find /data/data/com.google.android.dialer* -name "dialer_phenotype_flags.xml")
   if [ -f $DPF ]; then
     # Enabling Google's Call Screening
     patch_xml -s $DPF '/map/boolean[@name="G__speak_easy_bypass_locale_check"]' "true" >> $INSTLOG 2>&1
@@ -261,7 +260,6 @@ fi
 for i in "SLIM" "FULL"; do
   sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
 done
-cp_ch -n $INSTALLER/common/service.sh $UNITY/service.sh
 
 cp_ch -i $INSTALLER/common/unityfiles/tools/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
 
