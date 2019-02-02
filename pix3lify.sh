@@ -341,7 +341,7 @@ if $MAGISK; then
   echo "==========================================" >> $LOG 2>&1
   log_handler "$(du -ah $MODPATH)" >> $LOG 2>&1
   if grep -qF "com.google.android.dialer" $LIST; then
-    log_print " Collecting Logs for Patches "
+    log_print " Collecting Logs for Call Screening Patches "
     echo "==========================================" >> $LOG 2>&1
     grep "$MODID" -B 1 $DPF >> $LOG 2>&1
   else
