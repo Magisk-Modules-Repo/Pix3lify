@@ -240,22 +240,6 @@ if [ $API -ge 28 ]; then
   fi
 fi
 
-if [ "$SLIM" == "false" ]; then
-  ui_print " "
-  log_print "   Enabling Google's Flip to Shhh..."
-  ui_print " "
-  # Enabling Google's Flip to Shhh
-  WELLBEING_PREF_FILE=$INSTALLER/common/PhenotypePrefs.xml
-  chmod 660 $WELLBEING_PREF_FILE
-  WELLBEING_PREF_FOLDER=$(find /data/data/com.google.android.apps.wellbeing* -name "shared_prefs")
-  mkdir -p $WELLBEING_PREF_FOLDER
-  cp_ch $WELLBEING_PREF_FILE $WELLBEING_PREF_FOLDER
-  if $MAGISK && $BOOTMODE; then
-    magiskpolicy --live "create system_server sdcardfs file" "allow system_server sdcardfs file { write }"
-    am force-stop "com.google.android.apps.wellbeing"
-  fi
-fi
-
 # Adds slim & full variables to service.sh
 for i in "SLIM" "FULL"; do
   sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh

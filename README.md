@@ -56,7 +56,6 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Features Under Development
 
--   Flip to Shhh (mileage may vary)
 
 ## ⭐ Changelog
 
@@ -65,6 +64,9 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Fix hanging in terminal script
 -   Detect if dialer is installed
 -   Fix find command
+-   Remove autoDND/flip to shhh
+-   Fix Wellbeing
+-   Bug fixes
 
 ### v2.9
 

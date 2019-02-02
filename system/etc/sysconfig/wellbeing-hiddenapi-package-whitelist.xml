@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <!-- This system feature is required for getting play store updates
+       for Wellbeing app. -->
+    <feature name="com.google.android.feature.WELLBEING" />
+</config>
