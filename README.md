@@ -54,9 +54,6 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables Google Assistant
 -   Enables Night Light (device dependent)
 
-## ⭐ Features Under Development
-
-
 ## ⭐ Changelog
 
 ### v2.9.1
@@ -67,6 +64,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Remove autoDND/flip to shhh
 -   Fix Wellbeing
 -   Bug fixes
+-   Unity update
 
 ### v2.9
 
