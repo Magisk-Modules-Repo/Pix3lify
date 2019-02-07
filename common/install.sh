@@ -61,7 +61,7 @@ patch_xml() {
 }
 
 # Gets stock/limit from zip name
-SLIM=false; FULL=false; OVER=false BOOT=false; ACC=false
+SLIM=false; FULL=false; OVER=false BOOT=false; ACC=false; FONT=false
 OIFS=$IFS; IFS=\|
 case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *slim*|*Slim*|*SLIM*) SLIM=true;;
@@ -69,6 +69,7 @@ case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *over*|*Over*|*OVER*) OVER=true;;
   *boot*|*Boot*|*BOOT*) BOOT=true;;
   *acc*|*Acc*|*ACC*) ACC=true;;
+  *font*|*Font*|*FONT*) FONT=true;;
 esac
 IFS=$OIFS
 
@@ -132,27 +133,34 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
         fi
       fi
       ui_print " "
-      log_print " - Overlay Options -"
-      log_print "   Do you want the Res overlays enabled?"
+      log_print " - Font Options -"
+      log_print "   Do you want to install custom fonts?"
       log_print "   Vol Up = Yes, Vol Down = No"
       if $VKSEL; then
-        OVER=true >> $INSTLOG 2>&1
+        FONT=true >> $INSTLOG 2>&1
         ui_print " "
-        log_print " - Accent Options -"
-        log_print "   Do you want the Pixel accent enabled?"
+        log_print " - Overlay Options -"
+        log_print "   Do you want the Res overlays enabled?"
         log_print "   Vol Up = Yes, Vol Down = No"
         if $VKSEL; then
-          ACC=true >> $INSTLOG 2>&1
+          OVER=true >> $INSTLOG 2>&1
+          ui_print " "
+          log_print " - Accent Options -"
+          log_print "   Do you want the Pixel accent enabled?"
+          log_print "   Vol Up = Yes, Vol Down = No"
+          if $VKSEL; then
+            ACC=true >> $INSTLOG 2>&1
+          fi
         fi
       fi
     fi
-    ui_print " "
-    log_print " - Animation Options -"
-    log_print "   Do you want the Pixel boot animation?"
-    log_print "   Vol Up = Yes, Vol Down = No"
-    if $VKSEL; then
-      BOOT=true >> $INSTLOG 2>&1
-    fi
+  ui_print " "
+  log_print " - Animation Options -"
+  log_print "   Do you want the Pixel boot animation?"
+  log_print "   Vol Up = Yes, Vol Down = No"
+  if $VKSEL; then
+    BOOT=true >> $INSTLOG 2>&1
+  fi
 else
   log_print " Options specified in zip name!"
 fi
@@ -216,6 +224,15 @@ if $BOOT; then
 else
   ui_print " "
   log_print "   Disabling boot animation..."
+fi
+
+if $FONT; then
+  ui_print " "
+  log_print "   Enabling fonts..."
+else
+  ui_print " "
+  log_print "   Disabling fonts..."
+  rm -rf $INSTALLER/system/fonts >> $INSTLOG 2>&1
 fi
 
 if [ $API -ge 27 ]; then
