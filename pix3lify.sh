@@ -337,6 +337,7 @@ fi
 if $MAGISK; then
   log_print " Collecting Modules Installed "
   echo "==========================================" >> $LOG 2>&1
+  ls $MOUNTPATH >> $LOG 2>&1
   log_print " Collecting Logs for Installed Files "
   echo "==========================================" >> $LOG 2>&1
   log_handler "$(du -ah $MODPATH)" >> $LOG 2>&1
