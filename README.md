@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
- <a href="https://forum.xda-developers.com/apps/magisk/module-pixel-2-experience-t3757137"><img src="https://img.shields.io/badge/XDA-Thread-orange.svg"></a><br /><a href="https://t.me/PIX3LIFY"><img src="https://img.shields.io/badge/Telegram-Channel-blue.svg"></a><br /><a href="https://discord.gg/sUyZdSv"><img src="https://img.shields.io/discord/529370157563510814.svg"></a>
+ <a href="https://forum.xda-developers.com/apps/magisk/module-pixel-2-experience-t3757137"><img src="https://img.shields.io/badge/XDA-Thread-orange.svg"></a><br /><a href="https://t.me/PIX3LIFY"><img src="https://img.shields.io/badge/Telegram-group-blue.svg"></a><br /><a href="https://discord.gg/sUyZdSv"><img src="https://img.shields.io/discord/529370157563510814.svg"></a>
 </p>
 
 ## ⭐ Module description
