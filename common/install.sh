@@ -226,6 +226,13 @@ else
   log_print "   Disabling boot animation..."
 fi
 
+cp -rf /system/etc/fonts.xml $MODPATH/system/etc/fonts.xml
+sed -i "s|Roboto-Regular|GoogleSans-Regular|" $MODPATH/system/etc/fonts.xml
+sed -i "s|Roboto-Italic|GoogleSans-Italic|" $MODPATH/system/etc/fonts.xml
+sed -i "s|Roboto-Medium|GoogleSans-Medium|" $MODPATH/system/etc/fonts.xml
+sed -i "s|Roboto-MediumItalic|GoogleSans-MediumItalic|" $MODPATH/system/etc/fonts.xml
+sed -i "s|Roboto-Bold|GoogleSans-Bold|" $MODPATH/system/etc/fonts.xml
+sed -i "s|Roboto-BoldItalic|GoogleSans-BoldItalic|" $MODPATH/system/etc/fonts.xml
 if $FONT; then
   ui_print " "
   log_print "   Enabling fonts..."
@@ -255,6 +262,14 @@ if [ $API -ge 28 ]; then
     patch_xml -s $DPF '/map/boolean[@name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__"]' "true" >> $INSTLOG 2>&1
     patch_xml -s $DPF '/map/boolean[@name="G__speakeasy_postcall_survey_enabled"]' "true" >> $INSTLOG 2>&1
   fi
+fi
+
+if [ $API -lt 28 ]; then
+  rm -rf $MODPATH/system/app/MarkupGoogle1.apk
+  mv $MODPATH/system/app/MarkupGoogle2.apk $MODPATH/system/app/MarkupGoogle.apk
+else
+  rm -rf $MODPATH/system/app/MarkupGoogle2.apk
+  mv $MODPATH/system/app/MarkupGoogle1.apk $MODPATH/system/app/MarkupGoogle.apk
 fi
 
 # Adds slim & full variables to service.sh
