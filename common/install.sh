@@ -229,6 +229,15 @@ fi
 if $FONT; then
   ui_print " "
   log_print "   Enabling fonts..."
+  cp -rf /system/etc/fonts.xml $INSTALLER/system/etc/fonts.xml
+  for i in $(find $INSTALLER/system/fonts/GoogleSans-* | sed 's|.*-||'); do
+    sed -i "s|Roboto-$i|GoogleSans-$i|" $INSTALLER/system/etc/fonts.xml
+  done
+  for i in $(find /system/fonts/Clock* | sed 's|.*-||'); do
+    sed -i "s|Clock$i|GoogleSans-Regular|" $INSTALLER/system/etc/fonts.xml
+    ui_print " "
+    log_print "   Replacing LockScreen Font.."
+  done
 else
   ui_print " "
   log_print "   Disabling fonts..."
@@ -255,6 +264,16 @@ if [ $API -ge 28 ]; then
     patch_xml -s $DPF '/map/boolean[@name="__data_rollout__SpeakEasy.CallScreenOnPixelTwoRollout__launched__"]' "true" >> $INSTLOG 2>&1
     patch_xml -s $DPF '/map/boolean[@name="G__speakeasy_postcall_survey_enabled"]' "true" >> $INSTLOG 2>&1
   fi
+fi
+
+if [ $API -ge 28 ]; then
+  rm -rf $INSTALLER/system/app/MarkupGoogle/MarkupGoogle2.apk
+  mv $INSTALLER/system/app/MarkupGoogle/MarkupGoogle1.apk $INSTALLER/system/app/MarkupGoogle/MarkupGoogle.apk
+elif [ $API -lt 28 ] && [ $API -ge 22 ]; then
+  rm -rf $INSTALLER/system/app/MarkupGoogle/MarkupGoogle1.apk
+  mv $INSTALLER/system/app/MarkupGoogle/MarkupGoogle2.apk $INSTALLER/system/app/MarkupGoogle/MarkupGoogle.apk
+else
+   rm -rf $INSTALLER/system/app/MarkupGoogle
 fi
 
 # Adds slim & full variables to service.sh
