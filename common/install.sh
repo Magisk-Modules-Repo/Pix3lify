@@ -226,13 +226,12 @@ else
   log_print "   Disabling boot animation..."
 fi
 
+[[ -e $MODPATH/system/etc/fonts.xml ]] && rm -rf $MODPATH/system/etc/fonts.xml
 cp -rf /system/etc/fonts.xml $MODPATH/system/etc/fonts.xml
-sed -i "s|Roboto-Regular|GoogleSans-Regular|" $MODPATH/system/etc/fonts.xml
-sed -i "s|Roboto-Italic|GoogleSans-Italic|" $MODPATH/system/etc/fonts.xml
-sed -i "s|Roboto-Medium|GoogleSans-Medium|" $MODPATH/system/etc/fonts.xml
-sed -i "s|Roboto-MediumItalic|GoogleSans-MediumItalic|" $MODPATH/system/etc/fonts.xml
-sed -i "s|Roboto-Bold|GoogleSans-Bold|" $MODPATH/system/etc/fonts.xml
-sed -i "s|Roboto-BoldItalic|GoogleSans-BoldItalic|" $MODPATH/system/etc/fonts.xml
+for i in $(find $MODPATH/system/fonts/GoogleSans-* | sed 's|.*-||'); do
+  sed -i "s|Roboto-$i|GoogleSans-$i|" $MODPATH/system/etc/fonts.xml
+  ui_print "Replacing Roboto-$i with GoogleSans-$i!"
+done
 if $FONT; then
   ui_print " "
   log_print "   Enabling fonts..."
