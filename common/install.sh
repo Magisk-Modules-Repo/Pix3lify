@@ -226,15 +226,18 @@ else
   log_print "   Disabling boot animation..."
 fi
 
-[[ -e $MODPATH/system/etc/fonts.xml ]] && rm -rf $MODPATH/system/etc/fonts.xml
-cp -rf /system/etc/fonts.xml $MODPATH/system/etc/fonts.xml
-for i in $(find $MODPATH/system/fonts/GoogleSans-* | sed 's|.*-||'); do
-  sed -i "s|Roboto-$i|GoogleSans-$i|" $MODPATH/system/etc/fonts.xml
-  ui_print "Replacing Roboto-$i with GoogleSans-$i!"
-done
 if $FONT; then
   ui_print " "
   log_print "   Enabling fonts..."
+  cp -rf /system/etc/fonts.xml $INSTALLER/system/etc/fonts.xml
+  for i in $(find $INSTALLER/system/fonts/GoogleSans-* | sed 's|.*-||'); do
+    sed -i "s|Roboto-$i|GoogleSans-$i|" $INSTALLER/system/etc/fonts.xml
+  done
+  for i in $(find /system/fonts/Clock* | sed 's|.*-||'); do
+    sed -i "s|Clock$i|GoogleSans-Regular|" $INSTALLER/system/etc/fonts.xml
+    ui_print " "
+    log_print "   Replacing LockScreen Font.."
+  done
 else
   ui_print " "
   log_print "   Disabling fonts..."
