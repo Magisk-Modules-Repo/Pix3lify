@@ -266,12 +266,18 @@ if [ $API -ge 28 ]; then
   fi
 fi
 
-if [ $API -lt 28 ]; then
-  rm -rf $MODPATH/system/app/MarkupGoogle1.apk
-  mv $MODPATH/system/app/MarkupGoogle2.apk $MODPATH/system/app/MarkupGoogle.apk
-else
+if [ $API -ge 28 ]; then
   rm -rf $MODPATH/system/app/MarkupGoogle2.apk
-  mv $MODPATH/system/app/MarkupGoogle1.apk $MODPATH/system/app/MarkupGoogle.apk
+  mv $MODPATH/system/app/MarkupGoogle/MarkupGoogle1.apk $MODPATH/system/app/MarkupGoogle/MarkupGoogle.apk
+  chmod 755 $MODPATH/system/app/MarkupGoogle;
+  chmod 644 $MODPATH/system/app/MarkupGoogle/MarkupGoogle.apk;
+elif [ $API -lt 28 ] && [ $API -ge 22 ]; then
+  rm -rf $MODPATH/system/app/MarkupGoogle/MarkupGoogle1.apk
+  mv $MODPATH/system/app/MarkupGoogle/MarkupGoogle2.apk $MODPATH/system/app/MarkupGoogle/MarkupGoogle.apk
+  chmod 755 $MODPATH/system/app/MarkupGoogle;
+  chmod 644 $MODPATH/system/app/MarkupGoogle/MarkupGoogle.apk;
+else
+   rm -rf $MODPATH/system/app/MarkupGoogle
 fi
 
 # Adds slim & full variables to service.sh
