@@ -2,7 +2,6 @@
 # More info in the main Magisk thread
 
 if [ $API -ge 28 ] && [ $FULL ]; then
-  am force-stop "com.google.android.apps.wellbeing"
   if [[ $(pm list packages "com.google.android.soundpicker") ]]; then
     pm grant com.google.android.soundpicker android.permission.READ_EXTERNAL_STORAGE
   fi
