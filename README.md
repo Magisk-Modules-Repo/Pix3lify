@@ -57,6 +57,12 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Changelog
 
+### v2.9.2
+
+-   Add dynamic Product Sans font installation
+-   Replace Samsung Clock font on the LockScreen
+-   Get Markup working on devices prior to Android 9
+
 ### v2.9.1
 
 -   Fix hanging in terminal script
