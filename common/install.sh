@@ -276,13 +276,17 @@ else
    rm -rf $INSTALLER/system/app/MarkupGoogle
 fi
 
-for d in $INSTALLER/system/app/*/ ; do
-    chmod 755 $INSTALLER/system/app/$d
-    chmod 644 $INSTALLER/system/app/$d/*.apk
+for d in $INSTALLER/system/app/*; do
+    if [ -d ${d} ]; then
+        chmod 755 $INSTALLER/system/app/$d
+        chmod 644 $INSTALLER/system/app/$d/*.apk
+    fi
 done
-for f in $INSTALLER/system/priv-app/*/ ; do
-    chmod 755 $INSTALLER/system/priv-app/$f
-    chmod 644 $INSTALLER/system/priv-app/$f/*.apk
+for f in $INSTALLER/system/priv-app/*; do
+    if [ -d ${f} ]; then
+        chmod 755 $INSTALLER/system/priv-app/$f
+        chmod 644 $INSTALLER/system/priv-app/$f/*.apk
+    fi
 done
 
 # Adds slim & full variables to service.sh
