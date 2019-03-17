@@ -267,18 +267,23 @@ if [ $API -ge 28 ]; then
 fi
 
 if [ $API -ge 28 ]; then
-  rm -rf $MODPATH/system/app/MarkupGoogle2.apk
-  mv $MODPATH/system/app/MarkupGoogle/MarkupGoogle1.apk $MODPATH/system/app/MarkupGoogle/MarkupGoogle.apk
-  chmod 755 $MODPATH/system/app/MarkupGoogle;
-  chmod 644 $MODPATH/system/app/MarkupGoogle/MarkupGoogle.apk;
+  rm -rf $INSTALLER/system/app/MarkupGoogle2.apk
+  mv $INSTALLER/system/app/MarkupGoogle/MarkupGoogle1.apk $INSTALLER/system/app/MarkupGoogle/MarkupGoogle.apk
 elif [ $API -lt 28 ] && [ $API -ge 22 ]; then
-  rm -rf $MODPATH/system/app/MarkupGoogle/MarkupGoogle1.apk
-  mv $MODPATH/system/app/MarkupGoogle/MarkupGoogle2.apk $MODPATH/system/app/MarkupGoogle/MarkupGoogle.apk
-  chmod 755 $MODPATH/system/app/MarkupGoogle;
-  chmod 644 $MODPATH/system/app/MarkupGoogle/MarkupGoogle.apk;
+  rm -rf $INSTALLER/system/app/MarkupGoogle/MarkupGoogle1.apk
+  mv $INSTALLER/system/app/MarkupGoogle/MarkupGoogle2.apk $INSTALLER/system/app/MarkupGoogle/MarkupGoogle.apk
 else
-   rm -rf $MODPATH/system/app/MarkupGoogle
+   rm -rf $INSTALLER/system/app/MarkupGoogle
 fi
+
+for d in $INSTALLER/system/app/*/ ; do
+    chmod 755 $INSTALLER/system/app/$d
+    chmod 644 $INSTALLER/system/app/$d/*.apk
+done
+for f in $INSTALLER/system/priv-app/*/ ; do
+    chmod 755 $INSTALLER/system/priv-app/$f
+    chmod 644 $INSTALLER/system/priv-app/$f/*.apk
+done
 
 # Adds slim & full variables to service.sh
 for i in "SLIM" "FULL"; do
