@@ -266,16 +266,6 @@ if [ $API -ge 28 ]; then
   fi
 fi
 
-if [ $API -ge 28 ]; then
-  rm -rf $INSTALLER/system/app/MarkupGoogle2.apk
-  mv $INSTALLER/system/app/MarkupGoogle/MarkupGoogle1.apk $INSTALLER/system/app/MarkupGoogle/MarkupGoogle.apk
-elif [ $API -lt 28 ] && [ $API -ge 22 ]; then
-  rm -rf $INSTALLER/system/app/MarkupGoogle/MarkupGoogle1.apk
-  mv $INSTALLER/system/app/MarkupGoogle/MarkupGoogle2.apk $INSTALLER/system/app/MarkupGoogle/MarkupGoogle.apk
-else
-   rm -rf $INSTALLER/system/app/MarkupGoogle
-fi
-
 for d in $INSTALLER/system/app/*; do
     if [ -d ${d} ]; then
         chmod 755 $INSTALLER/system/app/$d
