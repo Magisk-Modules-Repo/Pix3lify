@@ -30,10 +30,10 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Currently the choices are FULL, SLIM, OVER, and BOOT.
 -   FULL = The full module not including overlay/accent and boot animation
 -   SLIM = No additional apps, wellbeing scripts, fonts, sounds, and all overlays except pix3lify.
--   OVER = Install pixel overlays
+-   OVER = Install pixel framework changes ( a lot of the main features is in this, inc. Night Light)
 -   ACC = Install pixel accent
 -   BOOT = Install pixel boot animation
--   FONT = Install pixel fonts
+-   FONT = Replace stock font with Product Sans
 -   To use the basename zip feature all you need to do is add the options to the zipname and only flash the zip in recovery. Magisk renames all zips to install.zip so flashing in magisk manager will NOT work. Heres an example of using basename to install full and overlays ( Pix3lify-2.6-full-over.zip )
 -   The options can either be full, Full, or FULL ( applies to all options )
 
@@ -46,7 +46,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Adds Pixel alarms/media/ringtones/UI sounds
 -   Adds Pixel Stand app (wireless charging stand)
 -   Adds Pixel Sounds app ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Sounds))
--   Adds Google Markup app (mileage may vary)
+-   Adds Google Markup app (Android 5+)
 -   Adds Pixel exclusive wallpapers
 -   Enables Google Dialer install via Playstore
 -   Enables Google Dialer's Call Screening ([mileage may vary](https://github.com/Magisk-Modules-Repo/Pix3lify/wiki/Call-Screening))
@@ -56,6 +56,10 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables Night Light (device dependent)
 
 ## ⭐ Changelog
+
+### v2.9.3
+-   Fix clock fonts on LockScreen
+-   Better installation descriptons
 
 ### v2.9.2
 

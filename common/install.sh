@@ -134,13 +134,13 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
       fi
       ui_print " "
       log_print " - Font Options -"
-      log_print "   Do you want to install custom fonts?"
+      log_print "   Do you want to replace fonts with Product Sans?"
       log_print "   Vol Up = Yes, Vol Down = No"
       if $VKSEL; then
         FONT=true >> $INSTLOG 2>&1
         ui_print " "
-        log_print " - Overlay Options -"
-        log_print "   Do you want the Res overlays enabled?"
+        log_print " - Framework Options -"
+        log_print "   Do you want the Pixel framework enabled?"
         log_print "   Vol Up = Yes, Vol Down = No"
         if $VKSEL; then
           OVER=true >> $INSTLOG 2>&1
@@ -195,10 +195,10 @@ if $FULL; then
   prop_process $INSTALLER/common/full.prop
   if $OVER; then
     ui_print " "
-    log_print "   Enabling overlay features..."
+    log_print "   Enabling Pixel framework..."
   else
     ui_print " "
-    log_print "   Disabling overlay features..."
+    log_print "   Disabling Pixel framework..."
     rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk >> $INSTLOG 2>&1
     rm -rf /data/resource-cache >> $INSTLOG 2>&1
     rm -rf /data/dalvik-cache >> $INSTLOG 2>&1
@@ -228,20 +228,22 @@ fi
 
 if $FONT; then
   ui_print " "
-  log_print "   Enabling fonts..."
+  log_print "   Enabling fonts replacement..."
   cp -rf /system/etc/fonts.xml $INSTALLER/system/etc/fonts.xml
   for i in $(find $INSTALLER/system/fonts/GoogleSans-* | sed 's|.*-||'); do
     sed -i "s|Roboto-$i|GoogleSans-$i|" $INSTALLER/system/etc/fonts.xml
   done
-  for i in $(find /system/fonts/Clock* | sed 's|.*-||'); do
-    sed -i "s|Clock$i|GoogleSans-Regular|" $INSTALLER/system/etc/fonts.xml
-    ui_print " "
-    log_print "   Replacing LockScreen Font.."
-  done
+# Disabled temporarily until I remember the fix for this.
+#
+#  for i in $(find /system/fonts/Clock* | sed 's|.*-||'); do
+#    sed -i "s|Clock$i|GoogleSans-Regular|" $INSTALLER/system/etc/fonts.xml
+#    ui_print " "
+#    log_print "   Replacing LockScreen Font.."
+#  done
 else
   ui_print " "
-  log_print "   Disabling fonts..."
-  rm -rf $INSTALLER/system/fonts >> $INSTLOG 2>&1
+  log_print "   Disabling fonts replacement..."
+  rm -rf $INSTALLER/system/etc/fonts.xml >> $INSTLOG 2>&1
 fi
 
 if [ $API -ge 27 ]; then
