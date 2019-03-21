@@ -233,13 +233,11 @@ if $FONT; then
   for i in $(find $INSTALLER/system/fonts/GoogleSans-* | sed 's|.*-||'); do
     sed -i "s|Roboto-$i|GoogleSans-$i|" $INSTALLER/system/etc/fonts.xml
   done
-# Disabled temporarily until I remember the fix for this.
-#
-#  for i in $(find /system/fonts/Clock* | sed 's|.*-||'); do
-#    sed -i "s|Clock$i|GoogleSans-Regular|" $INSTALLER/system/etc/fonts.xml
-#    ui_print " "
-#    log_print "   Replacing LockScreen Font.."
-#  done
+  for i in $(find /system/fonts/Clock* | sed 's|.*-||'); do
+    sed -i "s|Clock$i|AndroidClock|" $INSTALLER/system/etc/fonts.xml
+    ui_print " "
+    log_print "   Replacing LockScreen Font.."
+  done
 else
   ui_print " "
   log_print "   Disabling fonts replacement..."
