@@ -235,9 +235,17 @@ if $FONT; then
   done
   for i in $(find /system/fonts/Clock* | sed 's|.*-||'); do
     sed -i "s|Clock$i|AndroidClock|" $INSTALLER/system/etc/fonts.xml
+  done
+  fontls() {
     ui_print " "
     log_print "   Replacing LockScreen Font.."
-  done
+  }
+  if [[ ! -e /system/fonts/AndroidClock.ttf ]]; then
+    for j in /system/fonts/Clock*; do
+      [ -e "$j" ] && fontls || rm -rf $INSTALLER/system/etc/fonts.xml
+      break
+    done
+  fi
 else
   ui_print " "
   log_print "   Disabling fonts replacement..."
