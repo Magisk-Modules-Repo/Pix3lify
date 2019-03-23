@@ -130,6 +130,10 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
         if $VKSEL; then
           ui_print " "
           log_print "   Ignoring warnings..."
+        else
+          ui_print " "
+          log_print "   Exiting..."
+          abort >> $INSTLOG 2>&1
         fi
       fi
       ui_print " "
@@ -138,28 +142,28 @@ if [ "$SLIM" == false -a "$FULL" == false -a "$OVER" == false -a "$BOOT" == fals
       log_print "   Vol Up = Yes, Vol Down = No"
       if $VKSEL; then
         FONT=true >> $INSTLOG 2>&1
-        ui_print " "
-        log_print " - Framework Options -"
-        log_print "   Do you want the Pixel framework enabled?"
-        log_print "   Vol Up = Yes, Vol Down = No"
-        if $VKSEL; then
-          OVER=true >> $INSTLOG 2>&1
-          ui_print " "
-          log_print " - Accent Options -"
-          log_print "   Do you want the Pixel accent enabled?"
-          log_print "   Vol Up = Yes, Vol Down = No"
-          if $VKSEL; then
-            ACC=true >> $INSTLOG 2>&1
-          fi
-        fi
       fi
-    fi
-  ui_print " "
-  log_print " - Animation Options -"
-  log_print "   Do you want the Pixel boot animation?"
-  log_print "   Vol Up = Yes, Vol Down = No"
-  if $VKSEL; then
-    BOOT=true >> $INSTLOG 2>&1
+      ui_print " "
+      log_print " - Framework Options -"
+      log_print "   Do you want the Pixel framework enabled?"
+      log_print "   Vol Up = Yes, Vol Down = No"
+      if $VKSEL; then
+        OVER=true >> $INSTLOG 2>&1
+      fi
+      ui_print " "
+      log_print " - Accent Options -"
+      log_print "   Do you want the Pixel accent enabled?"
+      log_print "   Vol Up = Yes, Vol Down = No"
+      if $VKSEL; then
+        ACC=true >> $INSTLOG 2>&1
+      fi
+      ui_print " "
+      log_print " - Animation Options -"
+      log_print "   Do you want the Pixel boot animation?"
+      log_print "   Vol Up = Yes, Vol Down = No"
+      if $VKSEL; then
+        BOOT=true >> $INSTLOG 2>&1
+      fi
   fi
 else
   log_print " Options specified in zip name!"

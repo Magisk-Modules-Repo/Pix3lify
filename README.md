@@ -57,9 +57,12 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Changelog
 
-### v2.9.5
+### v2.9.7
+-   Max's attempt to help us fix the installation bug
+
+### v2.9.6
 -   Updated README.md
--   Fonts by default get added but the installer only requests to REPLACE them. If your OEM uses stock font for clock, it'll break. So just please disable fonts in installer - they won't get the NEW repalce feature but will be added like before.
+-   Fonts by default get added but the installer only requests to REPLACE them. If your OEM uses stock font for clock, it'll break. So just please disable fonts in installer - they won't get the NEW repalce feature but will be added like before
 
 ### v2.9.5
 -   Once and for all fix damn LockScreen font issues
