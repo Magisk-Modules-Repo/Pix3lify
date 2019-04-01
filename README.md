@@ -57,6 +57,10 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Changelog
 
+### v2.9.8
+-   Unity v4 update
+-   Bug fixes
+
 ### v2.9.7
 -   Max's attempt to help us fix the installation bug
 
