@@ -6,10 +6,64 @@
 ##########################################################################################
 
 ##########################################################################################
-# Installation Message - Don't change this
+# Unity Logic - Don't change/move this section
 ##########################################################################################
 
+if [ -z $UF ]; then
+  UF=$TMPDIR/common/unityfiles
+  unzip -oq "$ZIPFILE" 'common/unityfiles/util_functions.sh' -d $TMPDIR >&2
+  [ -f "$UF/util_functions.sh" ] || { ui_print "! Unable to extract zip file !"; exit 1; }
+  . $UF/util_functions.sh
+fi
+
+comp_check
+
+##########################################################################################
+# Config Flags
+##########################################################################################
+
+# Uncomment and change 'MINAPI' and 'MAXAPI' to the minimum and maximum android version for your mod
+# Uncomment DYNLIB if you want libs installed to vendor for oreo+ and system for anything older
+# Uncomment SYSOVER if you want the mod to always be installed to system (even on magisk) - note that this can still be set to true by the user by adding 'sysover' to the zipname
+# Uncomment DEBUG if you want full debug logs (saved to /sdcard in magisk manager and the zip directory in twrp) - note that this can still be set to true by the user by adding 'debug' to the zipname
+MINAPI=26
+#MAXAPI=25
+#DYNLIB=true
+#SYSOVER=true
+DEBUG=true
+
+# Uncomment if you do *NOT* want Magisk to mount any files for you. Most modules would NOT want to set this flag to true
+# This is obviously irrelevant for system installs. This will be set to true automatically if your module has no files in system
+#SKIPMOUNT=true
+
+##########################################################################################
+# Replace list
+##########################################################################################
+
+# List all directories you want to directly replace in the system
+# Check the documentations for more info why you would need this
+
+# Construct your list in the following format
+# This is an example
+REPLACE_EXAMPLE="
+/system/app/Youtube
+/system/priv-app/SystemUI
+/system/priv-app/Settings
+/system/framework
+"
+
+# Construct your own list here
+REPLACE="
+"
+
+##########################################################################################
+# Custom Logic
+##########################################################################################
+
+# Set what you want to display when installing your module
+
 print_modname() {
+#  center_and_print # Replace this line if using custom print stuff
   ui_print " "
   ui_print "    *******************************************"
   ui_print "    *<name>*"
@@ -19,36 +73,37 @@ print_modname() {
   ui_print "    *    John Fawkes, Laster K. (lazerl0rd)   *"
   ui_print "    *******************************************"
   ui_print " "
+  unity_main # Don't change this line
 }
 
-##########################################################################################
-# Defines
-##########################################################################################
+set_permissions() {
+  set_perm $UNITY/system/bin/xmlstarlet 0 2000 0755
+  set_perm $UNITY/system/bin/pix3lify 0 2000 0755
+  
+  [ -f "$UNITY/system/bin/curl" ] && set_perm $UNITY/system/bin/curl 0 2000 0755 
 
-# Uncomment and change 'MINAPI' and 'MAXAPI' to the minimum and maxium android version for your mod (note that unity's minapi is 21 (lollipop) due to bash)
-# Uncomment DYNAMICOREO if you want libs installed to vendor for oreo+ and system for anything older
-# Uncomment SYSOVERRIDE if you want the mod to always be installed to system (even on magisk) - note that this can still be set to true by the user by adding 'sysover' to the zipname
-# Uncomment DEBUG if you want full debug logs (saved to /sdcard in magisk manager and the zip directory in twrp) - note that this can still be set to true by the user by adding 'debug' to the zipname
-MINAPI=26
-#MAXAPI=25
-#DYNAMICOREO=true
-#SYSOVERRIDE=true
-DEBUG=true
+  # Note that all files/folders have the $UNITY prefix - keep this prefix on all of your files/folders
+  # Also note the lack of '/' between variables - preceding slashes are already included in the variables
+  # Use $VEN for vendor (Do not use /system$VEN, the $VEN is set to proper vendor path already - could be /vendor, /system/vendor, etc.)
 
-# Things that ONLY run during an upgrade (occurs after unity_custom) - you probably won't need this
-# A use for this would be to back up app data before it's wiped if your module includes an app
-# NOTE: the normal upgrade process is just an uninstall followed by an install
-unity_upgrade() {
-  : # Remove this if adding to this function
+  # Some examples:
+  
+  # For directories (includes files in them):
+  # set_perm_recursive  <dirname>                <owner> <group> <dirpermission> <filepermission> <contexts> (default: u:object_r:system_file:s0)
+  
+  # set_perm_recursive $UNITY/system/lib 0 0 0755 0644
+  # set_perm_recursive $UNITY$VEN/lib/soundfx 0 0 0755 0644
+
+  # For files (not in directories taken care of above)
+  # set_perm  <filename>                         <owner> <group> <permission> <contexts> (default: u:object_r:system_file:s0)
+  
+  # set_perm $UNITY/system/lib/libart.so 0 0 0644
 }
 
 # Custom Variables for Install AND Uninstall - Keep everything within this function - runs before uninstall/install
 unity_custom() {
   if [ -f $VEN/build.prop ]; then BUILDS="/system/build.prop $VEN/build.prop"; else BUILDS="/system/build.prop"; fi
   if [ -d /cache ]; then CACHELOC=/cache; else CACHELOC=/data/cache; fi
-  BIN=$SYS/bin
-  XBIN=$SYS/xbin
-  if [ -d $XBIN ]; then BINPATH=$XBIN; else BINPATH=$BIN; fi
   if $BOOTMODE; then
     SDCARD=/storage/emulated/0
   else
@@ -71,10 +126,10 @@ unity_custom() {
     BFOLDER="/system/media/"
     BZIP="bootanimation.zip"
   fi
-  MODTITLE=$(grep_prop name $INSTALLER/module.prop)
-  VER=$(grep_prop version $INSTALLER/module.prop)
-  AUTHOR=$(grep_prop author $INSTALLER/module.prop)
-  INSTLOG=$CACHELOC/Pix3lify-install.log
+  MODTITLE=$(grep_prop name $TMPDIR/module.prop)
+  VER=$(grep_prop version $TMPDIR/module.prop)
+  AUTHOR=$(grep_prop author $TMPDIR/module.prop)
+  INSTLOG=$UNITY/Pix3lify-install.log
   MAGISK_VERSIONCODE=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VERSIONCODE=") | sed 's|-.*||')
 }
 
@@ -115,57 +170,4 @@ get_file_value() {
 if [ -f "$1" ]; then
 cat $1 | grep $2 | sed "s|.*${2}||" | sed 's|"||g'
 fi
-}
-
-# Custom Functions for Install AND Uninstall - You can put them here
-
-
-##########################################################################################
-# Replace list
-##########################################################################################
-
-# List all directories you want to directly replace in the system
-# By default Magisk will merge your files with the original system
-# Directories listed here however, will be directly mounted to the correspond directory in the system
-
-# You don't need to remove the example below, these values will be overwritten by your own list
-# This is an example
-REPLACE="
-/system/app/Youtube
-/system/priv-app/SystemUI
-/system/priv-app/Settings
-/system/framework
-"
-
-# Construct your own list here, it will overwrite the example
-# !DO NOT! remove this if you don't need to replace anything, leave it empty as it is now
-REPLACE="
-"
-
-##########################################################################################
-# Custom Permissions
-##########################################################################################
-
-set_permissions() {
-  set_perm $UNITY/system/bin/xmlstarlet 0 2000 0755
-  set_perm $UNITY$BINPATH/pix3lify 0 2000 0755
-  
-  [ -f "$UNITY$BINPATH/curl" ] && set_perm $UNITY$BINPATH/curl 0 2000 0755 
-
-  # Note that all files/folders have the $UNITY prefix - keep this prefix on all of your files/folders
-  # Also note the lack of '/' between variables - preceding slashes are already included in the variables
-  # Use $VEN for vendor (Do not use /system$VEN, the $VEN is set to proper vendor path already - could be /vendor, /system/vendor, etc.)
-
-  # Some examples:
-  
-  # For directories (includes files in them):
-  # set_perm_recursive  <dirname>                <owner> <group> <dirpermission> <filepermission> <contexts> (default: u:object_r:system_file:s0)
-  
-  # set_perm_recursive $UNITY/system/lib 0 0 0755 0644
-  # set_perm_recursive $UNITY$VEN/lib/soundfx 0 0 0755 0644
-
-  # For files (not in directories taken care of above)
-  # set_perm  <filename>                         <owner> <group> <permission> <contexts> (default: u:object_r:system_file:s0)
-  
-  # set_perm $UNITY/system/lib/libart.so 0 0 0644
 }

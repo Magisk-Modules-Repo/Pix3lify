@@ -1,7 +1,7 @@
 # This script will be executed in post-fs-data mode
 # More info in the main Magisk thread
 
-[ -f "$MOUNTPATH/Pix3lify/system/bin/xmlstarlet" ] && alias xmlstarlet=$MOUNTPATH/Pix3lify/system/bin/xmlstarlet
+alias xmlstartlet="$(dirname $MOD)/system/bin/xmlstarlet"
 
 patch_xml() {
   local VAR1 VAR2 NAME NAMEC VALC VAL
@@ -14,11 +14,6 @@ patch_xml() {
   fi
   case $2 in
     *dialer_phenotype_flags*.xml)  VAR1=boolean; VAR2=string; VAR3=long;;
-    *mixer_paths*.xml) VAR1=ctl; VAR2=mixer;;
-    *sapa_feature*.xml) VAR1=feature; VAR2=model;;
-    *mixer_gains*.xml) VAR1=ctl; VAR2=mixer;;
-    *audio_device*.xml) VAR1=kctl; VAR2=mixercontrol;;
-    *audio_platform_info*.xml) VAR1=param; VAR2=config_params;;
   esac
   if [ "$1" == "-t" -o "$1" == "-ut" -o "$1" == "-tu" ] && [ "$VAR1" ]; then
     if [ "$(grep "<$VAR1 $NAMEC=\"$NAME\" $VALC=\".*\" />" $2)" ]; then

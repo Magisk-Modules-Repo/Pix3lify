@@ -1,12 +1,11 @@
 # Terminal Magisk Mod Template
-# by veez21 @ xda-developer
-
-MODPATH=$MOUNTPATH/Pix3lify
-
+# by veez21 @ xda-developers
+# Modified by @JohnFawkes - Telegram
+# Supersu/all-root compatibility with Unity and @Zackptg5
 # Variables
 OLDPATH=$PATH
 CACHELOC=<CACHELOC>
-BINPATH=<BINPATH>
+MODID=Pix3lify
 SDCARD=/storage/emulated/0
 TMPLOG=Pix3lify_logs.log
 TMPLOGLOC=$CACHELOC/Pix3lify_logs
@@ -47,14 +46,15 @@ set -x 2>$VERLOG
 LOGGERS="
 $CACHELOC/magisk.log
 $CACHELOC/magisk.log.bak
-$CACHELOC/Pix3lify-install.log
+$MOUNTEDROOT$MODID/Pix3lify-install.log
 $SDCARD/Pix3lify-debug.log
-$CACHELOC/pix3lify
+$MOUNTEDROOT$MODID/pix3lify
 /data/adb/magisk_debug.log
 $DPF
 $CACHELOC/Pix3lify.log
 $CACHELOC/Pix3lify-old.log
 $CACHELOC/Pix3lify-verbose-old.log
+$CACHELOC/Pix3lify-verbose.log
 "
 
 log_handler() {
@@ -89,6 +89,10 @@ elif $MAGISK && [ -d /sbin/.magisk/busybox ]; then
 elif $MAGISK && [ -d /sbin/.core/busybox ]; then
   PATH=/sbin/.core/busybox:$PATH
   _bb=/sbin/.core/busybox/busybox
+  BBox=true
+elif $MAGISK && [ -d /data/adb/magisk/busybox ]; then
+  PATH=/data/adb/magisk/busybox:$PATH
+  _bb=/data/adb/magisk/busybox/busybox
   BBox=true
 else
   BBox=false
@@ -337,10 +341,10 @@ fi
 if $MAGISK; then
   log_print " Collecting Modules Installed "
   echo "==========================================" >> $LOG 2>&1
-  ls $MOUNTPATH >> $LOG 2>&1
+  ls $MOUDLEROOT >> $LOG 2>&1
   log_print " Collecting Logs for Installed Files "
   echo "==========================================" >> $LOG 2>&1
-  log_handler "$(du -ah $MODPATH)" >> $LOG 2>&1
+  log_handler "$(du -ah $MOUNTEDROOT)" >> $LOG 2>&1
   if grep -qF "com.google.android.dialer" $LIST; then
     log_print " Collecting Logs for Call Screening Patches "
     echo "==========================================" >> $LOG 2>&1
