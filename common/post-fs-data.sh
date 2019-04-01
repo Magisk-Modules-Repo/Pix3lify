@@ -1,7 +1,7 @@
 # This script will be executed in post-fs-data mode
 # More info in the main Magisk thread
 
-[ -f "$MOUNTPATH/Pix3lify/system/bin/xmlstarlet" ] && alias xmlstarlet=$MOUNTPATH/Pix3lify/system/bin/xmlstarlet
+alias xmlstartlet="$(dirname $MOD)/system/bin/xmlstarlet"
 
 patch_xml() {
   local VAR1 VAR2 NAME NAMEC VALC VAL

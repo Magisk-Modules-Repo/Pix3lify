@@ -17,6 +17,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Close to Stock/AOSP ROMs (not for MIUI, TouchWiz, EMUI, OOS, etc.)
 -   All root solutions (requires init.d support if not using Magisk or supersu. Try [Init.d Injector](https://forum.xda-developers.com/android/software-hacking/mod-universal-init-d-injector-wip-t3692105))
 -   Pixel, Nexus, and OxygenOS devices are not compatible and were leading to bootloops. The module will now warn about this and give the option to abort or bypass warning and install anyway(to uninstall if in bootloop, boot to twrp and flash zip).
+-   Magisk 18+ only
 
 ## ⭐ Reminders
 
@@ -56,6 +57,11 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables Night Light (device dependent)
 
 ## ⭐ Changelog
+
+### v2.9.3
+
+-   Unity v4 Update
+-   Magisk 18+ compatible only now
 
 ### v2.9.2
 

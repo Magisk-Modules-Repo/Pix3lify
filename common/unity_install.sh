@@ -8,12 +8,7 @@ patch_xml() {
     VALC="value"; VAL="$4"
   fi
   case $2 in
-    *dialer_phenotype_flags*.xml)  sed -i "/#DIALERPATCHES/a\          patch_xml $1 \$MODPATH/\ '$3' \"$4\"" $INSTALLER/common/post-fs-data.sh; VAR1=boolean; VAR2=string;;
-    *mixer_paths*.xml) sed -i "/#MIXERPATCHES/a\                       patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=ctl; VAR2=mixer;;
-    *sapa_feature*.xml) sed -i "/#SAPAPATCHES/a\                        patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=feature; VAR2=model;;
-    *mixer_gains*.xml) sed -i "/#GAINPATCHES/a\                       patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=ctl; VAR2=mixer;;
-    *audio_device*.xml) sed -i "/#ADPATCHES/a\                        patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=kctl; VAR2=mixercontrol;;
-    *audio_platform_info*.xml) sed -i "/#APLIPATCHES/a\                               patch_xml $1 \$MODPATH/\$NAME '$3' \"$4\"" $INSTALLER/common/aml.sh; VAR1=param; VAR2=config_params;;
+    *dialer_phenotype_flags*.xml)  sed -i "/#DIALERPATCHES/a\          patch_xml $1 \$MODPATH/\ '$3' \"$4\"" $TMPDIR/common/post-fs-data.sh; VAR1=boolean; VAR2=string;;
   esac
   if [ "$1" == "-t" -o "$1" == "-ut" -o "$1" == "-tu" ] && [ "$VAR1" ]; then
     if [ "$(grep "<$VAR1 $NAMEC=\"$NAME\" $VALC=\".*\" />" $2)" ]; then
@@ -76,17 +71,16 @@ IFS=$OIFS
 ## Debug Stuff
 log_start
 log_print "- Installing Logging Scripts/Prepping Terminal Script "
-mkdir -p $UNITY$BINPATH
-cp_ch -n $INSTALLER/pix3lify.sh $UNITY$BINPATH/pix3lify
-log_handler "Using $BINPATH."
+mkdir -p $UNITY/system/bin
+cp_ch -n $TMPDIR/pix3lify.sh $UNITY/system/bin/pix3lify
 
-sed -i -e "s|<CACHELOC>|$CACHELOC|" -e "s|<BINPATH>|$BINPATH|" $UNITY$BINPATH/pix3lify
+sed -i "s|<CACHELOC>|$CACHELOC|" $UNITY/system/bin/pix3lify
 if $MAGISK; then
-sed -i "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY$BINPATH/pix3lify
+sed -i "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY/system/bin/pix3lify
 else
-  sed -i "s|<MODPROP>|$MOD_VER|" $UNITY$BINPATH/pix3lify
+  sed -i "s|<MODPROP>|$MOD_VER|" $UNITY/system/bin/pix3lify
 fi
-patch_script $UNITY$BINPATH/pix3lify
+patch_script $UNITY/system/bin/pix3lify
 
 if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ] || [ "$OOS" ]; then
   ui_print " "
@@ -165,41 +159,41 @@ else
   log_print " Options specified in zip name!"
 fi
 
-if [ ! -f "$BINPATH/curl" ]; then
-  cp_ch $INSTALLER/curl $UNITY$BINPATH/curl
+if [ ! -f "/system/bin/curl" ]; then
+  cp_ch $TMPDIR/curl $UNITY/system/bin/curl
 fi
 
 # had to break up volume options this way for basename zip for users without working vol keys
 if $SLIM; then
   ui_print " "
   log_print "   Enabling slim mode..."
-  sed -ri "s/name=(.*)/name=\1 (SLIM)/" $INSTALLER/module.prop
-  rm -rf $INSTALLER/system/app >> $INSTLOG 2>&1
-  rm -rf $INSTALLER/system/fonts >> $INSTLOG 2>&1
-  rm -rf $INSTALLER/system/lib >> $INSTLOG 2>&1
-  rm -rf $INSTALLER/system/lib64 >> $INSTLOG 2>&1
-  rm -rf $INSTALLER/system/media >> $INSTLOG 2>&1
-  rm -rf $INSTALLER/system/priv-app >> $INSTLOG 2>&1
-  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationCorner >> $INSTLOG 2>&1
-  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationDouble >> $INSTLOG 2>&1
-  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutEmulationTall >> $INSTLOG 2>&1
-  rm -rf $INSTALLER/system/vendor/overlay/DisplayCutoutNoCutout >> $INSTLOG 2>&1
-  rm -rf $INSTALLER/system/vendor/overlay/Pixel >> $INSTLOG 2>&1
+  sed -ri "s/name=(.*)/name=\1 (SLIM)/" $TMPDIR/module.prop
+  rm -rf $TMPDIR/system/app >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/fonts >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/lib >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/lib64 >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/media >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/priv-app >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutEmulationCorner >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutEmulationDouble >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutEmulationTall >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutNoCutout >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/vendor/overlay/Pixel >> $INSTLOG 2>&1
   rm -rf /data/resource-cache >> $INSTLOG 2>&1
 fi
 
 if $FULL; then
   ui_print " "
   log_print " Full mode selected..."
-  sed -ri "s/name=(.*)/name=\1 (FULL)/" $INSTALLER/module.prop
-  prop_process $INSTALLER/common/full.prop
+  sed -ri "s/name=(.*)/name=\1 (FULL)/" $TMPDIR/module.prop
+  prop_process $TMPDIR/common/full.prop
   if $OVER; then
     ui_print " "
     log_print "   Enabling overlay features..."
   else
     ui_print " "
     log_print "   Disabling overlay features..."
-    rm -f $INSTALLER/system/vendor/overlay/Pix3lify.apk >> $INSTLOG 2>&1
+    rm -f $TMPDIR/system/vendor/overlay/Pix3lify.apk >> $INSTLOG 2>&1
     rm -rf /data/resource-cache >> $INSTLOG 2>&1
     rm -rf /data/dalvik-cache >> $INSTLOG 2>&1
     log_print "   Dalvik-Cache has been cleared!"
@@ -211,8 +205,8 @@ if $FULL; then
   else
     ui_print " "
     log_print "   Disabling Pixel accent..."
-    sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $INSTALLER/common/system.prop
-    rm -rf $INSTALLER/system/vendor/overlay/Pixel >> $INSTLOG 2>&1
+    sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $TMPDIR/common/system.prop
+    rm -rf $TMPDIR/system/vendor/overlay/Pixel >> $INSTLOG 2>&1
     rm -rf /data/resource-cache >> $INSTLOG 2>&1
   fi
 fi
@@ -220,7 +214,7 @@ fi
 if $BOOT; then
   ui_print " "
   log_print "   Enabling boot animation..."
-  cp_ch -i $INSTALLER/common/bootanimation.zip $UNITY$BFOLDER$BZIP
+  cp_ch -i $TMPDIR/common/bootanimation.zip $UNITY$BFOLDER$BZIP
 else
   ui_print " "
   log_print "   Disabling boot animation..."
@@ -229,23 +223,23 @@ fi
 if $FONT; then
   ui_print " "
   log_print "   Enabling fonts..."
-  cp -rf /system/etc/fonts.xml $INSTALLER/system/etc/fonts.xml
-  for i in $(find $INSTALLER/system/fonts/GoogleSans-* | sed 's|.*-||'); do
-    sed -i "s|Roboto-$i|GoogleSans-$i|" $INSTALLER/system/etc/fonts.xml
+  cp -rf /system/etc/fonts.xml $TMPDIR/system/etc/fonts.xml
+  for i in $(find $TMPDIR/system/fonts/GoogleSans-* | sed 's|.*-||'); do
+    sed -i "s|Roboto-$i|GoogleSans-$i|" $TMPDIR/system/etc/fonts.xml
   done
   for i in $(find /system/fonts/Clock* | sed 's|.*-||'); do
-    sed -i "s|Clock$i|GoogleSans-Regular|" $INSTALLER/system/etc/fonts.xml
+    sed -i "s|Clock$i|GoogleSans-Regular|" $TMPDIR/system/etc/fonts.xml
     ui_print " "
     log_print "   Replacing LockScreen Font.."
   done
 else
   ui_print " "
   log_print "   Disabling fonts..."
-  rm -rf $INSTALLER/system/fonts >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/fonts >> $INSTLOG 2>&1
 fi
 
 if [ $API -ge 27 ]; then
-  rm -rf $INSTALLER/system/framework  >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/framework  >> $INSTLOG 2>&1
 fi
 
 if [ $API -ge 28 ]; then
@@ -266,27 +260,27 @@ if [ $API -ge 28 ]; then
   fi
 fi
 
-for d in $INSTALLER/system/app/*; do
+for d in $TMPDIR/system/app/*; do
     if [ -d ${d} ]; then
-        chmod 755 $INSTALLER/system/app/$d
-        chmod 644 $INSTALLER/system/app/$d/*.apk
+        chmod 755 $TMPDIR/system/app/$d
+        chmod 644 $TMPDIR/system/app/$d/*.apk
     fi
 done
-for f in $INSTALLER/system/priv-app/*; do
+for f in $TMPDIR/system/priv-app/*; do
     if [ -d ${f} ]; then
-        chmod 755 $INSTALLER/system/priv-app/$f
-        chmod 644 $INSTALLER/system/priv-app/$f/*.apk
+        chmod 755 $TMPDIR/system/priv-app/$f
+        chmod 644 $TMPDIR/system/priv-app/$f/*.apk
     fi
 done
 
 # Adds slim & full variables to service.sh
 for i in "SLIM" "FULL"; do
-  sed -i "2i $i=$(eval echo \$$i)" $INSTALLER/common/service.sh
+  sed -i "2i $i=$(eval echo \$$i)" $TMPDIR/common/service.sh
 done
 
-cp_ch -i $INSTALLER/common/unityfiles/tools/$ARCH32/xmlstarlet $INSTALLER/system/bin/xmlstarlet
+cp_ch -i $UF/tools/$ARCH32/xmlstarlet $TMPDIR/system/bin/xmlstarlet
 
-cp_ch -i $UNITY$BINPATH/pix3lify $CACHELOC/pix3lify
+cp_ch -i $UNITY/system/bin/pix3lify $UNITY/pix3lify
 
 log_print " If you encounter any bugs or issues, please type pix3lify"
 log_print " in a terminal emulator and choose yes to send logs to our server"
