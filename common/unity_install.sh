@@ -80,12 +80,12 @@ IFS=$OIFS
 
 ## Debug Stuff
 log_start
-ui_print "- Installing Logging Scripts/Prepping Terminal Script "
+log_print "- Installing Logging Scripts/Prepping Terminal Script "
 cp_ch -n $TMPDIR/pix3lify.sh $UNITY/system/bin/pix3lify
 
 sed -i "s|<CACHELOC>|$CACHELOC|" $UNITY/system/bin/pix3lify
 if $MAGISK; then
-sed -i "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY/system/bin/pix3lify
+  sed -i "s|<MODPROP>|$(echo $MOD_VER)|" $UNITY/system/bin/pix3lify
 else
   sed -i "s|<MODPROP>|$MOD_VER|" $UNITY/system/bin/pix3lify
 fi
@@ -203,61 +203,61 @@ fi
 
 if $FULL; then
   ui_print " "
-  ui_print " Full mode selected..."
+  log_print " Full mode selected..."
   sed -ri "s/name=(.*)/name=\1 (FULL)/" $TMPDIR/module.prop
   prop_process $TMPDIR/common/full.prop
   if $OVER; then
     ui_print " "
-    ui_print "   Enabling Pixel framework..."
+    log_print "   Enabling Pixel framework..."
   else
     ui_print " "
-    ui_print "   Disabling Pixel framework..."
-    rm -f $TMPDIR/system/vendor/overlay/Pix3lify.apk
-    rm -rf /data/resource-cache
-    rm -rf /data/dalvik-cache
-    ui_print "   Dalvik-Cache has been cleared!"
-    ui_print "   Next boot may take a little longer to boot!"
+    log_print "   Disabling Pixel framework..."
+    rm -f $TMPDIR/system/vendor/overlay/Pix3lify.apk >> $INSTLOG 2>&1
+    rm -rf /data/resource-cache >> $INSTLOG 2>&1
+    rm -rf /data/dalvik-cache >> $INSTLOG 2>&1
+    log_print "   Dalvik-Cache has been cleared!"
+    log_print "   Next boot may take a little longer to boot!"
   fi
   if $ACC; then
     ui_print " "
-    ui_print "   Enabling Pixel accent..."
+    log_print "   Enabling Pixel accent..."
   else
     ui_print " "
-    ui_print "   Disabling Pixel accent..."
+    log_print "   Disabling Pixel accent..."
     sed -i 's/ro.boot.vendor.overlay.theme/# ro.boot.vendor.overlay.theme/g' $TMPDIR/common/system.prop
-    rm -rf $TMPDIR/system/vendor/overlay/Pixel
-    rm -rf /data/resource-cache
+    rm -rf $TMPDIR/system/vendor/overlay/Pixel >> $INSTLOG 2>&1
+    rm -rf /data/resource-cache >> $INSTLOG 2>&1
   fi
 else
   ui_print " "
-  ui_print "   Enabling slim mode..."
+  log_print "   Enabling slim mode..."
   sed -ri "s/name=(.*)/name=\1 (SLIM)/" $TMPDIR/module.prop
-  rm -rf $TMPDIR/system/app
-  rm -rf $TMPDIR/system/fonts
-  rm -rf $TMPDIR/system/lib
-  rm -rf $TMPDIR/system/lib64
-  rm -rf $TMPDIR/system/media
-  rm -rf $TMPDIR/system/priv-app
-  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutEmulationCorner
-  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutEmulationDouble
-  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutEmulationTall
-  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutNoCutout
-  rm -rf $TMPDIR/system/vendor/overlay/Pixel
-  rm -rf /data/resource-cache
+  rm -rf $TMPDIR/system/app >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/fonts >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/lib >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/lib64 >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/media >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/priv-app >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutEmulationCorner >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutEmulationDouble >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutEmulationTall >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/vendor/overlay/DisplayCutoutNoCutout >> $INSTLOG 2>&1
+  rm -rf $TMPDIR/system/vendor/overlay/Pixel >> $INSTLOG 2>&1
+  rm -rf /data/resource-cache >> $INSTLOG 2>&1
 fi
 
 if $BOOT; then
   ui_print " "
-  ui_print "   Enabling boot animation..."
+  log_print "   Enabling boot animation..."
   cp_ch -i $TMPDIR/common/bootanimation.zip $UNITY$BFOLDER$BZIP
 else
   ui_print " "
-  ui_print "   Disabling boot animation..."
+  log_print "   Disabling boot animation..."
 fi
 
 if $FONT; then
   ui_print " "
-  ui_print "   Enabling fonts replacement..."
+  log_print "   Enabling fonts replacement..."
   cp -rf /system/etc/fonts.xml $TMPDIR/system/etc/fonts.xml
   for i in $(find $TMPDIR/system/fonts/GoogleSans-* | sed 's|.*-||'); do
     sed -i "s|Roboto-$i|GoogleSans-$i|" $TMPDIR/system/etc/fonts.xml
@@ -267,7 +267,7 @@ if $FONT; then
   done
   fontls() {
     ui_print " "
-    ui_print "   Replacing LockScreen Font.."
+    log_print "   Replacing LockScreen Font.."
   }
   if [[ ! -e /system/fonts/AndroidClock.ttf ]]; then
     for j in /system/fonts/Clock*; do
@@ -277,17 +277,17 @@ if $FONT; then
   fi
 else
   ui_print " "
-  ui_print "   Disabling fonts replacement..."
-  rm -rf $TMPDIR/system/etc/fonts.xml
+  log_print "   Disabling fonts replacement..."
+  rm -rf $TMPDIR/system/etc/fonts.xml >> $INSTLOG 2>&1
 fi
 
 if [ $API -ge 27 ]; then
-  rm -rf $TMPDIR/system/framework 
+  rm -rf $TMPDIR/system/framework  >> $INSTLOG 2>&1
 fi
 
 if [ $API -ge 28 ]; then
   ui_print " "
-  ui_print "   Enabling Google's Call Screening..."
+  log_print "   Enabling Google's Call Screening..."
   DPF=$(find /data/data/com.google.android.dialer* -name "dialer_phenotype_flags.xml")
   if [ -f $DPF ]; then
     # Enabling Google's Call Screening
@@ -304,13 +304,13 @@ if [ $API -ge 28 ]; then
 fi
 
 if [ $API -ge 28 ]; then
-  rm -rf $TMPDIR/system/app/MarkupGoogle/MarkupGoogle2.apk
+  rm -rf $TMPDIR/system/app/MarkupGoogle/MarkupGoogle2.apk >> $INSTLOG 2>&1
   mv $TMPDIR/system/app/MarkupGoogle/MarkupGoogle1.apk $TMPDIR/system/app/MarkupGoogle/MarkupGoogle.apk
 elif [ $API -lt 28 ] && [ $API -ge 22 ]; then
-  rm -rf $TMPDIR/system/app/MarkupGoogle/MarkupGoogle1.apk
+  rm -rf $TMPDIR/system/app/MarkupGoogle/MarkupGoogle1.apk >> $INSTLOG 2>&1
   mv $TMPDIR/system/app/MarkupGoogle/MarkupGoogle2.apk $TMPDIR/system/app/MarkupGoogle/MarkupGoogle.apk
 else
-   rm -rf $TMPDIR/system/app/MarkupGoogle
+   rm -rf $TMPDIR/system/app/MarkupGoogle >> $INSTLOG 2>&1
 fi
 
 # Adds full variables to service.sh
