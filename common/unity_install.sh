@@ -72,10 +72,6 @@ case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *acc*) ACC=true;;
   *nacc*) ACC=false;;
 esac
-case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
-  *boot*) BOOT=true;;
-  *nboot*) BOOT=false;;
-esac
 IFS=$OIFS
 
 ## Debug Stuff
@@ -115,7 +111,7 @@ if [ -f "$OVERLAY" ]; then
   rm -f "$OVERLAY"
 fi
 
-if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $BOOT ]; then
+if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ]; then
   if [ -z $FULL ]; then
     ui_print " "
     log_print " - Slim Options -"
@@ -127,7 +123,7 @@ if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $BOOT ]; 
       FULL=true >> $INSTLOG 2>&1
     fi
   fi
-  if $FULL && ([ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $BOOT ]); then
+  if $FULL && ([ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ]); then
     ui_print " "
     log_print " - Font Options -"
     log_print "   Do you want to replace fonts with Product Sans?"
@@ -179,17 +175,6 @@ if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $BOOT ]; 
         ACC=true >> $INSTLOG 2>&1
       else
         ACC=false >> $INSTLOG 2>&1
-      fi
-    fi
-    if [ -z $BOOT ]; then  
-      ui_print " "
-      log_print " - Animation Options -"
-      log_print "   Do you want the Pixel boot animation?"
-      log_print "   Vol Up = Yes, Vol Down = No"
-      if $VKSEL; then
-        BOOT=true >> $INSTLOG 2>&1
-      else
-        BOOT=false >> $INSTLOG 2>&1
       fi
     fi
   fi
@@ -246,14 +231,14 @@ else
   rm -rf /data/resource-cache >> $INSTLOG 2>&1
 fi
 
-if $BOOT; then
-  ui_print " "
-  log_print "   Enabling boot animation..."
-  cp_ch -i $TMPDIR/common/bootanimation.zip $UNITY$BFOLDER$BZIP
-else
-  ui_print " "
-  log_print "   Disabling boot animation..."
-fi
+#if $BOOT; then
+#  ui_print " "
+#  log_print "   Enabling boot animation..."
+#  cp_ch -i $TMPDIR/common/bootanimation.zip $UNITY$BFOLDER$BZIP
+#else
+#  ui_print " "
+#  log_print "   Disabling boot animation..."
+#fi
 
 if $FONT; then
   ui_print " "
@@ -310,7 +295,7 @@ elif [ $API -lt 28 ] && [ $API -ge 22 ]; then
   rm -rf $TMPDIR/system/app/MarkupGoogle/MarkupGoogle1.apk >> $INSTLOG 2>&1
   mv $TMPDIR/system/app/MarkupGoogle/MarkupGoogle2.apk $TMPDIR/system/app/MarkupGoogle/MarkupGoogle.apk
 else
-   rm -rf $TMPDIR/system/app/MarkupGoogle >> $INSTLOG 2>&1
+   rm -rf $TMPDIR/system/app/MarkupGoogle >> $INSTLOG 2>&1    
 fi
 
 # Adds full variables to service.sh
