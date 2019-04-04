@@ -66,10 +66,10 @@ print_modname() {
 #  center_and_print # Replace this line if using custom print stuff
   ui_print " "
   ui_print "    *******************************************"
-  ui_print "    *<name>*"
+  ui_print "    *               Pix3lify                  *"
   ui_print "    *******************************************"
-  ui_print "    *<version>*"
-  ui_print "    *    Joey Huab, Aidan Holland, Pika       *" 
+  ui_print "    *                v2.9.8                   *"
+  ui_print "    *      Joey Huab, Aidan Holland, Pika     *" 
   ui_print "    *    John Fawkes, Laster K. (lazerl0rd)   *"
   ui_print "    *******************************************"
   ui_print " "
