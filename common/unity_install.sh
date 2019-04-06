@@ -168,6 +168,7 @@ if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ]; then
       fi
     fi
     if [ -z $ACC ]; then
+      ui_print " "
       log_print " - Accent Options -"
       log_print "   Do you want the Pixel accent enabled?"
       log_print "   Vol Up = Yes, Vol Down = No"
