@@ -31,4 +31,10 @@ if [ -f "$OVERLAY" ]; then
   ui_print " "
   ui_print "   Removing $OVERLAY"
   rm -f "$OVERLAY"
+  rm -rf /data/resource-cache
 fi
+
+rm -rf /data/dalvik-cache
+ui_print " "
+ui_print "   Dalvik-Cache has been cleared!"
+ui_print "   Next boot may take a little longer to boot!"
