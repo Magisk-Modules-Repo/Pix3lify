@@ -1,7 +1,7 @@
 id=Pix3lify
 name=Pix3lify
-version=v3.0.0
-versionCode=300
+version=v3.0.1
+versionCode=301
 author=Joey Huab, Aidan Holland, Pika, JohnFawkes, Laster K. (lazerl0rd)
 description=Ports Pixel-range exclusive features; Pixel Blue theme accent, Product Sans font, Alarms, Notification sounds, Ringtones, UI audio; enables Pixel Wallpapers, enables Google Call Screening, enables Night Light (device dependent), Daydream VR support, adds Device Gestures to Settings, enables Camera2 API and EIS support (varies per device)
 support=https://t.me/Pix3lify

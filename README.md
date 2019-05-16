@@ -59,6 +59,15 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 
 ## ⭐ Changelog
 
+### v3.0.1
+-   Unity 4.2 Update
+
+### v3.0.0
+-   Add Pixel Stand Feature
+
+### v2.9.9
+-   Add Android One Feature Flag
+
 ### v2.9.8
 -   Unity v4 update
 -   Bug fixes
