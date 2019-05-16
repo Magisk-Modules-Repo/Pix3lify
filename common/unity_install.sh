@@ -122,7 +122,7 @@ if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $WCRG ]; 
       FULL=true >> $INSTLOG 2>&1
     fi
   fi
-  if $FULL && ([ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ]); then
+  if $FULL && ([ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $WCRG ]); then
     ui_print " "
     log_print " - Font Options -"
     log_print "   Do you want to replace fonts with Product Sans?"
