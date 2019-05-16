@@ -72,6 +72,10 @@ case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *acc*) ACC=true;;
   *nacc*) ACC=false;;
 esac
+case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
+  *wcrg*) WCRG=true;;
+  *nwcrg*) WCRG=false;;
+esac
 IFS=$OIFS
 
 ## Debug Stuff
@@ -104,14 +108,9 @@ fi
 
 ui_print " "
 log_print "   Removing remnants from past Pix3lify installs..."
-# Removes /data/resource-cache/overlays.list
-OVERLAY='/data/resource-cache/overlays.list'
-if [ -f "$OVERLAY" ]; then
-  log_print "   Removing $OVERLAY"
-  rm -f "$OVERLAY"
-fi
+rm -rf /data/resource-cache
 
-if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ]; then
+if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $WCRG ]; then
   if [ -z $FULL ]; then
     ui_print " "
     log_print " - Slim Options -"
@@ -176,6 +175,17 @@ if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ]; then
         ACC=true >> $INSTLOG 2>&1
       else
         ACC=false >> $INSTLOG 2>&1
+      fi
+    fi
+    if [ -z $WCRG ]; then
+      ui_print " "
+      log_print " - Pixel Stand Options -"
+      log_print "   Do you want the Pixel Stand feature?"
+      log_print "   Vol Up = Yes, Vol Down = No"
+      if $VKSEL; then
+        WCRG=true >> $INSTLOG 2>&1
+      else
+        WCRG=false >> $INSTLOG 2>&1
       fi
     fi
   fi
@@ -265,6 +275,17 @@ else
   ui_print " "
   log_print "   Disabling fonts replacement..."
   rm -rf $TMPDIR/system/etc/fonts.xml >> $INSTLOG 2>&1
+fi
+
+if $WCRG; then
+  ui_print " "
+  log_print "   Enabling Pixel stand..."
+else
+  ui_print " "
+  log_print "   Disabling Pixel stand..."
+  rm -rf $TMPDIR/system/priv-app/DreamlinerPrebuilt >> $INSTLOG 2>&1
+  sed -i '/charger/d' $TMPDIR/system/etc/sysconfig/pix3lify-features.xml >> $INSTLOG 2>&1
+  sed -i '/DREAMLINER/d' $TMPDIR/system/etc/sysconfig/pix3lify-features.xml >> $INSTLOG 2>&1
 fi
 
 if [ $API -ge 27 ]; then
