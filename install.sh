@@ -70,7 +70,7 @@ print_modname() {
   ui_print "    *******************************************"
   ui_print "    *               Pix3lify                  *"
   ui_print "    *******************************************"
-  ui_print "    *                $VER                   *"
+  ui_print "    *                $VER                     *"
   ui_print "    *      Joey Huab, Aidan Holland, Pika     *" 
   ui_print "    *    John Fawkes, Laster K. (lazerl0rd)   *"
   ui_print "    *******************************************"
@@ -120,9 +120,9 @@ unity_custom() {
   N5X=$(grep -E "ro.product.device=bullhead|ro.product.name=bullhead" $BUILDS)
   N6P=$(grep -E "ro.product.device=angler|ro.product.name=angler" $BUILDS)
   OOS=$(grep -E "ro.product.manufacturer=OnePlus|ro.product.vendor.brand=OnePlus" $BUILDS)
-  MODTITLE=$(grep_prop name $TMPDIR/module.prop)
-  VER=$(grep_prop version $TMPDIR/module.prop)
-  AUTHOR=$(grep_prop author $TMPDIR/module.prop)
+  MODTITLE=$(echo $(get_file_value $TMPDIR/module.prop "name=") | sed 's|-.*||')
+  VER=$(echo $(get_file_value $TMPDIR/module.prop "version=") | sed 's|-.*||')
+  AUTHOR=$(echo $(get_file_value $TMPDIR/module.prop "author=") | sed 's|-.*||')
   INSTLOG=$UNITY/Pix3lify-install.log
   MAGISK_VERSIONCODE=$(echo $(get_file_value /data/adb/magisk/util_functions.sh "MAGISK_VERSIONCODE=") | sed 's|-.*||')
 }
