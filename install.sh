@@ -70,7 +70,7 @@ print_modname() {
   ui_print "    *******************************************"
   ui_print "    *               Pix3lify                  *"
   ui_print "    *******************************************"
-  ui_print "    *                v2.9.8                   *"
+  ui_print "    *                v3.0.2                   *"
   ui_print "    *      Joey Huab, Aidan Holland, Pika     *" 
   ui_print "    *    John Fawkes, Laster K. (lazerl0rd)   *"
   ui_print "    *******************************************"
