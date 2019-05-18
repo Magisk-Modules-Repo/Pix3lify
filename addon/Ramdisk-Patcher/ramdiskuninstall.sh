@@ -1,1 +1,0 @@
-# Put uninstall only logic here
