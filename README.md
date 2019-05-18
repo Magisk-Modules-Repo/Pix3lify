@@ -58,7 +58,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables Night Light (device dependent)
 
 ## ⭐ Changelog
-###v 3.0.2
+### v3.0.2
 -   Forgot Ramdisk Patcher Addon
 
 ### v3.0.1
