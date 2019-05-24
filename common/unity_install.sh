@@ -129,7 +129,7 @@ if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $WCRG ]; 
     log_print "   Vol Up = Yes, Vol Down = No"
     if $VKSEL; then
       FONT=true >> $INSTLOG 2>&1
-    else 
+    else
       FONT=false >> $INSTLOG 2>&1
     fi
     if [ -z $OVER ]; then
@@ -276,6 +276,8 @@ else
   log_print "   Disabling fonts replacement..."
   rm -rf $TMPDIR/system/etc/fonts.xml >> $INSTLOG 2>&1
 fi
+ln -s $TMPDIR/system/fonts/Roboto-Regular.ttf $TMPDIR/system/fonts/DroidSans.ttf
+ln -s $TMPDIR/system/fonts/Roboto-Bold.ttf $TMPDIR/system/fonts/DroidSans-Bold.ttf
 
 if $WCRG; then
   ui_print " "
@@ -317,7 +319,7 @@ elif [ $API -lt 28 ] && [ $API -ge 22 ]; then
   rm -rf $TMPDIR/system/app/MarkupGoogle/MarkupGoogle1.apk >> $INSTLOG 2>&1
   mv $TMPDIR/system/app/MarkupGoogle/MarkupGoogle2.apk $TMPDIR/system/app/MarkupGoogle/MarkupGoogle.apk
 else
-   rm -rf $TMPDIR/system/app/MarkupGoogle >> $INSTLOG 2>&1    
+   rm -rf $TMPDIR/system/app/MarkupGoogle >> $INSTLOG 2>&1
 fi
 
 # Adds full variables to service.sh
