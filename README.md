@@ -27,7 +27,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 ## ⭐ Users without working volume keys
 
 -   To choose options without using volume keys, you can rename the zip
--   Currently the choices are FULL, SLIM, OVER, and BOOT.
+-   Currently the choices are FULL, SLIM, OVER, ACC, BOOT, FONT, WCRG, and EMJI.
 -   FULL = The full module not including overlay/accent and boot animation
 -   SLIM = No additional apps, wellbeing scripts, fonts, sounds, and all overlays except pix3lify.
 -   OVER = Install pixel framework changes ( a lot of the main features is in this, inc. Night Light)
@@ -35,6 +35,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   BOOT = Install pixel boot animation
 -   FONT = **Replace** stock font with Product Sans ( IF U HAVE LOCKSCREEN ISSUES TURN OFF IT WILL STILL ADD THE SANS FONTS )
 -   WCRG = Add Pixel Stand feature and app
+-   EMJI = Uses Android Q’s new Emoji set (following Google’s Oreo Emoji theme)
 -   To use the basename zip feature all you need to do is add the options to the zipname and only flash the zip in recovery. Magisk renames all zips to install.zip so flashing in magisk manager will NOT work. Heres an example of using basename to install full and overlays ( Pix3lify-2.6-full-over.zip )
 -   The options can either be full, Full, or FULL ( applies to all options )
 
@@ -56,8 +57,13 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables EIS support (device dependent)
 -   Enables Google Assistant
 -   Enables Night Light (device dependent)
+-   Uses ystem-wide or header Product Sans
+-   Uses emoji from Android Q
 
 ## ⭐ Changelog
+### v3.0.4
+-   Emoji from Android Q option
+
 ### v3.0.2
 -   Forgot Ramdisk Patcher Addon
 

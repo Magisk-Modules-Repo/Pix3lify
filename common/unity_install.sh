@@ -69,6 +69,12 @@ case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *nfont*) FONT=false;;
 esac
 case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
+  *emji*) EMJI=true;;
+  *nemji*) EMJI=false;;
+  *emoji*) EMJI=true;;
+  *nemoji*) EMJI=false;;
+esac
+case $(echo $(basename $ZIPFILE) | tr '[:upper:]' '[:lower:]') in
   *acc*) ACC=true;;
   *nacc*) ACC=false;;
 esac
@@ -93,7 +99,7 @@ patch_script $UNITY/system/bin/pix3lify
 
 if [ "$PX1" ] || [ "$PX1XL" ] || [ "$PX2" ] || [ "$PX2XL" ] || [ "$PX3" ] || [ "$PX3XL" ] || [ "$N5X" ] || [ "$N6P" ] || [ "$OOS" ]; then
   ui_print " "
-  log_print "   Pix3lify is only for non-Google devices!"
+  [ "$OSS" ] || log_print "   Pix3lify is only for non-Google devices!"
   log_print "   DO YOU WANT TO IGNORE OUR WARNINGS AND RISK A BOOTLOOP?"
   log_print "   Vol Up = Yes, Vol Down = No"
   if $VKSEL; then
@@ -110,7 +116,7 @@ ui_print " "
 log_print "   Removing remnants from past Pix3lify installs..."
 rm -rf /data/resource-cache
 
-if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $WCRG ]; then
+if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $EMJI ] || [ -z $ACC ] || [ -z $WCRG ]; then
   if [ -z $FULL ]; then
     ui_print " "
     log_print " - Slim Options -"
@@ -122,7 +128,7 @@ if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $WCRG ]; 
       FULL=true >> $INSTLOG 2>&1
     fi
   fi
-  if $FULL && ([ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $WCRG ]); then
+  if $FULL && ([ -z $OVER ] || [ -z $FONT ] || [ -z $EMJI ] || [ -z $ACC ] || [ -z $WCRG ]); then
     ui_print " "
     log_print " - Font Options -"
     log_print "   Do you want to replace fonts with Product Sans?"
@@ -131,6 +137,15 @@ if [ -z $FULL ] || [ -z $OVER ] || [ -z $FONT ] || [ -z $ACC ] || [ -z $WCRG ]; 
       FONT=true >> $INSTLOG 2>&1
     else
       FONT=false >> $INSTLOG 2>&1
+    fi
+    ui_print " "
+    log_print " - Emoji Options -"
+    log_print "   Do you want to replace Emoji with Android Q Emoji?"
+    log_print "   Vol Up = Yes, Vol Down = No"
+    if $VKSEL; then
+      EMJI=true >> $INSTLOG 2>&1
+    else
+      EMJI=false >> $INSTLOG 2>&1
     fi
     if [ -z $OVER ]; then
       if [ "$OOS" ]; then
@@ -242,14 +257,14 @@ else
   rm -rf /data/resource-cache >> $INSTLOG 2>&1
 fi
 
-#if $BOOT; then
-#  ui_print " "
-#  log_print "   Enabling boot animation..."
-#  cp_ch -i $TMPDIR/common/bootanimation.zip $UNITY$BFOLDER$BZIP
-#else
-#  ui_print " "
-#  log_print "   Disabling boot animation..."
-#fi
+if $EMJI; then
+  ui_print " "
+  log_print "   Enabling Q emoji..."
+else
+  ui_print " "
+  log_print "   Disabling Q emoji..."
+  rm -rf $TMPDIR/system/fonts/NotoColorEmoji.ttf >> $INSTLOG 2>&1
+fi
 
 if $FONT; then
   ui_print " "
