@@ -57,7 +57,7 @@ As a Mi A1 user, I was stuck with Stock Oreo 8.0.0 without Oreo custom ROMs when
 -   Enables EIS support (device dependent)
 -   Enables Google Assistant
 -   Enables Night Light (device dependent)
--   Uses ystem-wide or header Product Sans
+-   Uses system-wide or header Product Sans
 -   Uses emoji from Android Q
 
 ## ⭐ Changelog
